@@ -1,0 +1,31 @@
+﻿<Page x:Class="SystemMonitoring.AdminPages.Reports"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
+      Title="Reports" Loaded="Page_Loaded" SizeChanged="Page_SizeChanged">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="800"/>
+        </Grid.RowDefinitions>
+        <Label Content="Выберите расположение файлов:" Grid.Row="0" Margin="60,0,0,0"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="3" Margin="60,0,0,0">
+            <TextBox Name="FilePath" Width="500" Margin="5" TextChanged="FilePath_TextChanged"/>
+            <Button Content="Обзор" Click="Research_Click"/>
+        </StackPanel>
+        <ScrollViewer Grid.Row="2" Grid.Column="0" Width="auto" VerticalScrollBarVisibility="Hidden">
+            <StackPanel Name="ExcelPanel" Orientation="Vertical" Background="LightGreen"/>
+        </ScrollViewer>
+        <ScrollViewer Grid.Row="2" Grid.Column="2" Width="auto" VerticalScrollBarVisibility="Hidden">
+            <StackPanel Name="WordPanel" Orientation="Vertical" Background="LightBlue"/>
+        </ScrollViewer>
+    </Grid>
+</Page>

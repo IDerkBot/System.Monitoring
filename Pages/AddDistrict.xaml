@@ -1,0 +1,22 @@
+﻿<Page x:Class="SystemMonitoring.Pages.PagesAdd.AddDistrict"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d" 
+      d:DesignHeight="95" d:DesignWidth="300"
+      Title="AddDistrict">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Введите название района:" Grid.Row="0"/>
+        <TextBox x:Name="DistrictName" Grid.Row="1" Width="300"/>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Отмена" Click="Cancel_Click" Width="75" Margin="5"/>
+            <Button Content="Добавить" Click="Add_Click" Width="75"/>
+        </StackPanel>
+    </Grid>
+</Page>
