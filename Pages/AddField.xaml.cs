@@ -24,5 +24,10 @@ namespace SystemMonitoring.Pages
                 ManagerPage.Page.GoBack();
             } else System.Windows.Forms.MessageBox.Show(@"К данному району уже присоединено поле с таким номером");
         }
+
+        private void FieldValue_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+	        
+        }
     }
 }

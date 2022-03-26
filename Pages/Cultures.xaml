@@ -1,70 +1,154 @@
-﻿<Page x:Class="SystemMonitoring.AdminPages.Cultures"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:SystemMonitoring.AdminPages"
-      mc:Ignorable="d" 
-      d:DesignHeight="850" Width="auto"
-      Title="Cultures">
-    <ScrollViewer>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="35"/>
-                <RowDefinition Height="350"/>
-                <RowDefinition Height="35"/>
-                <RowDefinition Height="350"/>
-                <RowDefinition Height="35"/>
-                <RowDefinition Height="350"/>
-            </Grid.RowDefinitions>
+﻿<Page
+	x:Class="SystemMonitoring.AdminPages.Cultures"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="clr-namespace:SystemMonitoring.AdminPages"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	Title="Cultures"
+	Width="auto"
+	d:DesignHeight="850"
+	mc:Ignorable="d">
+	<!--  TODO  -->
+	<ScrollViewer>
+		<Grid>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="35" />
+				<RowDefinition Height="350" />
+				<RowDefinition Height="35" />
+				<RowDefinition Height="350" />
+				<RowDefinition Height="35" />
+				<RowDefinition Height="350" />
+			</Grid.RowDefinitions>
 
-            <StackPanel Orientation="Horizontal">
-                <ComboBox Name="SelectCultureSeed" Width="250" Height="25" Margin="0,0,10,0" SelectionChanged="SelectCultureSeed_SelectionChanged"/>
-                <ComboBox Name="SelectCultureStatus" Width="250" Height="25" Margin="0,0,10,0" IsEnabled="False"/>
-                <Button x:Name="FilterCulture" Content="Фильтровать" Click="FilterCulture_Click"/>
-            </StackPanel>
+			<StackPanel Orientation="Horizontal">
+				<ComboBox
+					Name="SelectCultureSeed"
+					Width="250"
+					Height="25"
+					Margin="0,0,10,0"
+					SelectionChanged="SelectCultureSeed_SelectionChanged" />
+				<ComboBox
+					Name="SelectCultureStatus"
+					Width="250"
+					Height="25"
+					Margin="0,0,10,0"
+					IsEnabled="False" />
+				<Button
+					x:Name="FilterCulture"
+					Click="FilterCulture_Click"
+					Content="Фильтровать" />
+			</StackPanel>
 
-            <DataGrid Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" x:Name="DGCultures">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Культура" Binding="{Binding Name}" Width="200"/>
-                    <DataGridTextColumn Header="Статус посева" Binding="{Binding Status}" Width="100"/>
-                    <DataGridTextColumn Header="Период" Binding="{Binding Period}" Width="60"/>
-                    <DataGridTextColumn Header="Температура" Binding="{Binding Temperature}" Width="90"/>
-                    <DataGridTextColumn Header="Влажность" Binding="{Binding Humidity}" Width="90"/>
-                    <DataGridTextColumn Header="Фосфор" Binding="{Binding Phosphor}" Width="80"/>
-                    <DataGridTextColumn Header="Кальций" Binding="{Binding Calcium}" Width="80"/>
-                    <DataGridTextColumn Header="Калий" Binding="{Binding Potassium}" Width="80"/>
-                    <DataGridTextColumn Header="Азот" Binding="{Binding Nitrogen}" Width="70"/>
-                    <DataGridTextColumn Header="Магний" Binding="{Binding Magnesium}" Width="80"/>
-                    <DataGridTextColumn Header="Кислотность" Binding="{Binding Ph}" Width="100"/>
-                    <DataGridTemplateColumn Width="25">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Style="{StaticResource BtnEdit}" Click="Edit_Click" Height="25"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
+			<DataGrid
+				x:Name="DGCultures"
+				Grid.Row="1"
+				AutoGenerateColumns="False"
+				IsReadOnly="True">
+				<DataGrid.Columns>
+					<DataGridTextColumn
+						Width="200"
+						Binding="{Binding Name}"
+						Header="Культура" />
+					<DataGridTextColumn
+						Width="100"
+						Binding="{Binding Status}"
+						Header="Статус посева" />
+					<DataGridTextColumn
+						Width="60"
+						Binding="{Binding Period}"
+						Header="Период" />
+					<DataGridTextColumn
+						Width="90"
+						Binding="{Binding Temperature}"
+						Header="Температура" />
+					<DataGridTextColumn
+						Width="90"
+						Binding="{Binding Humidity}"
+						Header="Влажность" />
+					<DataGridTextColumn
+						Width="80"
+						Binding="{Binding Phosphor}"
+						Header="Фосфор" />
+					<DataGridTextColumn
+						Width="80"
+						Binding="{Binding Calcium}"
+						Header="Кальций" />
+					<DataGridTextColumn
+						Width="80"
+						Binding="{Binding Potassium}"
+						Header="Калий" />
+					<DataGridTextColumn
+						Width="70"
+						Binding="{Binding Nitrogen}"
+						Header="Азот" />
+					<DataGridTextColumn
+						Width="80"
+						Binding="{Binding Magnesium}"
+						Header="Магний" />
+					<DataGridTextColumn
+						Width="100"
+						Binding="{Binding Ph}"
+						Header="Кислотность" />
+					<DataGridTemplateColumn Width="25">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<Button
+									Height="25"
+									Click="Edit_Click"
+									Style="{StaticResource BtnEdit}" />
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+				</DataGrid.Columns>
+			</DataGrid>
 
-            <DataGrid Grid.Row="3" AutoGenerateColumns="False" IsReadOnly="True" x:Name="DGFertilizer">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="200"/>
-                    <DataGridTextColumn Header="Фосфор" Binding="{Binding PhosphorusOxide}" Width="80"/>
-                    <DataGridTextColumn Header="Кальций" Binding="{Binding CalciumOxide}" Width="80"/>
-                    <DataGridTextColumn Header="Калий" Binding="{Binding PotassiumOxide}" Width="80"/>
-                    <DataGridTextColumn Header="Азот" Binding="{Binding Asot}" Width="70"/>
-                    <DataGridTextColumn Header="Магний" Binding="{Binding MagnesiumOxide}" Width="80"/>
-                    <DataGridTextColumn Header="Кислотность" Binding="{Binding NitrateNitrogen}" Width="100"/>
-                    <DataGridTemplateColumn Width="25">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Style="{StaticResource BtnEdit}" Click="Edit_Click" Height="25"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-        </Grid>
-    </ScrollViewer>
+			<DataGrid
+				x:Name="DGFertilizer"
+				Grid.Row="3"
+				AutoGenerateColumns="False"
+				IsReadOnly="True">
+				<DataGrid.Columns>
+					<DataGridTextColumn
+						Width="200"
+						Binding="{Binding Name}"
+						Header="Наименование" />
+					<DataGridTextColumn
+						Width="80"
+						Binding="{Binding PhosphorusOxide}"
+						Header="Фосфор" />
+					<DataGridTextColumn
+						Width="80"
+						Binding="{Binding CalciumOxide}"
+						Header="Кальций" />
+					<DataGridTextColumn
+						Width="80"
+						Binding="{Binding PotassiumOxide}"
+						Header="Калий" />
+					<DataGridTextColumn
+						Width="70"
+						Binding="{Binding Asot}"
+						Header="Азот" />
+					<DataGridTextColumn
+						Width="80"
+						Binding="{Binding MagnesiumOxide}"
+						Header="Магний" />
+					<DataGridTextColumn
+						Width="100"
+						Binding="{Binding NitrateNitrogen}"
+						Header="Кислотность" />
+					<DataGridTemplateColumn Width="25">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<Button
+									Height="25"
+									Click="Edit_Click"
+									Style="{StaticResource BtnEdit}" />
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
+				</DataGrid.Columns>
+			</DataGrid>
+		</Grid>
+	</ScrollViewer>
 </Page>

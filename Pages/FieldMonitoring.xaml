@@ -36,15 +36,11 @@
 			HorizontalAlignment="Left"
 			VerticalAlignment="Center"
 			Orientation="Horizontal">
-			<Label
-				Padding="5,0"
-				Content="Поле:"
-				 />
+			<Label Padding="5,0" Content="Поле:" />
 			<Label
 				x:Name="Number"
 				Padding="5,0"
-				Content="{Binding Field.Number}"
-				 />
+				Content="{Binding Field.Number}" />
 		</StackPanel>
 		<StackPanel
 			Grid.Row="2"
@@ -53,10 +49,7 @@
 			HorizontalAlignment="Left"
 			VerticalAlignment="Center"
 			Orientation="Horizontal">
-			<Label
-				Padding="5,0"
-				Content="Культура:"
-				 />
+			<Label Padding="5,0" Content="Культура:" />
 			<ComboBox
 				x:Name="CBCulture"
 				Width="210"
@@ -70,14 +63,8 @@
 			HorizontalAlignment="Left"
 			VerticalAlignment="Center"
 			Orientation="Horizontal">
-			<Label
-				Padding="5,0"
-				Content="Статус:"
-				 />
-			<Label
-				x:Name="Status"
-				Padding="5,0"
-				 />
+			<Label Padding="5,0" Content="Статус:" />
+			<Label x:Name="Status" Padding="5,0" />
 		</StackPanel>
 		<StackPanel
 			Grid.Row="4"
@@ -86,15 +73,11 @@
 			HorizontalAlignment="Left"
 			VerticalAlignment="Center"
 			Orientation="Horizontal">
-			<Label
-				Padding="5,0"
-				Content="Дата посева:"
-				 />
+			<Label Padding="5,0" Content="Дата посева:" />
 			<Label
 				x:Name="Date"
 				Width="200"
-				Content="{Binding Date}"
-				 />
+				Content="{Binding Date}" />
 		</StackPanel>
 		<StackPanel
 			Grid.Row="5"
@@ -103,10 +86,7 @@
 			HorizontalAlignment="Left"
 			VerticalAlignment="Center"
 			Orientation="Horizontal">
-			<Label
-				Padding="5,0"
-				Content="Тип почвы:"
-				 />
+			<Label Padding="5,0" Content="Тип почвы:" />
 			<ComboBox
 				x:Name="Soil"
 				Width="198"
@@ -122,8 +102,7 @@
 			<Button
 				x:Name="Refresh"
 				Margin="0,0,10,0"
-				Click="Refresh_Click"
-				>
+				Click="Refresh_Click">
 				<Button.ToolTip>
 					<ToolTip Content="Обновить информацию о датчиках" />
 				</Button.ToolTip>
@@ -131,8 +110,7 @@
 			<Button
 				x:Name="Add"
 				Margin="0,0,10,0"
-				Click="Add_Click"
-				>
+				Click="Add_Click">
 				<Button.ToolTip>
 					<ToolTip Content="Добавить новый датчик" />
 				</Button.ToolTip>
@@ -140,8 +118,7 @@
 			<Button
 				x:Name="Save"
 				Margin="0,0,10,0"
-				Click="Save_Click"
-				>
+				Click="Save_Click">
 				<Button.ToolTip>
 					<ToolTip Content="Сохранить датчики" />
 				</Button.ToolTip>
@@ -149,8 +126,7 @@
 			<Button
 				x:Name="SaveToExcel"
 				Margin="0,0,10,0"
-				Click="SaveToExcel_Click"
-				>
+				Click="SaveToExcel_Click">
 				<Button.ToolTip>
 					<ToolTip Content="Сохранить информацию по датчикам" />
 				</Button.ToolTip>
@@ -158,8 +134,7 @@
 			<Button
 				x:Name="SaveToExcelSensors"
 				Margin="0,0,10,0"
-				Click="SaveToExcelSensors_Click"
-				>
+				Click="SaveToExcelSensors_Click">
 				<Button.ToolTip>
 					<ToolTip Content="Сохранить информацию по датчику" />
 				</Button.ToolTip>

@@ -1,31 +1,39 @@
-﻿<Page x:Class="SystemMonitoring.AuthReg.Reg"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      mc:Ignorable="d" 
-      d:DesignHeight="260" d:DesignWidth="200"
-      Title="Reg">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="35"/>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="35"/>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="35"/>
-            <RowDefinition Height="35"/>
-            <RowDefinition Height="35"/>
-        </Grid.RowDefinitions>
-        <TextBlock Text="Регистрация" TextAlignment="Center" FontSize="18"/>
-        <TextBlock Text="Логин" Grid.Row="1" VerticalAlignment="Center"/>
-        <TextBox x:Name="Login" Grid.Row="2"/>
-        <TextBlock Text="Пароль" Grid.Row="3" VerticalAlignment="Center"/>
-        <PasswordBox x:Name="Password" Grid.Row="4"/>
-        <TextBlock Text="Повторите пароль" Grid.Row="5" VerticalAlignment="Center"/>
-        <PasswordBox x:Name="Confrim_Password" Grid.Row="6"/>
-        <Button Content="Зарегистрироваться" Style="{StaticResource Btn}" Grid.Row="7" Click="RegIn_Click"/>
-        <Button Content="Вернуться" Style="{StaticResource Btn}" Grid.Row="8" Click="Back_Click"/>
-    </Grid>
+﻿<Page
+	x:Class="SystemMonitoring.AuthReg.Reg"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+	Title="Reg"
+	HorizontalAlignment="Center"
+	VerticalAlignment="Center"
+	d:DesignHeight="260"
+	d:DesignWidth="300"
+	mc:Ignorable="d">
+	<StackPanel>
+		<TextBlock
+			FontFamily="Montserrat"
+			FontSize="24"
+			FontWeight="ExtraBold"
+			Text="Регистрация"
+			TextAlignment="Center" />
+		<TextBox
+			Name="TbLogin"
+			md:HintAssist.Hint="Логин"
+			md:HintAssist.IsFloating="True" />
+		<PasswordBox
+			Name="PbPassword"
+			md:HintAssist.Hint="Пароль"
+			md:HintAssist.IsFloating="True" />
+		<PasswordBox
+			Name="PbConfirm"
+			md:HintAssist.Hint="Подтверждение пароля"
+			md:HintAssist.IsFloating="True" />
+		<Button
+			Margin="0,5"
+			Click="RegIn_Click"
+			Content="Зарегистрироваться" />
+		<Button Click="Back_Click" Content="Вернуться" />
+	</StackPanel>
 </Page>

@@ -1,18 +1,97 @@
-﻿<Page x:Class="SystemMonitoring.Pages.AdminMenu"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      mc:Ignorable="d" 
-      d:DesignHeight="710" d:DesignWidth="710"
-      VerticalAlignment="Center" HorizontalAlignment="Center"
-      Title="Menu">
-	<Grid>
-		<WrapPanel Orientation="Horizontal">
-			<Button Click="BtnMoveField_Click" Style="{StaticResource BtnMenu.Fields}"/>
-			<Button Click="BtnMoveReports_Click" Style="{StaticResource BtnMenu.Reports}"/>
-			<Button Click="BtnMoveCultures_Click" Style="{StaticResource BtnMenu.Base}"/>
-			<Button Click="BtnMoveUsers_Click" Style="{StaticResource BtnMenu.User}"/>
-		</WrapPanel>
-	</Grid>
+﻿<Page
+	x:Class="SystemMonitoring.Pages.AdminMenu"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+	Title="Menu"
+	HorizontalAlignment="Center"
+	VerticalAlignment="Center"
+	d:DesignHeight="500"
+	d:DesignWidth="500"
+	mc:Ignorable="d">
+	<WrapPanel
+		HorizontalAlignment="Center"
+		VerticalAlignment="Center"
+		Orientation="Horizontal">
+		<Button
+			Width="150"
+			Height="150"
+			Margin="10"
+			Click="BtnMoveField_Click">
+			<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+				<md:PackIcon
+					Width="50"
+					Height="50"
+					HorizontalAlignment="Center"
+					Kind="FocusField" />
+				<TextBlock
+					HorizontalAlignment="Center"
+					FontFamily="Montserrat"
+					FontSize="18"
+					FontWeight="ExtraBold"
+					Text="Поля" />
+			</StackPanel>
+		</Button>
+		<Button
+			Width="150"
+			Height="150"
+			Margin="10"
+			Click="BtnMoveReports_Click">
+			<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+				<md:PackIcon
+					Width="50"
+					Height="50"
+					HorizontalAlignment="Center"
+					Kind="TextBox" />
+				<TextBlock
+					HorizontalAlignment="Center"
+					FontFamily="Montserrat"
+					FontSize="18"
+					FontWeight="ExtraBold"
+					Text="Документы" />
+			</StackPanel>
+		</Button>
+		<Button
+			Width="150"
+			Height="150"
+			Margin="10"
+			Click="BtnMoveCultures_Click">
+			<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+				<md:PackIcon
+					Width="50"
+					Height="50"
+					HorizontalAlignment="Center"
+					Kind="Database" />
+				<TextBlock
+					HorizontalAlignment="Center"
+					FontFamily="Montserrat"
+					FontSize="18"
+					FontWeight="ExtraBold"
+					Text="База данных"
+					TextAlignment="Center"
+					TextWrapping="Wrap" />
+			</StackPanel>
+		</Button>
+		<Button
+			Width="150"
+			Height="150"
+			Margin="10"
+			Click="BtnMoveUsers_Click">
+			<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+				<md:PackIcon
+					Width="50"
+					Height="50"
+					HorizontalAlignment="Center"
+					Kind="Account" />
+				<TextBlock
+					HorizontalAlignment="Center"
+					FontFamily="Montserrat"
+					FontSize="18"
+					FontWeight="ExtraBold"
+					Text="Поля" />
+			</StackPanel>
+		</Button>
+	</WrapPanel>
 </Page>

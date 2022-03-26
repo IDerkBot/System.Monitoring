@@ -119,5 +119,15 @@ namespace SystemMonitoring.AdminPages
                 FileManager.SetSettings(settings);
             }
         }
+
+        private void BtnOpenExcel_OnClick(object sender, RoutedEventArgs e)
+        {
+	        
+        }
+
+        private void BtnOpenWord_OnClick(object sender, RoutedEventArgs e)
+        {
+	        
+        }
     }
 }

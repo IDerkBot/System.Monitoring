@@ -40,10 +40,10 @@ namespace SystemMonitoring.Properties {
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string Login {
             get {
-                return ((string)(this["Login"]));
+                return ((string)(this["TbLogin"]));
             }
             set {
-                this["Login"] = value;
+                this["TbLogin"] = value;
             }
         }
         
@@ -52,10 +52,10 @@ namespace SystemMonitoring.Properties {
         [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string Password {
             get {
-                return ((string)(this["Password"]));
+                return ((string)(this["PbPassword"]));
             }
             set {
-                this["Password"] = value;
+                this["PbPassword"] = value;
             }
         }
     }
