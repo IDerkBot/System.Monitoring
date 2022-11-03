@@ -1,0 +1,52 @@
+﻿<Window
+    Closed="MainW_Closed"
+    Height="450"
+    SizeChanged="ChangedSizeWindow"
+    Title="MainWindow"
+    Width="800"
+    mc:Ignorable="d"
+    x:Class="SystemMonitoringNetCore.Views.Windows.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Image
+            Grid.Column="0"
+            Grid.RowSpan="2"
+            HorizontalAlignment="Stretch"
+            Source="/Images/fields.jpg"
+            Stretch="UniformToFill"
+            VerticalAlignment="Stretch" />
+
+        <Button
+            Click="Back_OnClick"
+            Grid.Column="0"
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            HorizontalAlignment="Right"
+            Margin="10"
+            Name="Back"
+            VerticalAlignment="Top"
+            Visibility="Hidden">
+            <md:PackIcon Kind="ArrowLeftBold" />
+        </Button>
+        <Frame
+            ContentRendered="MainPage_ContentRendered"
+            Grid.Column="1"
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            Name="MainPage"
+            NavigationUIVisibility="Hidden" />
+    </Grid>
+</Window>

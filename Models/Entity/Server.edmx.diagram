@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f3426ebf249e46eb9f0d033236318fb9" Name="Diagram1">
+        <EntityTypeShape EntityType="u519667_monitoringModel.Culture" Width="1.5" PointX="3" PointY="6.5" />
+        <EntityTypeShape EntityType="u519667_monitoringModel.Fertilizer" Width="1.5" PointX="5.25" PointY="6.5" />
+        <EntityTypeShape EntityType="u519667_monitoringModel.Field" Width="1.5" PointX="3" PointY="1" />
+        <EntityTypeShape EntityType="u519667_monitoringModel.Seed" Width="1.5" PointX="5.25" PointY="1" />
+        <EntityTypeShape EntityType="u519667_monitoringModel.SeedFertilizer" Width="1.5" PointX="7.5" PointY="1.25" />
+        <EntityTypeShape EntityType="u519667_monitoringModel.TypeGround" Width="1.5" PointX="0.75" PointY="1.375" />
+        <EntityTypeShape EntityType="u519667_monitoringModel.User" Width="1.5" PointX="7.75" PointY="4.75" />
+        <AssociationConnector Association="u519667_monitoringModel.FK_Seeding_Table_1" />
+        <AssociationConnector Association="u519667_monitoringModel.FK_SeedFertilizer_Fertilizer" />
+        <AssociationConnector Association="u519667_monitoringModel.FK_Field_TypeGround" />
+        <AssociationConnector Association="u519667_monitoringModel.FK_Seeding_Field" />
+        <AssociationConnector Association="u519667_monitoringModel.FK_SeedFertilizer_Seed" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

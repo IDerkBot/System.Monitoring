@@ -1,0 +1,472 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище u519667_monitoringModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Culture">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Status" Type="nvarchar(max)" />
+          <Property Name="Period" Type="nvarchar(max)" />
+          <Property Name="Ph" Type="nvarchar(max)" />
+          <Property Name="Phosphor" Type="nvarchar(max)" />
+          <Property Name="Potassium" Type="nvarchar(max)" />
+          <Property Name="Magnesium" Type="nvarchar(max)" />
+          <Property Name="Calcium" Type="nvarchar(max)" />
+          <Property Name="Humidity" Type="nvarchar(max)" />
+          <Property Name="Nitrogen" Type="nvarchar(max)" />
+          <Property Name="Temperature" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Fertilizer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Asot" Type="varchar(max)" />
+          <Property Name="PhosphorusOxide" Type="varchar(max)" />
+          <Property Name="PotassiumOxide" Type="varchar(max)" />
+          <Property Name="CalciumOxide" Type="varchar(max)" />
+          <Property Name="MagnesiumOxide" Type="varchar(max)" />
+          <Property Name="SulfurOxide" Type="varchar(max)" />
+          <Property Name="Borum" Type="varchar(max)" />
+          <Property Name="Natrium" Type="varchar(max)" />
+          <Property Name="Zincum" Type="varchar(max)" />
+          <Property Name="Cuprum" Type="varchar(max)" />
+          <Property Name="Manganum" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="Field">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="District" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Number" Type="nvarchar(max)" />
+          <Property Name="Position" Type="nvarchar(max)" />
+          <Property Name="Type" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Seed">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDField" Type="int" Nullable="false" />
+          <Property Name="IDCulture" Type="int" />
+          <Property Name="Status" Type="nvarchar(max)" />
+          <Property Name="Date" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SeedFertilizer">
+          <Key>
+            <PropertyRef Name="IDSeed" />
+            <PropertyRef Name="IDFettilizaer" />
+          </Key>
+          <Property Name="IDSeed" Type="int" Nullable="false" />
+          <Property Name="IDFettilizaer" Type="int" Nullable="false" />
+          <Property Name="Count" Type="decimal" Precision="18" Scale="3" />
+        </EntityType>
+        <EntityType Name="TypeGround">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Login" Type="varchar(max)" Nullable="false" />
+          <Property Name="Password" Type="varchar(max)" Nullable="false" />
+          <Property Name="Access" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Field_TypeGround">
+          <End Role="TypeGround" Type="Self.TypeGround" Multiplicity="1" />
+          <End Role="Field" Type="Self.Field" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeGround">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Field">
+              <PropertyRef Name="Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SeedFertilizer_Fertilizer">
+          <End Role="Fertilizer" Type="Self.Fertilizer" Multiplicity="1" />
+          <End Role="SeedFertilizer" Type="Self.SeedFertilizer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fertilizer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SeedFertilizer">
+              <PropertyRef Name="IDFettilizaer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SeedFertilizer_Seed">
+          <End Role="Seed" Type="Self.Seed" Multiplicity="1" />
+          <End Role="SeedFertilizer" Type="Self.SeedFertilizer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seed">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SeedFertilizer">
+              <PropertyRef Name="IDSeed" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Seeding_Field">
+          <End Role="Field" Type="Self.Field" Multiplicity="1" />
+          <End Role="Seed" Type="Self.Seed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Field">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Seed">
+              <PropertyRef Name="IDField" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Seeding_Table_1">
+          <End Role="Culture" Type="Self.Culture" Multiplicity="0..1" />
+          <End Role="Seed" Type="Self.Seed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Culture">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Seed">
+              <PropertyRef Name="IDCulture" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище u519667_monitoringModelContainer">
+          <EntitySet Name="Culture" EntityType="Self.Culture" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Fertilizer" EntityType="Self.Fertilizer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Field" EntityType="Self.Field" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Seed" EntityType="Self.Seed" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SeedFertilizer" EntityType="Self.SeedFertilizer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TypeGround" EntityType="Self.TypeGround" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Field_TypeGround" Association="Self.FK_Field_TypeGround">
+            <End Role="TypeGround" EntitySet="TypeGround" />
+            <End Role="Field" EntitySet="Field" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SeedFertilizer_Fertilizer" Association="Self.FK_SeedFertilizer_Fertilizer">
+            <End Role="Fertilizer" EntitySet="Fertilizer" />
+            <End Role="SeedFertilizer" EntitySet="SeedFertilizer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SeedFertilizer_Seed" Association="Self.FK_SeedFertilizer_Seed">
+            <End Role="Seed" EntitySet="Seed" />
+            <End Role="SeedFertilizer" EntitySet="SeedFertilizer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Seeding_Field" Association="Self.FK_Seeding_Field">
+            <End Role="Field" EntitySet="Field" />
+            <End Role="Seed" EntitySet="Seed" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Seeding_Table_1" Association="Self.FK_Seeding_Table_1">
+            <End Role="Culture" EntitySet="Culture" />
+            <End Role="Seed" EntitySet="Seed" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="u519667_monitoringModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="u519667_monitoringEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cultures" EntityType="u519667_monitoringModel.Culture" />
+          <EntitySet Name="Fertilizers" EntityType="u519667_monitoringModel.Fertilizer" />
+          <EntitySet Name="Fields" EntityType="u519667_monitoringModel.Field" />
+          <EntitySet Name="Seeds" EntityType="u519667_monitoringModel.Seed" />
+          <EntitySet Name="SeedFertilizers" EntityType="u519667_monitoringModel.SeedFertilizer" />
+          <EntitySet Name="TypeGrounds" EntityType="u519667_monitoringModel.TypeGround" />
+          <EntitySet Name="Users" EntityType="u519667_monitoringModel.User" />
+          <AssociationSet Name="FK_Seeding_Table_1" Association="u519667_monitoringModel.FK_Seeding_Table_1">
+            <End Role="Culture" EntitySet="Cultures" />
+            <End Role="Seed" EntitySet="Seeds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SeedFertilizer_Fertilizer" Association="u519667_monitoringModel.FK_SeedFertilizer_Fertilizer">
+            <End Role="Fertilizer" EntitySet="Fertilizers" />
+            <End Role="SeedFertilizer" EntitySet="SeedFertilizers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Field_TypeGround" Association="u519667_monitoringModel.FK_Field_TypeGround">
+            <End Role="TypeGround" EntitySet="TypeGrounds" />
+            <End Role="Field" EntitySet="Fields" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Seeding_Field" Association="u519667_monitoringModel.FK_Seeding_Field">
+            <End Role="Field" EntitySet="Fields" />
+            <End Role="Seed" EntitySet="Seeds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SeedFertilizer_Seed" Association="u519667_monitoringModel.FK_SeedFertilizer_Seed">
+            <End Role="Seed" EntitySet="Seeds" />
+            <End Role="SeedFertilizer" EntitySet="SeedFertilizers" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Culture">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Period" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Ph" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Phosphor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Potassium" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Magnesium" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Calcium" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Humidity" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Nitrogen" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Temperature" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Seeds" Relationship="u519667_monitoringModel.FK_Seeding_Table_1" FromRole="Culture" ToRole="Seed" />
+        </EntityType>
+        <EntityType Name="Fertilizer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Asot" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PhosphorusOxide" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PotassiumOxide" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CalciumOxide" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="MagnesiumOxide" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SulfurOxide" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Borum" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Natrium" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Zincum" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Cuprum" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Manganum" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="SeedFertilizers" Relationship="u519667_monitoringModel.FK_SeedFertilizer_Fertilizer" FromRole="Fertilizer" ToRole="SeedFertilizer" />
+        </EntityType>
+        <EntityType Name="Field">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="District" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Number" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Position" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="TypeGround" Relationship="u519667_monitoringModel.FK_Field_TypeGround" FromRole="Field" ToRole="TypeGround" />
+          <NavigationProperty Name="Seeds" Relationship="u519667_monitoringModel.FK_Seeding_Field" FromRole="Field" ToRole="Seed" />
+        </EntityType>
+        <EntityType Name="Seed">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDField" Type="Int32" Nullable="false" />
+          <Property Name="IDCulture" Type="Int32" />
+          <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Culture" Relationship="u519667_monitoringModel.FK_Seeding_Table_1" FromRole="Seed" ToRole="Culture" />
+          <NavigationProperty Name="Field" Relationship="u519667_monitoringModel.FK_Seeding_Field" FromRole="Seed" ToRole="Field" />
+          <NavigationProperty Name="SeedFertilizers" Relationship="u519667_monitoringModel.FK_SeedFertilizer_Seed" FromRole="Seed" ToRole="SeedFertilizer" />
+        </EntityType>
+        <EntityType Name="SeedFertilizer">
+          <Key>
+            <PropertyRef Name="IDSeed" />
+            <PropertyRef Name="IDFettilizaer" />
+          </Key>
+          <Property Name="IDSeed" Type="Int32" Nullable="false" />
+          <Property Name="IDFettilizaer" Type="Int32" Nullable="false" />
+          <Property Name="Count" Type="Decimal" Precision="18" Scale="3" />
+          <NavigationProperty Name="Fertilizer" Relationship="u519667_monitoringModel.FK_SeedFertilizer_Fertilizer" FromRole="SeedFertilizer" ToRole="Fertilizer" />
+          <NavigationProperty Name="Seed" Relationship="u519667_monitoringModel.FK_SeedFertilizer_Seed" FromRole="SeedFertilizer" ToRole="Seed" />
+        </EntityType>
+        <EntityType Name="TypeGround">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Fields" Relationship="u519667_monitoringModel.FK_Field_TypeGround" FromRole="TypeGround" ToRole="Field" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Login" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Access" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Seeding_Table_1">
+          <End Type="u519667_monitoringModel.Culture" Role="Culture" Multiplicity="0..1" />
+          <End Type="u519667_monitoringModel.Seed" Role="Seed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Culture">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Seed">
+              <PropertyRef Name="IDCulture" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SeedFertilizer_Fertilizer">
+          <End Type="u519667_monitoringModel.Fertilizer" Role="Fertilizer" Multiplicity="1" />
+          <End Type="u519667_monitoringModel.SeedFertilizer" Role="SeedFertilizer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fertilizer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SeedFertilizer">
+              <PropertyRef Name="IDFettilizaer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Field_TypeGround">
+          <End Type="u519667_monitoringModel.TypeGround" Role="TypeGround" Multiplicity="1" />
+          <End Type="u519667_monitoringModel.Field" Role="Field" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeGround">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Field">
+              <PropertyRef Name="Type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Seeding_Field">
+          <End Type="u519667_monitoringModel.Field" Role="Field" Multiplicity="1" />
+          <End Type="u519667_monitoringModel.Seed" Role="Seed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Field">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Seed">
+              <PropertyRef Name="IDField" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SeedFertilizer_Seed">
+          <End Type="u519667_monitoringModel.Seed" Role="Seed" Multiplicity="1" />
+          <End Type="u519667_monitoringModel.SeedFertilizer" Role="SeedFertilizer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seed">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SeedFertilizer">
+              <PropertyRef Name="IDSeed" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище u519667_monitoringModelContainer" CdmEntityContainer="u519667_monitoringEntities">
+          <EntitySetMapping Name="Cultures">
+            <EntityTypeMapping TypeName="u519667_monitoringModel.Culture">
+              <MappingFragment StoreEntitySet="Culture">
+                <ScalarProperty Name="Temperature" ColumnName="Temperature" />
+                <ScalarProperty Name="Nitrogen" ColumnName="Nitrogen" />
+                <ScalarProperty Name="Humidity" ColumnName="Humidity" />
+                <ScalarProperty Name="Calcium" ColumnName="Calcium" />
+                <ScalarProperty Name="Magnesium" ColumnName="Magnesium" />
+                <ScalarProperty Name="Potassium" ColumnName="Potassium" />
+                <ScalarProperty Name="Phosphor" ColumnName="Phosphor" />
+                <ScalarProperty Name="Ph" ColumnName="Ph" />
+                <ScalarProperty Name="Period" ColumnName="Period" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fertilizers">
+            <EntityTypeMapping TypeName="u519667_monitoringModel.Fertilizer">
+              <MappingFragment StoreEntitySet="Fertilizer">
+                <ScalarProperty Name="Manganum" ColumnName="Manganum" />
+                <ScalarProperty Name="Cuprum" ColumnName="Cuprum" />
+                <ScalarProperty Name="Zincum" ColumnName="Zincum" />
+                <ScalarProperty Name="Natrium" ColumnName="Natrium" />
+                <ScalarProperty Name="Borum" ColumnName="Borum" />
+                <ScalarProperty Name="SulfurOxide" ColumnName="SulfurOxide" />
+                <ScalarProperty Name="MagnesiumOxide" ColumnName="MagnesiumOxide" />
+                <ScalarProperty Name="CalciumOxide" ColumnName="CalciumOxide" />
+                <ScalarProperty Name="PotassiumOxide" ColumnName="PotassiumOxide" />
+                <ScalarProperty Name="PhosphorusOxide" ColumnName="PhosphorusOxide" />
+                <ScalarProperty Name="Asot" ColumnName="Asot" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fields">
+            <EntityTypeMapping TypeName="u519667_monitoringModel.Field">
+              <MappingFragment StoreEntitySet="Field">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="District" ColumnName="District" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Seeds">
+            <EntityTypeMapping TypeName="u519667_monitoringModel.Seed">
+              <MappingFragment StoreEntitySet="Seed">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="IDCulture" ColumnName="IDCulture" />
+                <ScalarProperty Name="IDField" ColumnName="IDField" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SeedFertilizers">
+            <EntityTypeMapping TypeName="u519667_monitoringModel.SeedFertilizer">
+              <MappingFragment StoreEntitySet="SeedFertilizer">
+                <ScalarProperty Name="Count" ColumnName="Count" />
+                <ScalarProperty Name="IDFettilizaer" ColumnName="IDFettilizaer" />
+                <ScalarProperty Name="IDSeed" ColumnName="IDSeed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypeGrounds">
+            <EntityTypeMapping TypeName="u519667_monitoringModel.TypeGround">
+              <MappingFragment StoreEntitySet="TypeGround">
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="u519667_monitoringModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Access" ColumnName="Access" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
