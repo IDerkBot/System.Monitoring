@@ -124,7 +124,7 @@
                 ToolTip="Сохранить информацию по датчику"
                 x:Name="SaveToExcelSensors" />
             <Button
-                Click="SaveToExcelSensors_Click"
+                Click="OpenCharts_OnClick"
                 Margin="5"
                 ToolTip="Открыть графики"
                 x:Name="OpenCharts" />

@@ -616,5 +616,10 @@ namespace SystemMonitoringNetCore.Views.Pages
 
             return max;
         }
+
+        private void OpenCharts_OnClick(object sender, RoutedEventArgs e)
+        {
+            ManagerPage.Navigate(new ChartsPage());
+        }
     }
 }
