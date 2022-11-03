@@ -1,20 +1,20 @@
 ﻿<Application
-	x:Class="SystemMonitoring.App"
-	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-	StartupUri="MainWindow.xaml">
-	<Application.Resources>
-		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-				<materialDesign:BundledTheme
-					BaseTheme="Light"
-					PrimaryColor="DeepPurple"
-					SecondaryColor="Lime" />
-				<ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
-			</ResourceDictionary.MergedDictionaries>
-		</ResourceDictionary>
-		<!--<Style TargetType="Button">
+    x:Class="SystemMonitoring.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    StartupUri="Views/Windows/TestWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <materialDesign:BundledTheme
+                    BaseTheme="Light"
+                    PrimaryColor="DeepPurple"
+                    SecondaryColor="Lime" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+        <!--<Style TargetType="Button">
 			<Setter Property="Background" Value="#3498db"/>
 			<Setter Property="Margin" Value="5"/>
 			<Setter Property="Template">
@@ -76,12 +76,12 @@
 							</Border.Background>
 							<StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
 								-->
-		<!--<Path Fill="Black" Stretch="Uniform" Width="150" Height="150"
+        <!--<Path Fill="Black" Stretch="Uniform" Width="150" Height="150"
                                       Data="M384 112v352c0 26.51-21.49 48-48 48H48c-26.51 0-48-21.49-48-48V112c0-26.51
                                       21.49-48 48-48h80c0-35.29 28.71-64 64-64s64 28.71 64 64h80c26.51 0 48 21.49 48 48zM192
                                       40c-13.255 0-24 10.745-24 24s10.745 24 24 24 24-10.745 24-24-10.745-24-24-24m96
                                       114v-20a6 6 0 0 0-6-6H102a6 6 0 0 0-6 6v20a6 6 0 0 0 6 6h180a6 6 0 0 0 6-6z"/>-->
-		<!--
+        <!--
 								<Image Source="/icons/Menu/Notes.png" Width="150" Height="150"/>
 								<TextBlock Text="Отчёты" FontSize="18" HorizontalAlignment="Center"/>
 							</StackPanel>
@@ -114,11 +114,11 @@
 							</Border.Background>
 							<StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
 								-->
-		<!--<Path Fill="Black" Stretch="Uniform" Width="150" Height="150"
+        <!--<Path Fill="Black" Stretch="Uniform" Width="150" Height="150"
                                       Data="M64 96H0c0 123.7 100.3 224 224 224v144c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2
                                       16-16V320C288 196.3 187.7 96 64 96zm384-64c-84.2 0-157.4 46.5-195.7 115.2 27.7
                                       30.2 48.2 66.9 59 107.6C424 243.1 512 147.9 512 32h-64z"/>-->
-		<!--
+        <!--
 								<Image Source="/icons/Menu/Notepad.png" Width="150" Height="150"/>
 								<TextBlock Text="База" FontSize="18" HorizontalAlignment="Center"/>
 							</StackPanel>
@@ -151,11 +151,11 @@
 							</Border.Background>
 							<StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
 								-->
-		<!--<Path Fill="Black" Stretch="Uniform" Width="150" Height="150"
+        <!--<Path Fill="Black" Stretch="Uniform" Width="150" Height="150"
                                       Data="M64 96H0c0 123.7 100.3 224 224 224v144c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2
                                       16-16V320C288 196.3 187.7 96 64 96zm384-64c-84.2 0-157.4 46.5-195.7 115.2 27.7
                                       30.2 48.2 66.9 59 107.6C424 243.1 512 147.9 512 32h-64z"/>-->
-		<!--
+        <!--
 								<Image Source="/icons/Menu/User.png" Width="150" Height="150"/>
 								<TextBlock Text="Пользователи" FontSize="18" HorizontalAlignment="Center"/>
 							</StackPanel>
@@ -387,5 +387,5 @@
 				</Setter.Value>
 			</Setter>
 		</Style>-->
-	</Application.Resources>
+    </Application.Resources>
 </Application>

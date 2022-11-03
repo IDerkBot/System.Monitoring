@@ -1,6 +1,7 @@
 ﻿using System.Windows;
-using SystemMonitoring.Classes;
+using SystemMonitoring.Models;
 using SystemMonitoring.Pages;
+using SystemMonitoring.Views.Pages;
 
 namespace SystemMonitoring
 {
@@ -8,12 +9,12 @@ namespace SystemMonitoring
     {
         void BtnBackMove_Click(object sender, RoutedEventArgs e)
         {
-            if (ManagerPage.Page.Content.ToString().Contains("FieldMonitoring"))
-                ManagerPage.Navigate(new FieldSelect());
-            if (ManagerPage.Page.Content.ToString().Contains("FieldSelect"))
-                ManagerPage.Navigate(new AdminMenu());
-            else if (ManagerPage.Page.CanGoBack)
-                ManagerPage.Back();
+            //if (ManagerPage.Page.Content.ToString().Contains("FieldMonitoring"))
+            //    ManagerPage.Navigate(new FieldSelect());
+            //if (ManagerPage.Page.Content.ToString().Contains("FieldSelect"))
+            //    ManagerPage.Navigate(new AdminMenu());
+            //else if (ManagerPage.Page.CanGoBack)
+            //    ManagerPage.Back();
         }
     }
 }

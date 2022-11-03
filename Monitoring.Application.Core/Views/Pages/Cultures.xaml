@@ -1,0 +1,144 @@
+﻿<Page
+    Title="Cultures"
+    d:DesignHeight="850"
+    d:DesignWidth="800"
+    mc:Ignorable="d"
+    x:Class="SystemMonitoringNetCore.Views.Pages.Cultures"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:SystemMonitoring.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--  TODO  -->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="35" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="70,0" Orientation="Horizontal">
+            <ComboBox
+                Height="25"
+                Margin="0,0,10,0"
+                Name="SelectCultureSeed"
+                SelectionChanged="SelectCultureSeed_SelectionChanged"
+                Width="250" />
+            <ComboBox
+                Height="25"
+                IsEnabled="False"
+                Margin="0,0,10,0"
+                Name="SelectCultureStatus"
+                Width="250" />
+            <Button
+                Click="FilterCulture_Click"
+                Content="Фильтровать"
+                x:Name="FilterCulture" />
+        </StackPanel>
+
+        <DataGrid
+            AutoGenerateColumns="False"
+            Grid.Row="1"
+            IsReadOnly="True"
+            x:Name="DGCultures">
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Binding="{Binding Name}"
+                    Header="Культура"
+                    Width="200" />
+                <DataGridTextColumn
+                    Binding="{Binding Status}"
+                    Header="Статус посева"
+                    Width="100" />
+                <DataGridTextColumn
+                    Binding="{Binding Period}"
+                    Header="Период"
+                    Width="60" />
+                <DataGridTextColumn
+                    Binding="{Binding Temperature}"
+                    Header="Температура"
+                    Width="90" />
+                <DataGridTextColumn
+                    Binding="{Binding Humidity}"
+                    Header="Влажность"
+                    Width="90" />
+                <DataGridTextColumn
+                    Binding="{Binding Phosphor}"
+                    Header="Фосфор"
+                    Width="*" />
+                <DataGridTextColumn
+                    Binding="{Binding Calcium}"
+                    Header="Кальций"
+                    Width="*" />
+                <DataGridTextColumn
+                    Binding="{Binding Potassium}"
+                    Header="Калий"
+                    Width="*" />
+                <DataGridTextColumn
+                    Binding="{Binding Nitrogen}"
+                    Header="Азот"
+                    Width="70" />
+                <DataGridTextColumn
+                    Binding="{Binding Magnesium}"
+                    Header="Магний"
+                    Width="*" />
+                <DataGridTextColumn
+                    Binding="{Binding Ph}"
+                    Header="Кислотность"
+                    Width="100" />
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="Edit_Click" Content="Редактировать" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <DataGrid
+            AutoGenerateColumns="False"
+            Grid.Row="3"
+            IsReadOnly="True"
+            x:Name="DGFertilizer">
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Binding="{Binding Name}"
+                    Header="Наименование"
+                    Width="200" />
+                <DataGridTextColumn
+                    Binding="{Binding PhosphorusOxide}"
+                    Header="Фосфор"
+                    Width="*" />
+                <DataGridTextColumn
+                    Binding="{Binding CalciumOxide}"
+                    Header="Кальций"
+                    Width="*" />
+                <DataGridTextColumn
+                    Binding="{Binding PotassiumOxide}"
+                    Header="Калий"
+                    Width="*" />
+                <DataGridTextColumn
+                    Binding="{Binding Asot}"
+                    Header="Азот"
+                    Width="70" />
+                <DataGridTextColumn
+                    Binding="{Binding MagnesiumOxide}"
+                    Header="Магний"
+                    Width="*" />
+                <DataGridTextColumn
+                    Binding="{Binding NitrateNitrogen}"
+                    Header="Кислотность"
+                    Width="100" />
+                <DataGridTemplateColumn Width="25">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="Edit_Click" Height="25" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>

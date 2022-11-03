@@ -1,0 +1,96 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net6.0-windows</TargetFramework>
+        <Nullable>enable</Nullable>
+        <UseWPF>true</UseWPF>
+        <RootNamespace>SystemMonitoringNetCore</RootNamespace>
+        <AssemblyVersion>1.0</AssemblyVersion>
+        <NeutralLanguage>ru-RU</NeutralLanguage>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Extended.Wpf.Toolkit" Version="4.4.0" />
+      <PackageReference Include="MaterialDesignThemes" Version="4.6.1" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.10" />
+      <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1001" />
+      <PackageReference Include="Microsoft.Office.Interop.Word" Version="15.0.4797.1004" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+      <PackageReference Include="OxyPlot.Wpf" Version="2.1.0" />
+      <PackageReference Include="System.IO.Ports" Version="6.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Page Update="Views\Pages\AddDistrict.xaml">
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="Views\Pages\AddField.xaml">
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="Views\Pages\AddSensor.xaml">
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="Views\Pages\MenuPage.xaml">
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="Views\Pages\Auth.xaml">
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="Views\Pages\Cultures.xaml">
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="Views\Pages\FieldMonitoringPage.xaml">
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="Views\Pages\FieldSelectPage.xaml">
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="Views\Pages\Map.xaml">
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="Views\Pages\RegPage.xaml">
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="Views\Pages\Reports.xaml">
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="Views\Pages\Users.xaml">
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="Controls\SensorDetails.xaml">
+        <SubType>Designer</SubType>
+      </Page>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Monitoring.DataAccessLayer\Monitoring.DataAccessLayer.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="Images.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Images.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Images.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Images.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Images\room.jpg" />
+      <Content Include="Images\room.jpg">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Images\fields.jpg" />
+      <Content Include="Images\fields.jpg">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
+</Project>

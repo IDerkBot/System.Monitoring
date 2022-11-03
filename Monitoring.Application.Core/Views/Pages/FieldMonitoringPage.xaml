@@ -1,0 +1,259 @@
+﻿<Page
+    Title="FieldMonitoring"
+    d:DesignHeight="850"
+    d:DesignWidth="1000"
+    mc:Ignorable="d"
+    x:Class="SystemMonitoringNetCore.Views.Pages.FieldMonitoringPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock
+            Grid.Row="0"
+            HorizontalAlignment="Left"
+            Margin="5"
+            Padding="5,0"
+            Text="{Binding Field.District, StringFormat=Район: {0}}"
+            VerticalAlignment="Center"
+            x:Name="District" />
+
+        <Label
+            Content="{Binding Field.Number, StringFormat=Поле: {0}}"
+            Grid.Row="1"
+            HorizontalAlignment="Left"
+            Margin="5"
+            Padding="5,0"
+            VerticalAlignment="Center"
+            x:Name="Number" />
+
+        <ComboBox
+            Grid.Row="2"
+            HorizontalAlignment="Left"
+            Margin="5"
+            Padding="5,0"
+            SelectionChanged="Culture_SelectionChanged"
+            VerticalAlignment="Center"
+            Width="210"
+            md:HintAssist.Hint="Культура"
+            md:HintAssist.IsFloating="True"
+            x:Name="CbCulture" />
+
+        <StackPanel
+            Grid.Row="3"
+            HorizontalAlignment="Left"
+            Margin="5"
+            Orientation="Horizontal"
+            VerticalAlignment="Center"
+            Width="350">
+            <Label Content="Статус:" Padding="5,0" />
+            <Label Padding="5,0" x:Name="Status" />
+        </StackPanel>
+        <StackPanel
+            Grid.Row="4"
+            HorizontalAlignment="Left"
+            Margin="5"
+            Orientation="Horizontal"
+            VerticalAlignment="Center"
+            Width="300">
+            <Label
+                Content="Дата посева:"
+                Padding="5,0"
+                VerticalAlignment="Center" />
+            <Label
+                Content="{Binding Date}"
+                VerticalAlignment="Center"
+                Width="200"
+                x:Name="Date" />
+        </StackPanel>
+        <StackPanel
+            Grid.Row="5"
+            HorizontalAlignment="Left"
+            Margin="5"
+            Orientation="Horizontal"
+            VerticalAlignment="Center"
+            Width="300">
+            <Label Content="Тип почвы:" Padding="5,0" />
+            <ComboBox
+                Padding="5,0"
+                Width="198"
+                x:Name="Soil" />
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="6"
+            HorizontalAlignment="Left"
+            Orientation="Horizontal"
+            VerticalAlignment="Center"
+            Visibility="Visible">
+            <Button
+                Click="Refresh_Click"
+                Margin="5"
+                ToolTip="Обновить информацию о датчиках"
+                x:Name="Refresh" />
+            <Button
+                Click="Add_Click"
+                Margin="5"
+                ToolTip="Добавить новый датчик"
+                x:Name="Add" />
+            <Button
+                Click="Save_Click"
+                Margin="5"
+                ToolTip="Сохранить датчики"
+                x:Name="Save" />
+            <Button
+                Click="SaveToExcel_Click"
+                Margin="5"
+                ToolTip="Сохранить информацию по датчикам"
+                x:Name="SaveToExcel" />
+            <Button
+                Click="SaveToExcelSensors_Click"
+                Margin="5"
+                ToolTip="Сохранить информацию по датчику"
+                x:Name="SaveToExcelSensors" />
+            <Button
+                Click="SaveToExcelSensors_Click"
+                Margin="5"
+                ToolTip="Открыть графики"
+                x:Name="OpenCharts" />
+        </StackPanel>
+
+        <DataGrid
+            AutoGenerateColumns="False"
+            Grid.Row="7"
+            Grid.RowSpan="2"
+            IsReadOnly="True"
+            Margin="2"
+            Name="DgSensors">
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Binding="{Binding ID}"
+                    Header="№"
+                    Width="*" />
+                <DataGridTextColumn
+                    Binding="{Binding Humidity}"
+                    Header="Влажность, %"
+                    Width="*" />
+                <DataGridTextColumn
+                    Binding="{Binding Temperature}"
+                    Header="Температура, °C"
+                    Width="*" />
+                <DataGridTextColumn
+                    Binding="{Binding Acidity}"
+                    Header="Кислотность"
+                    Width="*" />
+                <DataGridTextColumn
+                    Binding="{Binding Phosphorus}"
+                    Header="Фосфор, мг/кг"
+                    Width="*" />
+                <DataGridTextColumn
+                    Binding="{Binding Calcium}"
+                    Header="Кальций, мг/кг"
+                    Width="*" />
+                <DataGridTextColumn
+                    Binding="{Binding Magnesium}"
+                    Header="Магний, мг/кг"
+                    Width="*" />
+                <DataGridTextColumn
+                    Binding="{Binding Calium}"
+                    Header="Калий, мг/кг"
+                    Width="*" />
+                <DataGridTextColumn
+                    Binding="{Binding Asot}"
+                    Header="Азот, мг/кг"
+                    Width="*" />
+                <DataGridTextColumn
+                    Binding="{Binding Recommendation}"
+                    Header="Рекомендация"
+                    Width="2*" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel
+            Grid.Row="7"
+            Margin="10,0"
+            Orientation="Horizontal"
+            VerticalAlignment="Center"
+            Visibility="Collapsed">
+            <TextBlock
+                Margin="0,0,1,0"
+                Text="ID"
+                TextAlignment="Center"
+                Width="50" />
+            <TextBlock
+                Margin="0,0,1,0"
+                Text="Влажность, %"
+                TextAlignment="Center"
+                Width="75" />
+            <TextBlock
+                Margin="0,0,1,0"
+                Text="Температура, °C"
+                TextAlignment="Center"
+                Width="95" />
+            <TextBlock
+                Margin="0,0,1,0"
+                Text="Кислотность"
+                TextAlignment="Center"
+                Width="80" />
+            <TextBlock
+                Margin="0,0,1,0"
+                Text="Фосфор, мг/кг"
+                TextAlignment="Center"
+                Width="85" />
+            <TextBlock
+                Margin="0,0,1,0"
+                Text="Кальций, мг/кг"
+                TextAlignment="Center"
+                Width="85" />
+            <TextBlock
+                Margin="0,0,1,0"
+                Text="Магний, мг/кг"
+                TextAlignment="Center"
+                Width="85" />
+            <TextBlock
+                Margin="0,0,1,0"
+                Text="Калий, мг/кг"
+                TextAlignment="Center"
+                Width="70" />
+            <TextBlock
+                Margin="0,0,1,0"
+                Text="Азот, мг/кг"
+                TextAlignment="Center"
+                Width="60" />
+        </StackPanel>
+        <StackPanel
+            Grid.Row="6"
+            HorizontalAlignment="Right"
+            Margin="10,0"
+            Orientation="Horizontal"
+            VerticalAlignment="Center">
+            <TextBlock Text="Датчиков обнаружено: " />
+            <TextBlock Text="0" x:Name="Count" />
+        </StackPanel>
+        <Border
+            Background="#DFDFDF"
+            BorderThickness="0"
+            CornerRadius="10"
+            Grid.Row="8"
+            Height="300"
+            Margin="10,3"
+            VerticalAlignment="Top"
+            Visibility="Collapsed">
+            <ScrollViewer Padding="0,5" VerticalScrollBarVisibility="Hidden">
+                <StackPanel x:Name="Sensors" />
+            </ScrollViewer>
+        </Border>
+    </Grid>
+</Page>

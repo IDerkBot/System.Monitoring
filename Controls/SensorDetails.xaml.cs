@@ -1,8 +1,6 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using SystemMonitoring.Classes;
+﻿using System.Windows.Controls;
 
-namespace SystemMonitoring
+namespace SystemMonitoring.Controls
 {
     public partial class SensorDetails : UserControl
     {
@@ -13,12 +11,12 @@ namespace SystemMonitoring
         }
         public string ID
         {
-            get { return SensorID.Text; }
+            get => SensorID.Text;
             set => SensorID.Text = value;
         }
         public string Humidity
         {
-            get { return SensorHum.Text; }
+            get => SensorHum.Text;
             set => SensorHum.Text = value;
         }
         public string Temperature
@@ -28,58 +26,58 @@ namespace SystemMonitoring
         }
         public string Acidity
         {
-            get { return SensorAcid.Text; }
+            get => SensorAcid.Text;
             set => SensorAcid.Text = value;
         }
         public string Phosphorus
         {
-            get { return SensorPhos.Text; }
+            get => SensorPhos.Text;
             set => SensorPhos.Text = value;
         }
         public string Calcium
         {
-            get { return SensorCalc.Text; }
+            get => SensorCalc.Text;
             set => SensorCalc.Text = value;
         }
-        public string Magniy
+        public string Magnesium
         {
-            get { return SensorMagn.Text; }
+            get => SensorMagn.Text;
             set => SensorMagn.Text = value;
         }
         public string Calium
         {
-            get { return SensorCalm.Text; }
+            get => SensorCalm.Text;
             set => SensorCalm.Text = value;
         }
         public string Asot
         {
-            get { return SensorAsot.Text; }
+            get => SensorAsot.Text;
             set => SensorAsot.Text = value;
         }
         public string Recomendation
         {
-            get { return recom; }
+            get => recom;
             set { recom = value; }
         }
         string recom;
         public int PercentDeviation
         {
-            get { return percentDeviation; }
+            get => percentDeviation;
             set { percentDeviation = value; }
         }
         int percentDeviation;
         public string Culture
         {
-            get { return culture; }
+            get => culture;
             set => culture = value;
         }
         string culture;
-        void Edit_Click(object sender, RoutedEventArgs e)
-        {
-            Sensor sensor = new Sensor { ID = ID, Acidity = Acidity, Asot = Asot, Calcium = Calcium, Calium = Calium, Humidity = Humidity, Magniy = Magniy, Phosphorus = Phosphorus, Temperature = Temperature };
-            ManagerPage.Page.Navigate(new AdminEditPages.AddSensor(sensor));
-        }
-        void SensorRecom_Click(object sender, RoutedEventArgs e)
-        { System.Windows.Forms.MessageBox.Show($@"{recom}"); }
+        //void Edit_Click(object sender, RoutedEventArgs e)
+        //{
+        //    Sensor sensor = new Sensor { ID = ID, Acidity = Acidity, Asot = Asot, Calcium = Calcium, Calium = Calium, Humidity = Humidity, Magnesium = Magnesium, Phosphorus = Phosphorus, Temperature = Temperature };
+        //    ManagerPage.Page.Navigate(new AdminEditPages.AddSensor(sensor));
+        //}
+        //void SensorRecom_Click(object sender, RoutedEventArgs e)
+        //{ System.Windows.Forms.MessageBox.Show($@"{recom}"); }
     }
 }

@@ -1,0 +1,96 @@
+﻿<UserControl
+    Height="20"
+    HorizontalAlignment="Left"
+    Width="890"
+    mc:Ignorable="d"
+    x:Class="SystemMonitoringNetCore.Controls.SensorDetails"
+    x:Name="SensorDetail"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Border CornerRadius="5">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="1" />
+                <ColumnDefinition Width="75" />
+                <ColumnDefinition Width="1" />
+                <ColumnDefinition Width="95" />
+                <ColumnDefinition Width="1" />
+                <ColumnDefinition Width="75" />
+                <ColumnDefinition Width="1" />
+                <ColumnDefinition Width="80" />
+                <ColumnDefinition Width="1" />
+                <ColumnDefinition Width="80" />
+                <ColumnDefinition Width="1" />
+                <ColumnDefinition Width="80" />
+                <ColumnDefinition Width="1" />
+                <ColumnDefinition Width="75" />
+                <ColumnDefinition Width="1" />
+                <ColumnDefinition Width="60" />
+                <ColumnDefinition Width="1" />
+                <ColumnDefinition Width="90" />
+                <ColumnDefinition Width="1" />
+                <ColumnDefinition Width="20" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock
+                Grid.Column="0"
+                HorizontalAlignment="Center"
+                Name="SensorID"
+                Text="{Binding ID, FallbackValue=0}"
+                VerticalAlignment="Center" />
+            <TextBlock
+                Grid.Column="2"
+                HorizontalAlignment="Center"
+                Name="SensorHum"
+                Text="{Binding Humidity, FallbackValue=0}"
+                VerticalAlignment="Center" />
+            <TextBlock
+                Grid.Column="4"
+                HorizontalAlignment="Center"
+                Name="SensorTemp"
+                Text="{Binding Temperature, FallbackValue=0}"
+                VerticalAlignment="Center" />
+            <TextBlock
+                Grid.Column="6"
+                HorizontalAlignment="Center"
+                Name="SensorAcid"
+                Text="{Binding Acidity, FallbackValue=0}"
+                VerticalAlignment="Center" />
+            <TextBlock
+                Grid.Column="8"
+                HorizontalAlignment="Center"
+                Name="SensorPhos"
+                Text="{Binding Phosphorus, FallbackValue=0}"
+                VerticalAlignment="Center" />
+            <TextBlock
+                Grid.Column="10"
+                HorizontalAlignment="Center"
+                Name="SensorCalc"
+                Text="{Binding Calcium, FallbackValue=0}"
+                VerticalAlignment="Center" />
+            <TextBlock
+                Grid.Column="12"
+                HorizontalAlignment="Center"
+                Name="SensorMagn"
+                Text="{Binding Magniy, FallbackValue=0}"
+                VerticalAlignment="Center" />
+            <TextBlock
+                Grid.Column="14"
+                HorizontalAlignment="Center"
+                Name="SensorCalm"
+                Text="{Binding Calium, FallbackValue=0}"
+                VerticalAlignment="Center" />
+            <TextBlock
+                Grid.Column="16"
+                HorizontalAlignment="Center"
+                Name="SensorAsot"
+                Text="{Binding Asot, FallbackValue=0}"
+                VerticalAlignment="Center" />
+            <!--<Button Content="Рекомендации" Name="SensorRecom" Click="SensorRecom_Click" Width="90" Height="20" Grid.Column="18" FontSize="12"/>
+            <Button Width="20" Height="20" Grid.Column="20" x:Name="BtnEdit" Style="{StaticResource BtnEdit}" Click="Edit_Click"/>-->
+        </Grid>
+    </Border>
+</UserControl>
