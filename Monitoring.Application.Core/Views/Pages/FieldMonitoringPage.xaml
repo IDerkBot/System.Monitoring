@@ -101,18 +101,33 @@
             <Button
                 Click="Refresh_Click"
                 Margin="5"
+                Padding="8,0"
                 ToolTip="Обновить информацию о датчиках"
-                x:Name="Refresh" />
+                x:Name="Refresh">
+                <Button.Content>
+                    <md:PackIcon Kind="Refresh" />
+                </Button.Content>
+            </Button>
             <Button
                 Click="Add_Click"
                 Margin="5"
+                Padding="8,0"
                 ToolTip="Добавить новый датчик"
-                x:Name="Add" />
+                x:Name="Add">
+                <Button.Content>
+                    <md:PackIcon Kind="MapMarkerPlus" />
+                </Button.Content>
+            </Button>
             <Button
                 Click="Save_Click"
                 Margin="5"
+                Padding="8,0"
                 ToolTip="Сохранить датчики"
-                x:Name="Save" />
+                x:Name="Save">
+                <Button.Content>
+                    <md:PackIcon Kind="ContentSaveCog" />
+                </Button.Content>
+            </Button>
             <Button
                 Click="SaveToExcel_Click"
                 Margin="5"
@@ -126,8 +141,13 @@
             <Button
                 Click="OpenCharts_OnClick"
                 Margin="5"
+                Padding="8,0"
                 ToolTip="Открыть графики"
-                x:Name="OpenCharts" />
+                x:Name="OpenCharts">
+                <Button.Content>
+                    <md:PackIcon Kind="ChartBellCurveCumulative" />
+                </Button.Content>
+            </Button>
         </StackPanel>
 
         <DataGrid
@@ -139,7 +159,7 @@
             Name="DgSensors">
             <DataGrid.Columns>
                 <DataGridTextColumn
-                    Binding="{Binding ID}"
+                    Binding="{Binding Id}"
                     Header="№"
                     Width="*" />
                 <DataGridTextColumn

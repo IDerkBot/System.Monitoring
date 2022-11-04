@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Threading;
 using Monitoring.Models.Entity;
 using Newtonsoft.Json;
 using SystemMonitoring;
@@ -26,7 +25,8 @@ namespace SystemMonitoringNetCore.Views.Pages
     {
         #region Variables
 
-        public Sensor _newSensor = new(); // TODO WHaT?
+        public Sensor _newSensor = new();
+        private List<Sensor> _sensors;
         private readonly Seed _currentSeed;
         private int _count = 0;
         private SerialPort _currentPort;
@@ -44,23 +44,27 @@ namespace SystemMonitoringNetCore.Views.Pages
             _currentSeed = selectedSeed;
             // Его заносим в контекст
             DataContext = _currentSeed;
+            // Получаем культуры из бд
             CbCulture.ItemsSource = Db.DbContext.Cultures.GroupBy(x => x.Name).Select(x => x.Key).ToList();
-
+            
+            // Занесение тестовых показателей датчиков
             DgSensors.ItemsSource = GetTestSensors();
-            // Если культура нул
+
+            // Если культура выбрана у посева
             if (_currentSeed.Culture != null)
             {
-                CbCulture.ItemsSource = Db.DbContext.Cultures.ToList().Select(x => x.Name).Distinct();
+                // CbCulture.ItemsSource = Db.DbContext.Cultures.ToList().Select(x => x.Name).Distinct();
                 CbCulture.SelectedItem = _currentSeed.Culture.Name;
-                if (_currentSeed.Date == null)
+                if (_currentSeed.Date <= new DateTime(1900, 01, 01))
                 {
                     _currentSeed.Date = DateTime.Now;
                     Db.DbContext.Seeds.Add(_currentSeed);
                     Db.DbContext.SaveChanges();
                 }
 
+                // Счет количества дней
                 _days = Math.Floor((DateTime.Now - _currentSeed.Date).TotalDays);
-                List<Culture> cultures = Db.DbContext.Cultures.Where(x => x.Name == _currentSeed.Culture.Name).ToList();
+                var cultures = Db.DbContext.Cultures.Where(x => x.Name == _currentSeed.Culture.Name).ToList();
                 foreach (var cult in cultures)
                 {
                     int perMin = int.Parse(cult.Period.Split('-')[0]);
@@ -87,21 +91,21 @@ namespace SystemMonitoringNetCore.Views.Pages
             ArduinoPortOpen();
         }
 
-        private List<Sensor> GetTestSensors()
+        private static IEnumerable<Sensor> GetTestSensors()
         {
             var rand = new Random();
             return new List<Sensor>
             {
-                // new Sensor { Id = 1, Acidity = rand.Next(0, 100), Asot = rand.Next(0, 100),  Calcium = rand.Next(0, 100), Calium = rand.Next(0, 100), Humidity = rand.Next(0, 100), Magnesium = rand.Next(0, 100), Phosphorus = rand.Next(0, 100), Temperature = rand.Next(0, 100), Recommendation = "Тестовый датчик 1" },
-                // new Sensor { Id = 2, Acidity = rand.Next(0, 100), Asot = rand.Next(0, 100),  Calcium = rand.Next(0, 100), Calium = rand.Next(0, 100), Humidity = rand.Next(0, 100), Magnesium = rand.Next(0, 100), Phosphorus = rand.Next(0, 100), Temperature = rand.Next(0, 100), Recommendation = "Тестовый датчик 2" },
-                // new Sensor { Id = 3, Acidity = rand.Next(0, 100), Asot = rand.Next(0, 100),  Calcium = rand.Next(0, 100), Calium = rand.Next(0, 100), Humidity = rand.Next(0, 100), Magnesium = rand.Next(0, 100), Phosphorus = rand.Next(0, 100), Temperature = rand.Next(0, 100), Recommendation = "Тестовый датчик 3" },
-                // new Sensor { Id = 4, Acidity = rand.Next(0, 100), Asot = rand.Next(0, 100),  Calcium = rand.Next(0, 100), Calium = rand.Next(0, 100), Humidity = rand.Next(0, 100), Magnesium = rand.Next(0, 100), Phosphorus = rand.Next(0, 100), Temperature = rand.Next(0, 100), Recommendation = "Тестовый датчик 4" },
-                // new Sensor { Id = 5, Acidity = rand.Next(0, 100), Asot = rand.Next(0, 100),  Calcium = rand.Next(0, 100), Calium = rand.Next(0, 100), Humidity = rand.Next(0, 100), Magnesium = rand.Next(0, 100), Phosphorus = rand.Next(0, 100), Temperature = rand.Next(0, 100), Recommendation = "Тестовый датчик 5" },
-                // new Sensor { Id = 6, Acidity = rand.Next(0, 100), Asot = rand.Next(0, 100),  Calcium = rand.Next(0, 100), Calium = rand.Next(0, 100), Humidity = rand.Next(0, 100), Magnesium = rand.Next(0, 100), Phosphorus = rand.Next(0, 100), Temperature = rand.Next(0, 100), Recommendation = "Тестовый датчик 6" },
-                // new Sensor { Id = 7, Acidity = rand.Next(0, 100), Asot = rand.Next(0, 100),  Calcium = rand.Next(0, 100), Calium = rand.Next(0, 100), Humidity = rand.Next(0, 100), Magnesium = rand.Next(0, 100), Phosphorus = rand.Next(0, 100), Temperature = rand.Next(0, 100), Recommendation = "Тестовый датчик 7" },
-                // new Sensor { Id = 8, Acidity = rand.Next(0, 100), Asot = rand.Next(0, 100),  Calcium = rand.Next(0, 100), Calium = rand.Next(0, 100), Humidity = rand.Next(0, 100), Magnesium = rand.Next(0, 100), Phosphorus = rand.Next(0, 100), Temperature = rand.Next(0, 100), Recommendation = "Тестовый датчик 8" },
-                // new Sensor { Id = 9, Acidity = rand.Next(0, 100), Asot = rand.Next(0, 100),  Calcium = rand.Next(0, 100), Calium = rand.Next(0, 100), Humidity = rand.Next(0, 100), Magnesium = rand.Next(0, 100), Phosphorus = rand.Next(0, 100), Temperature = rand.Next(0, 100), Recommendation = "Тестовый датчик 9" },
-                // new Sensor { Id = 10, Acidity = rand.Next(0, 100), Asot = rand.Next(0, 100),  Calcium = rand.Next(0, 100), Calium = rand.Next(0, 100), Humidity = rand.Next(0, 100), Magnesium = rand.Next(0, 100), Phosphorus = rand.Next(0, 100), Temperature = rand.Next(0, 100), Recommendation = "Тестовый датчик 10" },
+                new() { Id = 1, Acidity = rand.Next(0, 100), Asot = rand.Next(0, 100),  Calcium = rand.Next(0, 100), Calium = rand.Next(0, 100), Humidity = rand.Next(0, 100), Magnesium = rand.Next(0, 100), Phosphorus = rand.Next(0, 100), Temperature = rand.Next(0, 100), Recommendation = "Тестовый датчик 1" },
+                new() { Id = 2, Acidity = rand.Next(0, 100), Asot = rand.Next(0, 100),  Calcium = rand.Next(0, 100), Calium = rand.Next(0, 100), Humidity = rand.Next(0, 100), Magnesium = rand.Next(0, 100), Phosphorus = rand.Next(0, 100), Temperature = rand.Next(0, 100), Recommendation = "Тестовый датчик 2" },
+                new() { Id = 3, Acidity = rand.Next(0, 100), Asot = rand.Next(0, 100),  Calcium = rand.Next(0, 100), Calium = rand.Next(0, 100), Humidity = rand.Next(0, 100), Magnesium = rand.Next(0, 100), Phosphorus = rand.Next(0, 100), Temperature = rand.Next(0, 100), Recommendation = "Тестовый датчик 3" },
+                new() { Id = 4, Acidity = rand.Next(0, 100), Asot = rand.Next(0, 100),  Calcium = rand.Next(0, 100), Calium = rand.Next(0, 100), Humidity = rand.Next(0, 100), Magnesium = rand.Next(0, 100), Phosphorus = rand.Next(0, 100), Temperature = rand.Next(0, 100), Recommendation = "Тестовый датчик 4" },
+                new() { Id = 5, Acidity = rand.Next(0, 100), Asot = rand.Next(0, 100),  Calcium = rand.Next(0, 100), Calium = rand.Next(0, 100), Humidity = rand.Next(0, 100), Magnesium = rand.Next(0, 100), Phosphorus = rand.Next(0, 100), Temperature = rand.Next(0, 100), Recommendation = "Тестовый датчик 5" },
+                new() { Id = 6, Acidity = rand.Next(0, 100), Asot = rand.Next(0, 100),  Calcium = rand.Next(0, 100), Calium = rand.Next(0, 100), Humidity = rand.Next(0, 100), Magnesium = rand.Next(0, 100), Phosphorus = rand.Next(0, 100), Temperature = rand.Next(0, 100), Recommendation = "Тестовый датчик 6" },
+                new() { Id = 7, Acidity = rand.Next(0, 100), Asot = rand.Next(0, 100),  Calcium = rand.Next(0, 100), Calium = rand.Next(0, 100), Humidity = rand.Next(0, 100), Magnesium = rand.Next(0, 100), Phosphorus = rand.Next(0, 100), Temperature = rand.Next(0, 100), Recommendation = "Тестовый датчик 7" },
+                new() { Id = 8, Acidity = rand.Next(0, 100), Asot = rand.Next(0, 100),  Calcium = rand.Next(0, 100), Calium = rand.Next(0, 100), Humidity = rand.Next(0, 100), Magnesium = rand.Next(0, 100), Phosphorus = rand.Next(0, 100), Temperature = rand.Next(0, 100), Recommendation = "Тестовый датчик 8" },
+                new() { Id = 9, Acidity = rand.Next(0, 100), Asot = rand.Next(0, 100),  Calcium = rand.Next(0, 100), Calium = rand.Next(0, 100), Humidity = rand.Next(0, 100), Magnesium = rand.Next(0, 100), Phosphorus = rand.Next(0, 100), Temperature = rand.Next(0, 100), Recommendation = "Тестовый датчик 9" },
+                new() { Id = 10, Acidity = rand.Next(0, 100), Asot = rand.Next(0, 100),  Calcium = rand.Next(0, 100), Calium = rand.Next(0, 100), Humidity = rand.Next(0, 100), Magnesium = rand.Next(0, 100), Phosphorus = rand.Next(0, 100), Temperature = rand.Next(0, 100), Recommendation = "Тестовый датчик 10" },
             };
         }
 
@@ -619,7 +623,7 @@ namespace SystemMonitoringNetCore.Views.Pages
 
         private void OpenCharts_OnClick(object sender, RoutedEventArgs e)
         {
-            ManagerPage.Navigate(new ChartsPage());
+            ManagerPage.Navigate(new ChartsPage(DgSensors.ItemsSource.Cast<Sensor>().ToList()));
         }
     }
 }

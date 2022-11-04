@@ -1,7 +1,7 @@
 ﻿<Page
-    Height="450"
+    Height="1080"
     Title="ChartsPage"
-    Width="800"
+    Width="960"
     mc:Ignorable="d"
     x:Class="SystemMonitoringNetCore.Views.Pages.ChartsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -10,7 +10,36 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:oxy="http://oxyplot.org/wpf"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Grid>
-        <oxy:PlotView Name="OxyPlotView" />
-    </Grid>
+    <ScrollViewer>
+        <WrapPanel>
+            <oxy:PlotView
+                Height="250"
+                Name="oxyTemp"
+                Width="450" />
+            <oxy:PlotView
+                Height="250"
+                Name="oxyHumidity"
+                Width="450" />
+            <oxy:PlotView
+                Height="250"
+                Name="oxyAcidity"
+                Width="450" />
+            <oxy:PlotView
+                Height="250"
+                Name="oxyPhosphorus"
+                Width="450" />
+            <oxy:PlotView
+                Height="250"
+                Name="oxyCalcium"
+                Width="450" />
+            <oxy:PlotView
+                Height="250"
+                Name="oxyMagnesium"
+                Width="450" />
+            <oxy:PlotView
+                Height="250"
+                Name="OxyPlotView"
+                Width="900" />
+        </WrapPanel>
+    </ScrollViewer>
 </Page>
