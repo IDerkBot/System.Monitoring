@@ -6,7 +6,6 @@
     x:Class="SystemMonitoringNetCore.Views.Pages.ChartsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:SystemMonitoringNetCore.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:oxy="http://oxyplot.org/wpf"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
@@ -14,27 +13,27 @@
         <WrapPanel>
             <oxy:PlotView
                 Height="250"
-                Name="oxyTemp"
+                Name="OxyTemp"
                 Width="450" />
             <oxy:PlotView
                 Height="250"
-                Name="oxyHumidity"
+                Name="OxyHumidity"
                 Width="450" />
             <oxy:PlotView
                 Height="250"
-                Name="oxyAcidity"
+                Name="OxyAcidity"
                 Width="450" />
             <oxy:PlotView
                 Height="250"
-                Name="oxyPhosphorus"
+                Name="OxyPhosphorus"
                 Width="450" />
             <oxy:PlotView
                 Height="250"
-                Name="oxyCalcium"
+                Name="OxyCalcium"
                 Width="450" />
             <oxy:PlotView
                 Height="250"
-                Name="oxyMagnesium"
+                Name="OxyMagnesium"
                 Width="450" />
             <oxy:PlotView
                 Height="250"
