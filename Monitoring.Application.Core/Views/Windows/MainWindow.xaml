@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:wpf="clr-namespace:Arion.Style.AttachedProperties;assembly=Arion.Style"
     Title="MainWindow"
     Width="800"
     Height="450"
@@ -39,10 +39,9 @@
             Margin="10"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
+            wpf:Button.Icon="ArrowLeftBold"
             Click="Back_OnClick"
-            Visibility="Hidden">
-            <md:PackIcon Kind="ArrowLeftBold" />
-        </Button>
+            Visibility="Hidden" />
         <Frame
             Name="MainPage"
             Grid.Row="0"

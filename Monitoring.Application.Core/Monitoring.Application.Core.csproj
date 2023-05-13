@@ -11,11 +11,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Arion.Style" Version="0.4.11.1" />
       <PackageReference Include="Extended.Wpf.Toolkit" Version="4.4.0" />
       <PackageReference Include="FolderBrowserForWPF" Version="1.2.0" />
       <PackageReference Include="LiveChartsCore.SkiaSharpView.WPF" Version="2.0.0-beta.701" />
-      <PackageReference Include="MaterialDesignColors" Version="2.1.0-ci371" />
-      <PackageReference Include="MaterialDesignThemes" Version="4.7.0-ci371" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.10" />
       <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1001" />
       <PackageReference Include="Microsoft.Office.Interop.Word" Version="15.0.4797.1004" />
