@@ -1,8 +1,6 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using SystemMonitoringNetCore.Models;
 
 namespace SystemMonitoringNetCore.Views.Pages
@@ -10,12 +8,12 @@ namespace SystemMonitoringNetCore.Views.Pages
 	/// <summary>
 	/// 
 	/// </summary>
-	public partial class Auth
+	public partial class AuthPage
 	{
 		/// <summary>
 		/// 
 		/// </summary>
-		public Auth() { InitializeComponent(); }
+		public AuthPage() { InitializeComponent(); }
 
 		private bool CheckAuthData()
 		{
@@ -26,11 +24,13 @@ namespace SystemMonitoringNetCore.Views.Pages
 		}
 		private void RememberData()
 		{
-			var settings = FileManager.GetSettings();
-			settings.Remember = true;
-			settings.Login = TbLogin.Text;
-			settings.Password = PbPassword.Password;
-			FileManager.SetSettings(settings);
+			var settings = new Settings
+			{
+				Remember = true,
+				Login = TbLogin.Text,
+				Password = PbPassword.Password
+			};
+			//settings.Save(FileManager.GetPathConfig());
 		}
 
 		// Событие при нажатии на кнопку войти
@@ -51,11 +51,11 @@ namespace SystemMonitoringNetCore.Views.Pages
 		// Загрузка данных при открытии приложения
 		private void OnLoad(object sender, RoutedEventArgs e)
 		{
-			var settings = FileManager.GetSettings();
-			if (!settings.Remember) return;
-			TbLogin.Text = settings.Login;
-			PbPassword.Password = settings.Password;
-			CbRemember.IsChecked = settings.Remember;
+			//var settings = FileManager.GetSettings();
+			//if (!settings.Remember) return;
+			//TbLogin.Text = settings.Login;
+			//PbPassword.Password = settings.Password;
+			//CbRemember.IsChecked = settings.Remember;
 		}
 		// Событие на нажатие кнопки регистрация
 		private void RegInBtn_Click(object sender, RoutedEventArgs e) => ManagerPage.Page.Navigate(new RegPage());

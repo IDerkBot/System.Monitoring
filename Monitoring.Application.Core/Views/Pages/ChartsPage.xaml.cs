@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using OxyPlot;
-using OxyPlot.Legends;
-using OxyPlot.Series;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.VisualElements;
+// using OxyPlot;
+// using OxyPlot.Legends;
+// using OxyPlot.Series;
 using Sensor = SystemMonitoringNetCore.Models.Sensor;
 
 namespace SystemMonitoringNetCore.Views.Pages;
@@ -19,64 +22,100 @@ public partial class ChartsPage
     public ChartsPage(IReadOnlyCollection<Sensor> list)
     {
         InitializeComponent();
-        
+
         #region Отдельные графики
 
-        var listTemperature = list.Select((t, i) => new DataPoint(i, (double)t.Temperature)).ToList();
-        OxyTemp.Model = CreateNewModel("Температура", listTemperature, OxyColors.Bisque);
-        var listHumidity = list.Select((t, i) => new DataPoint(i, (double)t.Humidity)).ToList();
-        OxyHumidity.Model = CreateNewModel("Влажность", listHumidity, OxyColors.Peru);
-        var listAcidity = list.Select((t, i) => new DataPoint(i, (double)t.Acidity)).ToList();
-        OxyAcidity.Model = CreateNewModel("Кислотность", listAcidity, OxyColors.Brown);
-        var listPhosphorus = list.Select((t, i) => new DataPoint(i, (double)t.Phosphorus)).ToList();
-        OxyPhosphorus.Model = CreateNewModel("Фосфор", listPhosphorus, OxyColors.Blue);
-        var listCalcium = list.Select((t, i) => new DataPoint(i, (double)t.Calcium)).ToList();
-        OxyCalcium.Model = CreateNewModel("Кальций", listCalcium, OxyColors.Red);
-        var listMagnesium = list.Select((t, i) => new DataPoint(i, (double)t.Magnesium)).ToList();
-        OxyMagnesium.Model = CreateNewModel("Магнезий", listMagnesium, OxyColors.Orange);
-
-        #endregion
-
-        #region Общий график
-
-        var listTitle = new List<string> { "Температура", "Влажность", "Кислотность", "Фосфор", "Кальций", "Магнезий" };
-        var listData = new List<List<DataPoint>>
+        ISeries[] seriesTemp =
         {
-            list.Select((t, i) => new DataPoint(i, (double)t.Temperature)).ToList(),
-            list.Select((t, i) => new DataPoint(i, (double)t.Humidity)).ToList(),
-            list.Select((t, i) => new DataPoint(i, (double)t.Acidity)).ToList(),
-            list.Select((t, i) => new DataPoint(i, (double)t.Phosphorus)).ToList(),
-            list.Select((t, i) => new DataPoint(i, (double)t.Calcium)).ToList(),
-            list.Select((t, i) => new DataPoint(i, (double)t.Magnesium)).ToList()
+            new LineSeries<double>
+            {
+                Values = list.Select(x => (double)x.Temperature).ToList(),
+                Fill = null
+            }
+        };
+        ISeries[] seriesHumidity =
+        {
+            new LineSeries<double>
+            {
+                Values = list.Select(x => (double)x.Humidity).ToList(),
+                Fill = null
+            }
+        };
+        ISeries[] seriesAcidity =
+        {
+            new LineSeries<double>
+            {
+                Values = list.Select(x => (double)x.Acidity).ToList(),
+                Fill = null
+            }
+        };
+        ISeries[] seriesPhosphorus =
+        {
+            new LineSeries<double>
+            {
+                Values = list.Select(x => (double)x.Phosphorus).ToList(),
+                Fill = null
+            }
+        };
+        ISeries[] seriesCalcium =
+        {
+            new LineSeries<double>
+            {
+                Values = list.Select(x => (double)x.Calcium).ToList(),
+                Fill = null
+            }
+        };
+        ISeries[] seriesMagnesium =
+        {
+            new LineSeries<double>
+            {
+                Values = list.Select(x => (double)x.Magnesium).ToList(),
+                Fill = null
+            }
+        };
+        ISeries[] seriesGeneral =
+        {
+            new LineSeries<double>
+            {
+                Values = list.Select(x => (double)x.Temperature).ToList(),
+                Fill = null
+            },
+            new LineSeries<double>
+            {
+                Values = list.Select(x => (double)x.Humidity).ToList(),
+                Fill = null
+            },
+            new LineSeries<double>
+            {
+                Values = list.Select(x => (double)x.Acidity).ToList(),
+                Fill = null
+            },
+            new LineSeries<double>
+            {
+                Values = list.Select(x => (double)x.Phosphorus).ToList(),
+                Fill = null
+            },
+            new LineSeries<double>
+            {
+                Values = list.Select(x => (double)x.Calcium).ToList(),
+                Fill = null
+            },
+            new LineSeries<double>
+            {
+                Values = list.Select(x => (double)x.Magnesium).ToList(),
+                Fill = null
+            }
         };
 
-        var listColors = new List<OxyColor> { OxyColors.Bisque, OxyColors.Peru, OxyColors.Brown, OxyColors.Blue, OxyColors.Red, OxyColors.Orange };
-        OxyPlotView.Model = CreateNewModel("Все показатели", listTitle, listData, listColors);
-
-        #endregion
-    }
-
-    private static PlotModel CreateNewModel(string title, IEnumerable<DataPoint> list, OxyColor color)
-    {
-        var model = new PlotModel
-        {
-            Title = title,
-            Series = { new LineSeries { ItemsSource = list, Title = title, Color = color } }
-        };
-        return model;
-    }
-    
-    private static PlotModel CreateNewModel(string title, IReadOnlyList<string> titles, IReadOnlyList<List<DataPoint>> lists, IReadOnlyList<OxyColor> colors)
-    {
-        var model = new PlotModel { Title = title };
-        for (var i = 0; i < titles.Count; i++)
-        {
-            var modelSeries = new LineSeries { ItemsSource = lists[i], Title = titles[i], Color = colors[i] };
-            var modelLegend = new Legend { GroupNameFont = titles[i] };
-            model.Series.Add(modelSeries);
-            model.Legends.Add(modelLegend);
-        }
+        LvTemp.Series = seriesTemp;
+        // LvTemp.Title = new LabelVisual { Text = "Температура" };
+        LvHumidity.Series = seriesHumidity;
+        LvAcidity.Series = seriesAcidity;
+        LvPhosphorus.Series = seriesPhosphorus;
+        LvCalcium.Series = seriesCalcium;
+        LvMagnesium.Series = seriesMagnesium;
+        LvGeneral.Series = seriesGeneral;
         
-        return model;
+        #endregion
     }
 }

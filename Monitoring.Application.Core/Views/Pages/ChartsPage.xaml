@@ -1,44 +1,44 @@
 ﻿<Page
-    Height="1080"
-    Title="ChartsPage"
-    Width="960"
-    mc:Ignorable="d"
     x:Class="SystemMonitoringNetCore.Views.Pages.ChartsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:oxy="http://oxyplot.org/wpf"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    Title="ChartsPage"
+    Width="960"
+    Height="1080"
+    mc:Ignorable="d">
     <ScrollViewer>
         <WrapPanel>
-            <oxy:PlotView
-                Height="250"
-                Name="OxyTemp"
-                Width="450" />
-            <oxy:PlotView
-                Height="250"
-                Name="OxyHumidity"
-                Width="450" />
-            <oxy:PlotView
-                Height="250"
-                Name="OxyAcidity"
-                Width="450" />
-            <oxy:PlotView
-                Height="250"
-                Name="OxyPhosphorus"
-                Width="450" />
-            <oxy:PlotView
-                Height="250"
-                Name="OxyCalcium"
-                Width="450" />
-            <oxy:PlotView
-                Height="250"
-                Name="OxyMagnesium"
-                Width="450" />
-            <oxy:PlotView
-                Height="250"
-                Name="OxyPlotView"
-                Width="900" />
+            <lvc:CartesianChart
+                Name="LvTemp"
+                Width="450"
+                Height="250" />
+            <lvc:CartesianChart
+                Name="LvHumidity"
+                Width="450"
+                Height="250" />
+            <lvc:CartesianChart
+                Name="LvAcidity"
+                Width="450"
+                Height="250" />
+            <lvc:CartesianChart
+                Name="LvPhosphorus"
+                Width="450"
+                Height="250" />
+            <lvc:CartesianChart
+                Name="LvCalcium"
+                Width="450"
+                Height="250" />
+            <lvc:CartesianChart
+                Name="LvMagnesium"
+                Width="450"
+                Height="250" />
+            <lvc:CartesianChart
+                Name="LvGeneral"
+                Width="900"
+                Height="250" />
         </WrapPanel>
     </ScrollViewer>
 </Page>

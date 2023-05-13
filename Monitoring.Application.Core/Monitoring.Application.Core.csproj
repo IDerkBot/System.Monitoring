@@ -12,32 +12,27 @@
 
     <ItemGroup>
       <PackageReference Include="Extended.Wpf.Toolkit" Version="4.4.0" />
-      <PackageReference Include="MaterialDesignThemes" Version="4.6.1" />
+      <PackageReference Include="FolderBrowserForWPF" Version="1.2.0" />
+      <PackageReference Include="LiveChartsCore.SkiaSharpView.WPF" Version="2.0.0-beta.701" />
+      <PackageReference Include="MaterialDesignColors" Version="2.1.0-ci371" />
+      <PackageReference Include="MaterialDesignThemes" Version="4.7.0-ci371" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.10" />
       <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1001" />
       <PackageReference Include="Microsoft.Office.Interop.Word" Version="15.0.4797.1004" />
-      <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
       <PackageReference Include="OxyPlot.Wpf" Version="2.1.0" />
+      <PackageReference Include="StratumUi.Core" Version="0.0.2" />
       <PackageReference Include="System.IO.Ports" Version="6.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <Page Update="Views\Pages\AddDistrict.xaml">
-        <SubType>Designer</SubType>
-      </Page>
-      <Page Update="Views\Pages\AddField.xaml">
-        <SubType>Designer</SubType>
-      </Page>
-      <Page Update="Views\Pages\AddSensor.xaml">
-        <SubType>Designer</SubType>
-      </Page>
       <Page Update="Views\Pages\MenuPage.xaml">
         <SubType>Designer</SubType>
       </Page>
-      <Page Update="Views\Pages\Auth.xaml">
+      <Page Update="Views\Pages\AuthPage.xaml">
         <SubType>Designer</SubType>
       </Page>
-      <Page Update="Views\Pages\Cultures.xaml">
+      <Page Update="Views\Pages\CulturesPage.xaml">
         <SubType>Designer</SubType>
       </Page>
       <Page Update="Views\Pages\FieldMonitoringPage.xaml">
@@ -46,19 +41,34 @@
       <Page Update="Views\Pages\FieldSelectPage.xaml">
         <SubType>Designer</SubType>
       </Page>
-      <Page Update="Views\Pages\Map.xaml">
+      <Page Update="Views\Pages\MapPage.xaml">
         <SubType>Designer</SubType>
       </Page>
       <Page Update="Views\Pages\RegPage.xaml">
         <SubType>Designer</SubType>
       </Page>
-      <Page Update="Views\Pages\Reports.xaml">
+      <Page Update="Views\Pages\ReportsPage.xaml">
         <SubType>Designer</SubType>
       </Page>
-      <Page Update="Views\Pages\Users.xaml">
+      <Page Update="Views\Pages\UsersPage.xaml">
         <SubType>Designer</SubType>
       </Page>
       <Page Update="Controls\SensorDetails.xaml">
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="Views\Pages\EditPages\AddDistrict.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <XamlRuntime>Wpf</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="Views\Pages\EditPages\AddField.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <XamlRuntime>Wpf</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="Views\Pages\EditPages\AddSensor.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <XamlRuntime>Wpf</XamlRuntime>
         <SubType>Designer</SubType>
       </Page>
     </ItemGroup>

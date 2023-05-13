@@ -8,8 +8,8 @@ namespace SystemMonitoringNetCore.Views.Pages
 {
     public partial class AddField
     {
-        private readonly string _selectedDistrict;
-        public AddField(string district)
+        private readonly string? _selectedDistrict;
+        public AddField(string? district)
         {
             InitializeComponent();
             _selectedDistrict = district;

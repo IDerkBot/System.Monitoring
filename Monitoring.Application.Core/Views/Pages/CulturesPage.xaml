@@ -1,0 +1,105 @@
+﻿<Page
+    x:Class="SystemMonitoringNetCore.Views.Pages.CulturesPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+    Title="Cultures"
+    d:DesignHeight="850"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <!--  TODO  -->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="10" Orientation="Horizontal">
+            <ComboBox
+                Name="SelectCultureSeed"
+                Width="250"
+                Height="25"
+                Margin="0,0,10,0"
+                md:HintAssist.Hint="фыв"
+                SelectionChanged="SelectCultureSeed_SelectionChanged" />
+            <ComboBox
+                Name="SelectCultureStatus"
+                Width="250"
+                Height="25"
+                Margin="0,0,10,0"
+                md:HintAssist.Hint="Статус"
+                IsEnabled="False" />
+            <Button
+                x:Name="FilterCulture"
+                Margin="5,0"
+                Click="FilterCulture_Click"
+                Content="Фильтровать" />
+            <Button
+                Margin="5,0"
+                Click="BtnAdd_OnClick"
+                Content="Добавить" />
+        </StackPanel>
+
+        <DataGrid
+            x:Name="DgCultures"
+            Grid.Row="1"
+            AutoGenerateColumns="False"
+            IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Width="200"
+                    Binding="{Binding Name}"
+                    Header="Наименование" />
+                <DataGridTextColumn
+                    Width="100"
+                    Binding="{Binding Status}"
+                    Header="Статус посева" />
+                <DataGridTextColumn
+                    Width="60"
+                    Binding="{Binding Period}"
+                    Header="Период" />
+                <DataGridTextColumn
+                    Width="90"
+                    Binding="{Binding Temperature}"
+                    Header="Температура" />
+                <DataGridTextColumn
+                    Width="90"
+                    Binding="{Binding Humidity}"
+                    Header="Влажность" />
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding Phosphor}"
+                    Header="Фосфор" />
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding Calcium}"
+                    Header="Кальций" />
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding Potassium}"
+                    Header="Калий" />
+                <DataGridTextColumn
+                    Width="70"
+                    Binding="{Binding Nitrogen}"
+                    Header="Азот" />
+                <DataGridTextColumn
+                    Width="*"
+                    Binding="{Binding Magnesium}"
+                    Header="Магний" />
+                <DataGridTextColumn
+                    Width="100"
+                    Binding="{Binding Ph}"
+                    Header="Кислотность" />
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Click="Edit_Click" Content="Редактировать" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>

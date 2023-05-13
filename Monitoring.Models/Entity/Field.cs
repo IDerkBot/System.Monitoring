@@ -11,7 +11,7 @@ public class Field
     /// <summary>
     /// Район
     /// </summary>
-    public string District { get; set; }
+    public string? District { get; set; }
     /// <summary>
     /// Номер района
     /// </summary>

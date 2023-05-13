@@ -12,7 +12,7 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLOCALDB;Database=Monitoring;Trusted_Connection=True");
+        optionsBuilder.UseSqlServer("Server=DESKTOP-LSPMPFI\\SQLEXPRESS;Database=Monitoring;Trusted_Connection=True");
     }
     
     public DbSet<User> Users { get; set; }

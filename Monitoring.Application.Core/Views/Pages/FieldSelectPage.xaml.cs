@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -30,7 +29,7 @@ public partial class FieldSelectPage
         if (string.IsNullOrWhiteSpace(Db.DistrictName)) return;
         
         // Если выбран
-        List<string?> districts = Db.DbContext.Fields.Select(x => x.District).ToList();
+        var districts = Db.DbContext.Fields.Select(x => x.District).ToList();
         districts.Add(Db.DistrictName);
         CbDistrict.ItemsSource = districts;
         CbDistrict.SelectedItem = Db.DistrictName;

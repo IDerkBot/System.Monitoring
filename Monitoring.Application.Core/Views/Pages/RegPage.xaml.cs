@@ -3,47 +3,46 @@ using System.Windows;
 using Monitoring.Models.Entity;
 using SystemMonitoringNetCore.Models;
 
-namespace SystemMonitoringNetCore.Views.Pages
+namespace SystemMonitoringNetCore.Views.Pages;
+
+/// <summary>
+/// 
+/// </summary>
+public partial class RegPage
 {
     /// <summary>
     /// 
     /// </summary>
-    public partial class RegPage
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        public RegPage() { InitializeComponent(); }
+    public RegPage() { InitializeComponent(); }
 
-        private void RegIn_Click(object sender, RoutedEventArgs e)
+    private void RegIn_Click(object sender, RoutedEventArgs e)
+    {
+        var pass = PbPassword.Password;
+        var passConfirm = PbConfirm.Password;
+        if(pass == passConfirm)
         {
-            var pass = PbPassword.Password;
-            var passConfirm = PbConfirm.Password;
-            if(pass == passConfirm)
+            var userCount = Db.DbContext.Users.Count(x => x.Login == TbLogin.Text);
+            if (userCount == 0)
             {
-                var userCount = Db.DbContext.Users.Count(x => x.Login == TbLogin.Text);
-                if (userCount == 0)
-                {
-                    var user = new User { Login = TbLogin.Text, Password = PbPassword.Password, Access = 1 };
-                    Db.DbContext.Users.Add(user);
-                    Db.DbContext.SaveChanges();
-                    MessageBox.Show(@"Вы успешно зарегистрировались");
-                    ManagerPage.Page.Navigate(new Auth());
-                }
-                else
-                {
-                    PbPassword.Clear();
-                    PbConfirm.Clear();
-                MessageBox.Show(@"Такой пользователь уже существует");
-                }
+                var user = new User { Login = TbLogin.Text, Password = PbPassword.Password, Access = 1 };
+                Db.DbContext.Users.Add(user);
+                Db.DbContext.SaveChanges();
+                MessageBox.Show(@"Вы успешно зарегистрировались");
+                ManagerPage.Page.Navigate(new AuthPage());
             }
             else
             {
                 PbPassword.Clear();
                 PbConfirm.Clear();
-                MessageBox.Show(@"Пароли не совпадают");
+                MessageBox.Show(@"Такой пользователь уже существует");
             }
         }
-        private void Back_Click(object sender, RoutedEventArgs e) { ManagerPage.Page.Navigate(new Auth()); }
+        else
+        {
+            PbPassword.Clear();
+            PbConfirm.Clear();
+            MessageBox.Show(@"Пароли не совпадают");
+        }
     }
+    private void Back_Click(object sender, RoutedEventArgs e) { ManagerPage.Page.Navigate(new AuthPage()); }
 }

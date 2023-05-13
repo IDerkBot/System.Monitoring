@@ -2,12 +2,12 @@
 using System.IO;
 using Newtonsoft.Json;
 
-namespace SystemMonitoringNetCore.Models;
+namespace Monitoring.Models;
 
 /// <summary>
 /// Класс работы с файлами
 /// </summary>
-internal class FileManager
+public static class FileManager
 {
     /// <summary>
     /// Получение пути к файлу конфигурации

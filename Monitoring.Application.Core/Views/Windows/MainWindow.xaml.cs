@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Input;
 using Monitoring.DataAccessLayer;
 using SystemMonitoringNetCore.Models;
-using Auth = SystemMonitoringNetCore.Views.Pages.Auth;
+using SystemMonitoringNetCore.Views.Pages;
 
 namespace SystemMonitoringNetCore.Views.Windows
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         /// <summary>
         /// 
@@ -19,7 +20,7 @@ namespace SystemMonitoringNetCore.Views.Windows
             InitializeComponent();
             Db.DbContext = new ApplicationDbContext();
             ManagerPage.Page = MainPage;
-            ManagerPage.Navigate(new Auth());
+            ManagerPage.Navigate(new AuthPage());
         }
 
         private void MainPage_ContentRendered(object sender, EventArgs e)
@@ -44,6 +45,20 @@ namespace SystemMonitoringNetCore.Views.Windows
         private void Back_OnClick(object sender, RoutedEventArgs e)
         {
             ManagerPage.Page.GoBack();
+        }
+
+        private void MainWindow_OnMouseMove(object sender, MouseEventArgs e)
+        {
+            if (ActualWidth < 1000)
+            {
+                MainImage.Visibility = Visibility.Collapsed;
+                ColumnImage.Width = new GridLength(0);
+            }
+            else
+            {
+                MainImage.Visibility = Visibility.Visible;
+                ColumnImage.Width = new GridLength(1, GridUnitType.Star);
+            }
         }
     }
 }
