@@ -35,10 +35,7 @@
                 Margin="5,0"
                 Click="FilterCulture_Click"
                 Content="Фильтровать" />
-            <Button
-                Margin="5,0"
-                Click="BtnAdd_OnClick"
-                Content="Добавить" />
+            <Button Margin="5,0" Click="BtnAdd_OnClick" Content="Добавить" />
         </StackPanel>
 
         <DataGrid
@@ -47,50 +44,17 @@
             AutoGenerateColumns="False"
             IsReadOnly="True">
             <DataGrid.Columns>
-                <DataGridTextColumn
-                    Width="200"
-                    Binding="{Binding Name}"
-                    Header="Наименование" />
-                <DataGridTextColumn
-                    Width="100"
-                    Binding="{Binding Status}"
-                    Header="Статус посева" />
-                <DataGridTextColumn
-                    Width="60"
-                    Binding="{Binding Period}"
-                    Header="Период" />
-                <DataGridTextColumn
-                    Width="90"
-                    Binding="{Binding Temperature}"
-                    Header="Температура" />
-                <DataGridTextColumn
-                    Width="90"
-                    Binding="{Binding Humidity}"
-                    Header="Влажность" />
-                <DataGridTextColumn
-                    Width="*"
-                    Binding="{Binding Phosphor}"
-                    Header="Фосфор" />
-                <DataGridTextColumn
-                    Width="*"
-                    Binding="{Binding Calcium}"
-                    Header="Кальций" />
-                <DataGridTextColumn
-                    Width="*"
-                    Binding="{Binding Potassium}"
-                    Header="Калий" />
-                <DataGridTextColumn
-                    Width="70"
-                    Binding="{Binding Nitrogen}"
-                    Header="Азот" />
-                <DataGridTextColumn
-                    Width="*"
-                    Binding="{Binding Magnesium}"
-                    Header="Магний" />
-                <DataGridTextColumn
-                    Width="100"
-                    Binding="{Binding Ph}"
-                    Header="Кислотность" />
+                <DataGridTextColumn Width="200" Binding="{Binding Name}" Header="Наименование" />
+                <DataGridTextColumn Width="100" Binding="{Binding Status}" Header="Статус посева" />
+                <DataGridTextColumn Width="60" Binding="{Binding Period}" Header="Период" />
+                <DataGridTextColumn Width="90" Binding="{Binding Temperature}" Header="Температура" />
+                <DataGridTextColumn Width="90" Binding="{Binding Humidity}" Header="Влажность" />
+                <DataGridTextColumn Width="*" Binding="{Binding Phosphor}" Header="Фосфор" />
+                <DataGridTextColumn Width="*" Binding="{Binding Calcium}" Header="Кальций" />
+                <DataGridTextColumn Width="*" Binding="{Binding Potassium}" Header="Калий" />
+                <DataGridTextColumn Width="70" Binding="{Binding Nitrogen}" Header="Азот" />
+                <DataGridTextColumn Width="*" Binding="{Binding Magnesium}" Header="Магний" />
+                <DataGridTextColumn Width="100" Binding="{Binding Ph}" Header="Кислотность" />
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

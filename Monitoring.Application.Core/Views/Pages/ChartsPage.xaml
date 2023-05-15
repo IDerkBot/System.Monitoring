@@ -11,34 +11,13 @@
     mc:Ignorable="d">
     <ScrollViewer>
         <WrapPanel>
-            <lvc:CartesianChart
-                Name="LvTemp"
-                Width="450"
-                Height="250" />
-            <lvc:CartesianChart
-                Name="LvHumidity"
-                Width="450"
-                Height="250" />
-            <lvc:CartesianChart
-                Name="LvAcidity"
-                Width="450"
-                Height="250" />
-            <lvc:CartesianChart
-                Name="LvPhosphorus"
-                Width="450"
-                Height="250" />
-            <lvc:CartesianChart
-                Name="LvCalcium"
-                Width="450"
-                Height="250" />
-            <lvc:CartesianChart
-                Name="LvMagnesium"
-                Width="450"
-                Height="250" />
-            <lvc:CartesianChart
-                Name="LvGeneral"
-                Width="900"
-                Height="250" />
+            <lvc:CartesianChart Name="LvTemp" Width="450" Height="250" />
+            <lvc:CartesianChart Name="LvHumidity" Width="450" Height="250" />
+            <lvc:CartesianChart Name="LvAcidity" Width="450" Height="250" />
+            <lvc:CartesianChart Name="LvPhosphorus" Width="450" Height="250" />
+            <lvc:CartesianChart Name="LvCalcium" Width="450" Height="250" />
+            <lvc:CartesianChart Name="LvMagnesium" Width="450" Height="250" />
+            <lvc:CartesianChart Name="LvGeneral" Width="900" Height="250" />
         </WrapPanel>
     </ScrollViewer>
 </Page>

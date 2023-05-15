@@ -28,7 +28,7 @@ public partial class RegPage
                 Db.DbContext.Users.Add(user);
                 Db.DbContext.SaveChanges();
                 MessageBox.Show(@"Вы успешно зарегистрировались");
-                ManagerPage.Page.Navigate(new AuthPage());
+                ManagerPage.Page.GoBack();
             }
             else
             {
@@ -44,5 +44,5 @@ public partial class RegPage
             MessageBox.Show(@"Пароли не совпадают");
         }
     }
-    private void Back_Click(object sender, RoutedEventArgs e) { ManagerPage.Page.Navigate(new AuthPage()); }
+    private void Back_Click(object sender, RoutedEventArgs e) => ManagerPage.Page.GoBack();
 }

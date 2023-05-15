@@ -1,0 +1,70 @@
+﻿<UserControl
+    x:Class="SystemMonitoringNetCore.Views.UserControls.MenuControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:Arion.Style.Controls;assembly=Arion.Style"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:SystemMonitoringNetCore.ViewModels"
+    d:Background="White"
+    Background="Transparent"
+    mc:Ignorable="d">
+    <UserControl.DataContext>
+        <vm:MenuViewModel />
+    </UserControl.DataContext>
+    <UserControl.Resources>
+        <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
+            <Setter Property="Height" Value="150" />
+            <Setter Property="Width" Value="150" />
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="Padding" Value="5" />
+        </Style>
+        <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontWeight" Value="ExtraBold" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="TextAlignment" Value="Center" />
+        </Style>
+        <Style BasedOn="{StaticResource {x:Type controls:Icon}}" TargetType="controls:Icon">
+            <Setter Property="Width" Value="50" />
+            <Setter Property="Height" Value="50" />
+        </Style>
+        <Style TargetType="StackPanel">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+        </Style>
+    </UserControl.Resources>
+    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+        <Button Command="{Binding MoveFieldsCommand}">
+            <StackPanel>
+                <controls:Icon Kind="EarthBox" />
+                <TextBlock Text="Поля" />
+            </StackPanel>
+        </Button>
+        <Button Command="{Binding MoveDocumentsCommand}">
+            <StackPanel>
+                <controls:Icon Kind="TextBox" />
+                <TextBlock Text="Документы" />
+            </StackPanel>
+        </Button>
+        <Button Command="{Binding MoveCulturesCommand}">
+            <StackPanel>
+                <controls:Icon Kind="Database" />
+                <TextBlock Text="Культуры" />
+            </StackPanel>
+        </Button>
+        <Button Command="{Binding MoveFertilizersCommand}">
+            <StackPanel>
+                <controls:Icon Kind="Database" />
+                <TextBlock Text="Удобрения" />
+            </StackPanel>
+        </Button>
+
+        <Button Command="{Binding MoveUsersCommand}">
+            <StackPanel>
+                <controls:Icon Kind="Account" />
+                <TextBlock Text="Пользователи" />
+            </StackPanel>
+        </Button>
+    </WrapPanel>
+</UserControl>

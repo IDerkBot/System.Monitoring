@@ -41,10 +41,7 @@
             Background="LightGreen"
             IsReadOnly="True">
             <DataGrid.Columns>
-                <DataGridTextColumn
-                    Width="*"
-                    Binding="{Binding FileName}"
-                    Header="Название файла" />
+                <DataGridTextColumn Width="*" Binding="{Binding FileName}" Header="Название файла" />
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -62,10 +59,7 @@
             Background="LightBlue"
             IsReadOnly="True">
             <DataGrid.Columns>
-                <DataGridTextColumn
-                    Width="*"
-                    Binding="{Binding FileName}"
-                    Header="Название файла" />
+                <DataGridTextColumn Width="*" Binding="{Binding FileName}" Header="Название файла" />
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

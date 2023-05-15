@@ -29,10 +29,7 @@
                 wpf:Button.Icon="Add"
                 Click="AddDistrict_Click" />
         </StackPanel>
-        <StackPanel
-            Name="SpFieldNumber"
-            IsEnabled="False"
-            Orientation="Horizontal">
+        <StackPanel Name="SpFieldNumber" IsEnabled="False" Orientation="Horizontal">
             <ComboBox
                 x:Name="CbField"
                 Width="265"

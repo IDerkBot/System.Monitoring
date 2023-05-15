@@ -8,39 +8,15 @@
     Width="800"
     Height="450"
     mc:Ignorable="d">
-    <DataGrid
-        x:Name="DgFertilizer"
-        AutoGenerateColumns="False"
-        IsReadOnly="True">
+    <DataGrid x:Name="DgFertilizer" AutoGenerateColumns="False" IsReadOnly="True">
         <DataGrid.Columns>
-            <DataGridTextColumn
-                Width="200"
-                Binding="{Binding Name}"
-                Header="Наименование" />
-            <DataGridTextColumn
-                Width="*"
-                Binding="{Binding PhosphorusOxide}"
-                Header="Фосфор" />
-            <DataGridTextColumn
-                Width="*"
-                Binding="{Binding CalciumOxide}"
-                Header="Кальций" />
-            <DataGridTextColumn
-                Width="*"
-                Binding="{Binding PotassiumOxide}"
-                Header="Калий" />
-            <DataGridTextColumn
-                Width="70"
-                Binding="{Binding Asot}"
-                Header="Азот" />
-            <DataGridTextColumn
-                Width="*"
-                Binding="{Binding MagnesiumOxide}"
-                Header="Магний" />
-            <DataGridTextColumn
-                Width="100"
-                Binding="{Binding NitrateNitrogen}"
-                Header="Кислотность" />
+            <DataGridTextColumn Width="200" Binding="{Binding Name}" Header="Наименование" />
+            <DataGridTextColumn Width="*" Binding="{Binding PhosphorusOxide}" Header="Фосфор" />
+            <DataGridTextColumn Width="*" Binding="{Binding CalciumOxide}" Header="Кальций" />
+            <DataGridTextColumn Width="*" Binding="{Binding PotassiumOxide}" Header="Калий" />
+            <DataGridTextColumn Width="70" Binding="{Binding Asot}" Header="Азот" />
+            <DataGridTextColumn Width="*" Binding="{Binding MagnesiumOxide}" Header="Магний" />
+            <DataGridTextColumn Width="100" Binding="{Binding NitrateNitrogen}" Header="Кислотность" />
             <DataGridTemplateColumn Width="25">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>

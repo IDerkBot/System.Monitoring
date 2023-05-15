@@ -21,10 +21,7 @@
         <TextBox Name="TbLogin" wpf:Hint.Placeholder="Логин" />
         <PasswordBox Name="PbPassword" wpf:Hint.Placeholder="Пароль" />
         <PasswordBox Name="PbConfirm" wpf:Hint.Placeholder="Подтверждение пароля" />
-        <Button
-            Margin="0,5"
-            Click="RegIn_Click"
-            Content="Зарегистрироваться" />
+        <Button Margin="0,5" Click="RegIn_Click" Content="Зарегистрироваться" />
         <Button Click="Back_Click" Content="Вернуться" />
     </StackPanel>
 </Page>

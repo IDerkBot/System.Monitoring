@@ -1,28 +1,25 @@
-﻿<Page
-    x:Class="SystemMonitoringNetCore.Views.Pages.AuthPage"
+﻿<UserControl
+    x:Class="SystemMonitoringNetCore.Views.UserControls.AuthControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="clr-namespace:Arion.Style.Controls;assembly=Arion.Style"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:uc="clr-namespace:SystemMonitoringNetCore.Infrastructure.UserControls"
+    xmlns:vm="clr-namespace:SystemMonitoringNetCore.ViewModels"
     xmlns:wpf="clr-namespace:Arion.Style.AttachedProperties;assembly=Arion.Style"
-    Title="Auth"
-    HorizontalAlignment="Center"
-    VerticalAlignment="Center"
-    d:DesignHeight="500"
-    d:DesignWidth="500"
-    Loaded="OnLoad"
     mc:Ignorable="d">
-    <StackPanel
-        HorizontalAlignment="Center"
-        VerticalAlignment="Center"
-        KeyDown="KeyPress">
+    <UserControl.InputBindings>
+        <KeyBinding Key="Enter" Command="{Binding EnterCommand}" />
+    </UserControl.InputBindings>
+    <UserControl.DataContext>
+        <vm:AuthorizationViewModel />
+    </UserControl.DataContext>
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
         <StackPanel Width="300">
             <!--  Title  -->
             <TextBlock
                 Width="200"
-                FontFamily="Montserrat"
                 FontSize="24"
                 FontWeight="ExtraBold"
                 Text="Авторизация"
@@ -31,28 +28,27 @@
             <controls:Icon
                 Width="80"
                 Height="80"
+                Margin="0,40"
                 Fill="{StaticResource Mg3}"
                 Kind="Account" />
         </StackPanel>
         <TextBox
-            Name="TbLogin"
             Margin="0,5"
-            wpf:Hint.Placeholder="Логин" />
-        <PasswordBox
-            Name="PbPassword"
-            Margin="0,5"
-            wpf:Hint.Placeholder="Пароль" />
+            wpf:Hint.Placeholder="Логин"
+            Text="{Binding Login}" />
+
+        <uc:PasswordBox Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
         <CheckBox
-            Name="CbRemember"
             Margin="0,5"
             VerticalAlignment="Center"
-            Content="Запомнить" />
+            Content="Запомнить"
+            IsChecked="{Binding RememberMe}" />
         <Button
-            Name="LogInBtn"
             Margin="0,5"
-            Click="LogInBtn_Click"
+            Command="{Binding EnterCommand}"
             Content="Войти"
             Style="{StaticResource BtnFilled}" />
-        <Button Click="RegInBtn_Click" Content="Регистрация" />
+        <Button Command="{Binding RegistrationCommand}" Content="Регистрация" />
     </StackPanel>
-</Page>
+</UserControl>

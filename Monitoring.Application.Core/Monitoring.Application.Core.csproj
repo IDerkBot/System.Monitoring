@@ -8,6 +8,7 @@
         <RootNamespace>SystemMonitoringNetCore</RootNamespace>
         <AssemblyVersion>1.0</AssemblyVersion>
         <NeutralLanguage>ru-RU</NeutralLanguage>
+        <NoWin32Manifest>true</NoWin32Manifest>
     </PropertyGroup>
 
     <ItemGroup>
@@ -25,12 +26,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Page Update="Views\Pages\MenuPage.xaml">
-        <SubType>Designer</SubType>
-      </Page>
-      <Page Update="Views\Pages\AuthPage.xaml">
-        <SubType>Designer</SubType>
-      </Page>
       <Page Update="Views\Pages\CulturesPage.xaml">
         <SubType>Designer</SubType>
       </Page>
@@ -47,9 +42,6 @@
         <SubType>Designer</SubType>
       </Page>
       <Page Update="Views\Pages\ReportsPage.xaml">
-        <SubType>Designer</SubType>
-      </Page>
-      <Page Update="Views\Pages\UsersPage.xaml">
         <SubType>Designer</SubType>
       </Page>
       <Page Update="Controls\SensorDetails.xaml">

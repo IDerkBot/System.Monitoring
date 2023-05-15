@@ -15,7 +15,7 @@ internal class ManagerPage
     /// Перемещение на страницу
     /// </summary>
     /// <param name="page">Страница на которую требуется перейти</param>
-    internal static void Navigate(Page page)
+    internal static void Navigate(object page)
     {
         Page.Navigate(page);
     }

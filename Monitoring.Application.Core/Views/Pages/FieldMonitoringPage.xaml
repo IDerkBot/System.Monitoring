@@ -68,10 +68,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             Orientation="Horizontal">
-            <Label
-                Padding="5,0"
-                VerticalAlignment="Center"
-                Content="Дата посева:" />
+            <Label Padding="5,0" VerticalAlignment="Center" Content="Дата посева:" />
             <Label
                 x:Name="Date"
                 Width="200"
@@ -86,10 +83,7 @@
             VerticalAlignment="Center"
             Orientation="Horizontal">
             <Label Padding="5,0" Content="Тип почвы:" />
-            <ComboBox
-                x:Name="Soil"
-                Width="198"
-                Padding="5,0" />
+            <ComboBox x:Name="Soil" Width="198" Padding="5,0" />
         </StackPanel>
 
         <StackPanel
@@ -146,46 +140,16 @@
             AutoGenerateColumns="False"
             IsReadOnly="True">
             <DataGrid.Columns>
-                <DataGridTextColumn
-                    Width="*"
-                    Binding="{Binding Id}"
-                    Header="№" />
-                <DataGridTextColumn
-                    Width="*"
-                    Binding="{Binding Humidity}"
-                    Header="Влажность, %" />
-                <DataGridTextColumn
-                    Width="*"
-                    Binding="{Binding Temperature}"
-                    Header="Температура, °C" />
-                <DataGridTextColumn
-                    Width="*"
-                    Binding="{Binding Acidity}"
-                    Header="Кислотность" />
-                <DataGridTextColumn
-                    Width="*"
-                    Binding="{Binding Phosphorus}"
-                    Header="Фосфор, мг/кг" />
-                <DataGridTextColumn
-                    Width="*"
-                    Binding="{Binding Calcium}"
-                    Header="Кальций, мг/кг" />
-                <DataGridTextColumn
-                    Width="*"
-                    Binding="{Binding Magnesium}"
-                    Header="Магний, мг/кг" />
-                <DataGridTextColumn
-                    Width="*"
-                    Binding="{Binding Calium}"
-                    Header="Калий, мг/кг" />
-                <DataGridTextColumn
-                    Width="*"
-                    Binding="{Binding Asot}"
-                    Header="Азот, мг/кг" />
-                <DataGridTextColumn
-                    Width="2*"
-                    Binding="{Binding Recommendation}"
-                    Header="Рекомендация" />
+                <DataGridTextColumn Width="*" Binding="{Binding Id}" Header="№" />
+                <DataGridTextColumn Width="*" Binding="{Binding Humidity}" Header="Влажность, %" />
+                <DataGridTextColumn Width="*" Binding="{Binding Temperature}" Header="Температура, °C" />
+                <DataGridTextColumn Width="*" Binding="{Binding Acidity}" Header="Кислотность" />
+                <DataGridTextColumn Width="*" Binding="{Binding Phosphorus}" Header="Фосфор, мг/кг" />
+                <DataGridTextColumn Width="*" Binding="{Binding Calcium}" Header="Кальций, мг/кг" />
+                <DataGridTextColumn Width="*" Binding="{Binding Magnesium}" Header="Магний, мг/кг" />
+                <DataGridTextColumn Width="*" Binding="{Binding Calium}" Header="Калий, мг/кг" />
+                <DataGridTextColumn Width="*" Binding="{Binding Asot}" Header="Азот, мг/кг" />
+                <DataGridTextColumn Width="2*" Binding="{Binding Recommendation}" Header="Рекомендация" />
             </DataGrid.Columns>
         </DataGrid>
 

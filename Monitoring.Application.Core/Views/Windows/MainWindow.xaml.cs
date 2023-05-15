@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Monitoring.DataAccessLayer;
 using SystemMonitoringNetCore.Models;
 using SystemMonitoringNetCore.Views.Pages;
+using SystemMonitoringNetCore.Views.UserControls;
 
 namespace SystemMonitoringNetCore.Views.Windows
 {
@@ -20,7 +21,7 @@ namespace SystemMonitoringNetCore.Views.Windows
             InitializeComponent();
             Db.DbContext = new ApplicationDbContext();
             ManagerPage.Page = MainPage;
-            ManagerPage.Navigate(new AuthPage());
+            ManagerPage.Navigate(new AuthControl());
         }
 
         private void MainPage_ContentRendered(object sender, EventArgs e)
