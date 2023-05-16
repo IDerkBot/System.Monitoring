@@ -15,15 +15,15 @@ namespace SystemMonitoringNetCore.Views.Pages
             InitializeComponent();
             foreach (var item in Db.DbContext.Cultures.ToList()) DgCultures.Items.Add(item);
             foreach (var item in Db.DbContext.Cultures.Select(x => x.Name).Distinct().ToList()) { SelectCultureSeed.Items.Add(item); }
-            foreach (var item in Db.DbContext.Cultures.Select(x => x.Status).Distinct().ToList()) { SelectCultureStatus.Items.Add(item); }
+            // foreach (var item in Db.DbContext.Cultures.Select(x => x.Status).Distinct().ToList()) { SelectCultureStatus.Items.Add(item); }
         }
         void SelectCultureSeed_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SelectCultureStatus.IsEnabled = true;
-            var list = Db.DbContext.Cultures.Where(x => x.Name == SelectCultureSeed.SelectedItem.ToString()).Select(x => x.Status).Distinct().ToList();
-            MessageBox.Show($"{string.Join(", ", list)} - {list.Count} ${list[0]}$ - {string.IsNullOrEmpty(list[0])}");
-            if (!string.IsNullOrEmpty(list[0])) { SelectCultureStatus.Items.Clear(); foreach (var item in list) { SelectCultureStatus.Items.Add(item); } }
-            else SelectCultureStatus.IsEnabled = false;
+            // var list = Db.DbContext.Cultures.Where(x => x.Name == SelectCultureSeed.SelectedItem.ToString()).Select(x => x.Status).Distinct().ToList();
+            // MessageBox.Show($"{string.Join(", ", list)} - {list.Count} ${list[0]}$ - {string.IsNullOrEmpty(list[0])}");
+            // if (!string.IsNullOrEmpty(list[0])) { SelectCultureStatus.Items.Clear(); foreach (var item in list) { SelectCultureStatus.Items.Add(item); } }
+            // else SelectCultureStatus.IsEnabled = false;
         }
         void FilterCulture_Click(object sender, RoutedEventArgs e)
         {
@@ -36,10 +36,10 @@ namespace SystemMonitoringNetCore.Views.Pages
                     if (selectStatus != "")
                     {
                         DgCultures.Items.Clear();
-                        foreach (var item in Db.DbContext.Cultures.Where(x => x.Name == selectSeed && x.Status == selectStatus).ToList())
-                        {
-                            DgCultures.Items.Add(item);
-                        }
+                        // foreach (var item in Db.DbContext.Cultures.Where(x => x.Name == selectSeed && x.Status == selectStatus).ToList())
+                        // {
+                        //     DgCultures.Items.Add(item);
+                        // }
                     }
                     else
                     {

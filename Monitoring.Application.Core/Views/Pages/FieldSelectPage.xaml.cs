@@ -22,21 +22,21 @@ public partial class FieldSelectPage
     private void Page_Loaded(object sender, RoutedEventArgs e)
     {
         // Загружаем районы
-        CbDistrict.ItemsSource = Db.DbContext.Fields.ToList()
-            .GroupBy(x => x.District).Select(x => x.Key).ToList();
+        // CbDistrict.ItemsSource = Db.DbContext.Fields.ToList()
+        //     .GroupBy(x => x.District).Select(x => x.Key).ToList();
         
         // Если район не был выбран до этого
         if (string.IsNullOrWhiteSpace(Db.DistrictName)) return;
         
         // Если выбран
-        var districts = Db.DbContext.Fields.Select(x => x.District).ToList();
-        districts.Add(Db.DistrictName);
-        CbDistrict.ItemsSource = districts;
-        CbDistrict.SelectedItem = Db.DistrictName;
-        var fields = Db.DbContext.Fields
-            .Where(x => x.District == Db.DistrictName).ToList();
-        if (fields.Any())
-            CbField.ItemsSource = fields;
+        // var districts = Db.DbContext.Fields.Select(x => x.District).ToList();
+        // districts.Add(Db.DistrictName);
+        // CbDistrict.ItemsSource = districts;
+        // CbDistrict.SelectedItem = Db.DistrictName;
+        // var fields = Db.DbContext.Fields
+        //     .Where(x => x.District == Db.DistrictName).ToList();
+        // if (fields.Any())
+        //     CbField.ItemsSource = fields;
     }
 
     #endregion
@@ -48,7 +48,7 @@ public partial class FieldSelectPage
         SpFieldNumber.IsEnabled = true;
         var selectDistrict = CbDistrict.SelectedValue.ToString();
         var fields = Db.DbContext.Fields.ToList();
-        CbField.ItemsSource = fields.Where(x => x.District == selectDistrict);
+        // CbField.ItemsSource = fields.Where(x => x.District == selectDistrict);
     }
 
     private void FieldDistrictChanged(object sender, SelectionChangedEventArgs e)

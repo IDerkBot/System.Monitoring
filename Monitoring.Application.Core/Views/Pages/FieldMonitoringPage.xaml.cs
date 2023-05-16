@@ -66,13 +66,13 @@ public partial class FieldMonitoringPage
             var cultures = Db.DbContext.Cultures.Where(x => x.Name == _currentSeed.Culture.Name).ToList();
             foreach (var cult in cultures)
             {
-                int perMin = int.Parse(cult.Period.Split('-')[0]);
-                int perMax = int.Parse(cult.Period.Split('-')[1]);
-                if (perMin <= _days && perMax >= _days)
-                {
-                    Status.Content = cult.Status;
-                    break;
-                }
+                // int perMin = int.Parse(cult.Period.Split('-')[0]);
+                // int perMax = int.Parse(cult.Period.Split('-')[1]);
+                // if (perMin <= _days && perMax >= _days)
+                // {
+                //     Status.Content = cult.Status;
+                //     break;
+                // }
             }
         }
         else
@@ -349,109 +349,109 @@ public partial class FieldMonitoringPage
 
     private string GetRecommendation(SensorDetails sensor)
     {
-        var culture = Db.DbContext.Cultures.Single(x =>
-            x.Name == CbCulture.SelectedItem.ToString() && x.Status == Status.Content.ToString());
-        var recommendation = "";
-        double _acidityMin = (culture.Ph.Contains("-"))
-            ? Convert.ToDouble(culture.Ph.Split('-')[0])
-            : Convert.ToDouble(culture.Ph);
-        double _acidityMax = (culture.Ph.Contains("-"))
-            ? Convert.ToDouble(culture.Ph.Split('-')[1])
-            : Convert.ToDouble(culture.Ph);
-        if (Convert.ToDouble(sensor.Acidity) == 0) recommendation = "";
-        else if (Convert.ToDouble(sensor.Acidity) > _acidityMax) recommendation += "Необходимо добавить гипс.\n";
-        else if (Convert.ToDouble(sensor.Acidity) < _acidityMin) recommendation += "Необходимо добавить известь.\n";
-
-        double _temperatureMin = (culture.Temperature.Contains("-"))
-            ? Convert.ToDouble(culture.Temperature.Split('-')[0])
-            : Convert.ToDouble(culture.Temperature);
-        double _temperatureMax = (culture.Temperature.Contains("-"))
-            ? Convert.ToDouble(culture.Temperature.Split('-')[1])
-            : Convert.ToDouble(culture.Temperature);
-        double _tempMid = (_temperatureMax + _temperatureMin) / 2 - Convert.ToDouble(sensor.Temperature);
-        if (Convert.ToDouble(sensor.Temperature) == 0) recommendation = "";
-        else if (Convert.ToDouble(sensor.Temperature) > _temperatureMax)
-            recommendation += $"Температура выше оптимального значения на {_tempMid}°C\n";
-        else if (Convert.ToDouble(sensor.Temperature) < _temperatureMin)
-            recommendation += $"Температура ниже оптимального значения на {_tempMid}°C\n";
-
-        double _asotMin = (culture.Nitrogen.Contains("-"))
-            ? Convert.ToDouble(culture.Nitrogen.Split('-')[0])
-            : Convert.ToDouble(culture.Nitrogen);
-        double _asotMax = (culture.Nitrogen.Contains("-"))
-            ? Convert.ToDouble(culture.Nitrogen.Split('-')[1])
-            : Convert.ToDouble(culture.Nitrogen);
-        double _asotMid = (_asotMax + _asotMin) / 2 - Convert.ToDouble(sensor.Humidity);
-        if (Convert.ToDouble(sensor.Asot) == 0) recommendation = "";
-        else if (Convert.ToDouble(sensor.Asot) > _asotMax) recommendation += $"Азот в избытке на {_asotMid}мг/кг\n";
-        else if (Convert.ToDouble(sensor.Asot) < _asotMin)
-            recommendation += $"Рекомендуется внести азот на {_asotMid}мг/кг\n";
-
-        double _phosphorMin = (culture.Phosphor.Contains("-"))
-            ? Convert.ToDouble(culture.Phosphor.Split('-')[0])
-            : Convert.ToDouble(culture.Phosphor);
-        double _phosphorMax = (culture.Phosphor.Contains("-"))
-            ? Convert.ToDouble(culture.Phosphor.Split('-')[1])
-            : Convert.ToDouble(culture.Phosphor);
-        double _phosMid = (_phosphorMax + _phosphorMin) / 2 - Convert.ToDouble(sensor.Humidity);
-        if (Convert.ToDouble(sensor.Phosphorus) == 0) recommendation = "";
-        else if (Convert.ToDouble(sensor.Phosphorus) > _phosphorMax)
-            recommendation += $"Фосфор в избытке на {_phosMid}мг/кг\n";
-        else if (Convert.ToDouble(sensor.Phosphorus) < _phosphorMin)
-            recommendation += $"Рекомендуется внести фосфор на {_phosMid}мг/кг\n";
-
-        double _humidMin = (culture.Humidity.Contains("-"))
-            ? Convert.ToDouble(culture.Humidity.Split('-')[0])
-            : Convert.ToDouble(culture.Humidity);
-        double _humidMax = (culture.Humidity.Contains("-"))
-            ? Convert.ToDouble(culture.Humidity.Split('-')[1])
-            : Convert.ToDouble(culture.Humidity);
-        double _humMid = (_humidMax + _humidMin) / 2 - Convert.ToDouble(sensor.Humidity);
-        if (Convert.ToDouble(sensor.Humidity) == 0) recommendation = "";
-        else if (Convert.ToDouble(sensor.Humidity) > _humidMax)
-            recommendation += $"Влажность ниже оптимального на {_humMid}%\n";
-        else if (Convert.ToDouble(sensor.Humidity) < _humidMin)
-            recommendation += $"Влажность выше оптимального на {_humMid}%\n";
-
-        double _magnMin = (culture.Magnesium.Contains("-"))
-            ? Convert.ToDouble(culture.Magnesium.Split('-')[0])
-            : Convert.ToDouble(culture.Magnesium);
-        double _magnMax = (culture.Magnesium.Contains("-"))
-            ? Convert.ToDouble(culture.Magnesium.Split('-')[1])
-            : Convert.ToDouble(culture.Magnesium);
-        double _magnMid = (_magnMax + _magnMin) / 2 - Convert.ToDouble(sensor.Humidity);
-        if (Convert.ToDouble(sensor.Magnesium) == 0) recommendation = "";
-        else if (Convert.ToDouble(sensor.Magnesium) > _magnMax)
-            recommendation += $"Магний в избыткена {_magnMid}мг/кг\n";
-        else if (Convert.ToDouble(sensor.Magnesium) < _magnMin)
-            recommendation += $"Рекомендуется внести магний на {_magnMid}мг/кг\n";
-
-        double _calcMin = (culture.Calcium.Contains("-"))
-            ? Convert.ToDouble(culture.Calcium.Split('-')[0])
-            : Convert.ToDouble(culture.Calcium);
-        double _calcMax = (culture.Calcium.Contains("-"))
-            ? Convert.ToDouble(culture.Calcium.Split('-')[1])
-            : Convert.ToDouble(culture.Calcium);
-        double _calcMid = (_calcMax + _calcMin) / 2 - Convert.ToDouble(sensor.Humidity);
-        if (Convert.ToDouble(sensor.Calcium) == 0) recommendation = "";
-        else if (Convert.ToDouble(sensor.Calcium) > _calcMax)
-            recommendation += $"Кальций в избытке на {_calcMid}мг/кг\n";
-        else if (Convert.ToDouble(sensor.Calcium) < _calcMin)
-            recommendation += $"Рекомендуется внести кальций на {_calcMid}мг/кг\n";
-
-        double _calMin = (culture.Potassium.Contains("-"))
-            ? Convert.ToDouble(culture.Potassium.Split('-')[0])
-            : Convert.ToDouble(culture.Potassium);
-        double _calMax = (culture.Potassium.Contains("-"))
-            ? Convert.ToDouble(culture.Potassium.Split('-')[1])
-            : Convert.ToDouble(culture.Potassium);
-        double _calMid = (_calMax + _calMin) / 2 - Convert.ToDouble(sensor.Humidity);
-        if (Convert.ToDouble(sensor.Calium) == 0) recommendation = "";
-        else if (Convert.ToDouble(sensor.Calium) > _calMax)
-            recommendation += $"Калий в избытке на {_calMid}мг/кг\n";
-        else if (Convert.ToDouble(sensor.Calium) < _calMin)
-            recommendation += $"Рекомендуется внести калий на {_calMid}мг/кг\n";
-        return recommendation;
+        // var culture = Db.DbContext.Cultures.Single(x =>
+        //     x.Name == CbCulture.SelectedItem.ToString() && x.Status == Status.Content.ToString());
+        // var recommendation = "";
+        // double _acidityMin = (culture.Ph.Contains("-"))
+        //     ? Convert.ToDouble(culture.Ph.Split('-')[0])
+        //     : Convert.ToDouble(culture.Ph);
+        // double _acidityMax = (culture.Ph.Contains("-"))
+        //     ? Convert.ToDouble(culture.Ph.Split('-')[1])
+        //     : Convert.ToDouble(culture.Ph);
+        // if (Convert.ToDouble(sensor.Acidity) == 0) recommendation = "";
+        // else if (Convert.ToDouble(sensor.Acidity) > _acidityMax) recommendation += "Необходимо добавить гипс.\n";
+        // else if (Convert.ToDouble(sensor.Acidity) < _acidityMin) recommendation += "Необходимо добавить известь.\n";
+        //
+        // double _temperatureMin = (culture.Temperature.Contains("-"))
+        //     ? Convert.ToDouble(culture.Temperature.Split('-')[0])
+        //     : Convert.ToDouble(culture.Temperature);
+        // double _temperatureMax = (culture.Temperature.Contains("-"))
+        //     ? Convert.ToDouble(culture.Temperature.Split('-')[1])
+        //     : Convert.ToDouble(culture.Temperature);
+        // double _tempMid = (_temperatureMax + _temperatureMin) / 2 - Convert.ToDouble(sensor.Temperature);
+        // if (Convert.ToDouble(sensor.Temperature) == 0) recommendation = "";
+        // else if (Convert.ToDouble(sensor.Temperature) > _temperatureMax)
+        //     recommendation += $"Температура выше оптимального значения на {_tempMid}°C\n";
+        // else if (Convert.ToDouble(sensor.Temperature) < _temperatureMin)
+        //     recommendation += $"Температура ниже оптимального значения на {_tempMid}°C\n";
+        //
+        // double _asotMin = (culture.Nitrogen.Contains("-"))
+        //     ? Convert.ToDouble(culture.Nitrogen.Split('-')[0])
+        //     : Convert.ToDouble(culture.Nitrogen);
+        // double _asotMax = (culture.Nitrogen.Contains("-"))
+        //     ? Convert.ToDouble(culture.Nitrogen.Split('-')[1])
+        //     : Convert.ToDouble(culture.Nitrogen);
+        // double _asotMid = (_asotMax + _asotMin) / 2 - Convert.ToDouble(sensor.Humidity);
+        // if (Convert.ToDouble(sensor.Asot) == 0) recommendation = "";
+        // else if (Convert.ToDouble(sensor.Asot) > _asotMax) recommendation += $"Азот в избытке на {_asotMid}мг/кг\n";
+        // else if (Convert.ToDouble(sensor.Asot) < _asotMin)
+        //     recommendation += $"Рекомендуется внести азот на {_asotMid}мг/кг\n";
+        //
+        // double _phosphorMin = (culture.Phosphor.Contains("-"))
+        //     ? Convert.ToDouble(culture.Phosphor.Split('-')[0])
+        //     : Convert.ToDouble(culture.Phosphor);
+        // double _phosphorMax = (culture.Phosphor.Contains("-"))
+        //     ? Convert.ToDouble(culture.Phosphor.Split('-')[1])
+        //     : Convert.ToDouble(culture.Phosphor);
+        // double _phosMid = (_phosphorMax + _phosphorMin) / 2 - Convert.ToDouble(sensor.Humidity);
+        // if (Convert.ToDouble(sensor.Phosphorus) == 0) recommendation = "";
+        // else if (Convert.ToDouble(sensor.Phosphorus) > _phosphorMax)
+        //     recommendation += $"Фосфор в избытке на {_phosMid}мг/кг\n";
+        // else if (Convert.ToDouble(sensor.Phosphorus) < _phosphorMin)
+        //     recommendation += $"Рекомендуется внести фосфор на {_phosMid}мг/кг\n";
+        //
+        // double _humidMin = (culture.Humidity.Contains("-"))
+        //     ? Convert.ToDouble(culture.Humidity.Split('-')[0])
+        //     : Convert.ToDouble(culture.Humidity);
+        // double _humidMax = (culture.Humidity.Contains("-"))
+        //     ? Convert.ToDouble(culture.Humidity.Split('-')[1])
+        //     : Convert.ToDouble(culture.Humidity);
+        // double _humMid = (_humidMax + _humidMin) / 2 - Convert.ToDouble(sensor.Humidity);
+        // if (Convert.ToDouble(sensor.Humidity) == 0) recommendation = "";
+        // else if (Convert.ToDouble(sensor.Humidity) > _humidMax)
+        //     recommendation += $"Влажность ниже оптимального на {_humMid}%\n";
+        // else if (Convert.ToDouble(sensor.Humidity) < _humidMin)
+        //     recommendation += $"Влажность выше оптимального на {_humMid}%\n";
+        //
+        // double _magnMin = (culture.Magnesium.Contains("-"))
+        //     ? Convert.ToDouble(culture.Magnesium.Split('-')[0])
+        //     : Convert.ToDouble(culture.Magnesium);
+        // double _magnMax = (culture.Magnesium.Contains("-"))
+        //     ? Convert.ToDouble(culture.Magnesium.Split('-')[1])
+        //     : Convert.ToDouble(culture.Magnesium);
+        // double _magnMid = (_magnMax + _magnMin) / 2 - Convert.ToDouble(sensor.Humidity);
+        // if (Convert.ToDouble(sensor.Magnesium) == 0) recommendation = "";
+        // else if (Convert.ToDouble(sensor.Magnesium) > _magnMax)
+        //     recommendation += $"Магний в избыткена {_magnMid}мг/кг\n";
+        // else if (Convert.ToDouble(sensor.Magnesium) < _magnMin)
+        //     recommendation += $"Рекомендуется внести магний на {_magnMid}мг/кг\n";
+        //
+        // double _calcMin = (culture.Calcium.Contains("-"))
+        //     ? Convert.ToDouble(culture.Calcium.Split('-')[0])
+        //     : Convert.ToDouble(culture.Calcium);
+        // double _calcMax = (culture.Calcium.Contains("-"))
+        //     ? Convert.ToDouble(culture.Calcium.Split('-')[1])
+        //     : Convert.ToDouble(culture.Calcium);
+        // double _calcMid = (_calcMax + _calcMin) / 2 - Convert.ToDouble(sensor.Humidity);
+        // if (Convert.ToDouble(sensor.Calcium) == 0) recommendation = "";
+        // else if (Convert.ToDouble(sensor.Calcium) > _calcMax)
+        //     recommendation += $"Кальций в избытке на {_calcMid}мг/кг\n";
+        // else if (Convert.ToDouble(sensor.Calcium) < _calcMin)
+        //     recommendation += $"Рекомендуется внести кальций на {_calcMid}мг/кг\n";
+        //
+        // double _calMin = (culture.Potassium.Contains("-"))
+        //     ? Convert.ToDouble(culture.Potassium.Split('-')[0])
+        //     : Convert.ToDouble(culture.Potassium);
+        // double _calMax = (culture.Potassium.Contains("-"))
+        //     ? Convert.ToDouble(culture.Potassium.Split('-')[1])
+        //     : Convert.ToDouble(culture.Potassium);
+        // double _calMid = (_calMax + _calMin) / 2 - Convert.ToDouble(sensor.Humidity);
+        // if (Convert.ToDouble(sensor.Calium) == 0) recommendation = "";
+        // else if (Convert.ToDouble(sensor.Calium) > _calMax)
+        //     recommendation += $"Калий в избытке на {_calMid}мг/кг\n";
+        // else if (Convert.ToDouble(sensor.Calium) < _calMin)
+        //     recommendation += $"Рекомендуется внести калий на {_calMid}мг/кг\n";
+        // return recommendation;
         return "";
     }
 
@@ -466,30 +466,30 @@ public partial class FieldMonitoringPage
 
     private void Culture_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (!start)
-        {
-            _currentSeed.Culture = Db.DbContext.Cultures.Single(x =>
-                x.Name == CbCulture.SelectedItem.ToString() && x.Period.Contains("00"));
-            CbCulture.IsEnabled = false;
-            _currentSeed.Field = Db.DbContext.Fields.Single(x => x == _currentSeed.Field);
-            _currentSeed.Id = Db.SelectSeeding.Id;
-            var a1 = Db.DbContext.Fields.Single(x => x == Db.SelectSeeding.Field);
-            var a2 = Db.DbContext.Cultures.Single(x =>
-                x.Name == CbCulture.SelectedItem.ToString() && x.Period.Contains("00"));
-            var seeding = new Seed()
-            {
-                Id = Db.SelectSeeding.Id,
-                Field = a1,
-                Culture = a2,
-                Date = DateTime.Now
-            };
-            Db.DbContext.Seeds.Add(seeding);
-            Db.DbContext.SaveChanges();
-        }
-        else
-        {
-            start = !start;
-        }
+        // if (!start)
+        // {
+        //     _currentSeed.Culture = Db.DbContext.Cultures.Single(x =>
+        //         x.Name == CbCulture.SelectedItem.ToString() && x.Period.Contains("00"));
+        //     CbCulture.IsEnabled = false;
+        //     _currentSeed.Field = Db.DbContext.Fields.Single(x => x == _currentSeed.Field);
+        //     _currentSeed.Id = Db.SelectSeeding.Id;
+        //     var a1 = Db.DbContext.Fields.Single(x => x == Db.SelectSeeding.Field);
+        //     var a2 = Db.DbContext.Cultures.Single(x =>
+        //         x.Name == CbCulture.SelectedItem.ToString() && x.Period.Contains("00"));
+        //     var seeding = new Seed()
+        //     {
+        //         Id = Db.SelectSeeding.Id,
+        //         Field = a1,
+        //         Culture = a2,
+        //         Date = DateTime.Now
+        //     };
+        //     Db.DbContext.Seeds.Add(seeding);
+        //     Db.DbContext.SaveChanges();
+        // }
+        // else
+        // {
+        //     start = !start;
+        // }
     }
 
     private void Date_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
@@ -562,62 +562,63 @@ public partial class FieldMonitoringPage
 
     private int GetPercent(SensorDetails sensor)
     {
-        int max = 0;
-        var culture = Db.DbContext.Cultures
-            .Where(x => x.Name == CbCulture.SelectedItem.ToString() && x.Status == Status.Content.ToString())
-            .ToList().Single();
-
-        double acidityMiddle = (culture.Ph.Contains('-'))
-            ? (double.Parse(culture.Ph.Split('-')[0]) + double.Parse(culture.Ph.Split('-')[1])) / 2
-            : double.Parse(culture.Ph);
-        double acidityPercent = Math.Floor(Convert.ToDouble(sensor.Acidity) / acidityMiddle * 100);
-
-        double asotMiddle = (culture.Nitrogen.Contains('-'))
-            ? (double.Parse(culture.Nitrogen.Split('-')[0]) + double.Parse(culture.Nitrogen.Split('-')[1])) / 2
-            : double.Parse(culture.Nitrogen);
-        var asotPercent = Math.Floor(double.Parse(sensor.Asot) / asotMiddle * 100);
-
-        double calciumMiddle = (culture.Calcium.Contains('-'))
-            ? (double.Parse(culture.Calcium.Split('-')[0]) + double.Parse(culture.Calcium.Split('-')[1])) / 2
-            : double.Parse(culture.Calcium);
-        var calciumPercent = Math.Floor(double.Parse(sensor.Calcium) / calciumMiddle * 100);
-
-        double caliumMiddle = (culture.Potassium.Contains('-'))
-            ? (double.Parse(culture.Potassium.Split('-')[0]) + double.Parse(culture.Potassium.Split('-')[1])) / 2
-            : double.Parse(culture.Potassium);
-        var caliumPercent = Math.Floor(double.Parse(sensor.Calium) / caliumMiddle * 100);
-
-        double humidityMiddle = (culture.Humidity.Contains('-'))
-            ? (double.Parse(culture.Humidity.Split('-')[0]) + double.Parse(culture.Humidity.Split('-')[1])) / 2
-            : double.Parse(culture.Humidity);
-        var humidityPercent = Math.Floor(double.Parse(sensor.Humidity) / humidityMiddle * 100);
-
-        double magniyMiddle = (culture.Magnesium.Contains('-'))
-            ? (double.Parse(culture.Magnesium.Split('-')[0]) + double.Parse(culture.Magnesium.Split('-')[1])) / 2
-            : double.Parse(culture.Magnesium);
-        var magniyPercent = Math.Floor(double.Parse(sensor.Magnesium) / magniyMiddle * 100);
-
-        double phosphorMiddle = (culture.Phosphor.Contains('-'))
-            ? (double.Parse(culture.Phosphor.Split('-')[0]) + double.Parse(culture.Phosphor.Split('-')[1])) / 2
-            : double.Parse(culture.Phosphor);
-        var phosphorPercent = Math.Floor(double.Parse(sensor.Phosphorus) / phosphorMiddle * 100);
-
-        double temperatureMiddle = (culture.Temperature.Contains('-'))
-            ? (double.Parse(culture.Temperature.Split('-')[0]) + double.Parse(culture.Temperature.Split('-')[1])) /
-              2
-            : double.Parse(culture.Temperature);
-        var temperaturePercent = Math.Floor(double.Parse(sensor.Temperature) / temperatureMiddle * 100);
-
-        if (acidityPercent > max) max = int.Parse(acidityPercent.ToString());
-        if (asotPercent > max) max = int.Parse(asotPercent.ToString());
-        if (calciumPercent > max) max = int.Parse(calciumPercent.ToString());
-        if (caliumPercent > max) max = int.Parse(caliumPercent.ToString());
-        if (humidityPercent > max) max = int.Parse(humidityPercent.ToString());
-        if (magniyPercent > max) max = int.Parse(magniyPercent.ToString());
-        if (phosphorPercent > max) max = int.Parse(phosphorPercent.ToString());
-        if (temperaturePercent > max) max = int.Parse(temperaturePercent.ToString());
-
-        return max;
+        // int max = 0;
+        // var culture = Db.DbContext.Cultures
+        //     .Where(x => x.Name == CbCulture.SelectedItem.ToString() && x.Status == Status.Content.ToString())
+        //     .ToList().Single();
+        //
+        // double acidityMiddle = (culture.Ph.Contains('-'))
+        //     ? (double.Parse(culture.Ph.Split('-')[0]) + double.Parse(culture.Ph.Split('-')[1])) / 2
+        //     : double.Parse(culture.Ph);
+        // double acidityPercent = Math.Floor(Convert.ToDouble(sensor.Acidity) / acidityMiddle * 100);
+        //
+        // double asotMiddle = (culture.Nitrogen.Contains('-'))
+        //     ? (double.Parse(culture.Nitrogen.Split('-')[0]) + double.Parse(culture.Nitrogen.Split('-')[1])) / 2
+        //     : double.Parse(culture.Nitrogen);
+        // var asotPercent = Math.Floor(double.Parse(sensor.Asot) / asotMiddle * 100);
+        //
+        // double calciumMiddle = (culture.Calcium.Contains('-'))
+        //     ? (double.Parse(culture.Calcium.Split('-')[0]) + double.Parse(culture.Calcium.Split('-')[1])) / 2
+        //     : double.Parse(culture.Calcium);
+        // var calciumPercent = Math.Floor(double.Parse(sensor.Calcium) / calciumMiddle * 100);
+        //
+        // double caliumMiddle = (culture.Potassium.Contains('-'))
+        //     ? (double.Parse(culture.Potassium.Split('-')[0]) + double.Parse(culture.Potassium.Split('-')[1])) / 2
+        //     : double.Parse(culture.Potassium);
+        // var caliumPercent = Math.Floor(double.Parse(sensor.Calium) / caliumMiddle * 100);
+        //
+        // double humidityMiddle = (culture.Humidity.Contains('-'))
+        //     ? (double.Parse(culture.Humidity.Split('-')[0]) + double.Parse(culture.Humidity.Split('-')[1])) / 2
+        //     : double.Parse(culture.Humidity);
+        // var humidityPercent = Math.Floor(double.Parse(sensor.Humidity) / humidityMiddle * 100);
+        //
+        // double magniyMiddle = (culture.Magnesium.Contains('-'))
+        //     ? (double.Parse(culture.Magnesium.Split('-')[0]) + double.Parse(culture.Magnesium.Split('-')[1])) / 2
+        //     : double.Parse(culture.Magnesium);
+        // var magniyPercent = Math.Floor(double.Parse(sensor.Magnesium) / magniyMiddle * 100);
+        //
+        // double phosphorMiddle = (culture.Phosphor.Contains('-'))
+        //     ? (double.Parse(culture.Phosphor.Split('-')[0]) + double.Parse(culture.Phosphor.Split('-')[1])) / 2
+        //     : double.Parse(culture.Phosphor);
+        // var phosphorPercent = Math.Floor(double.Parse(sensor.Phosphorus) / phosphorMiddle * 100);
+        //
+        // double temperatureMiddle = (culture.Temperature.Contains('-'))
+        //     ? (double.Parse(culture.Temperature.Split('-')[0]) + double.Parse(culture.Temperature.Split('-')[1])) /
+        //       2
+        //     : double.Parse(culture.Temperature);
+        // var temperaturePercent = Math.Floor(double.Parse(sensor.Temperature) / temperatureMiddle * 100);
+        //
+        // if (acidityPercent > max) max = int.Parse(acidityPercent.ToString());
+        // if (asotPercent > max) max = int.Parse(asotPercent.ToString());
+        // if (calciumPercent > max) max = int.Parse(calciumPercent.ToString());
+        // if (caliumPercent > max) max = int.Parse(caliumPercent.ToString());
+        // if (humidityPercent > max) max = int.Parse(humidityPercent.ToString());
+        // if (magniyPercent > max) max = int.Parse(magniyPercent.ToString());
+        // if (phosphorPercent > max) max = int.Parse(phosphorPercent.ToString());
+        // if (temperaturePercent > max) max = int.Parse(temperaturePercent.ToString());
+        //
+        // return max;
+        return 0;
     }
 
     private void OpenCharts_OnClick(object sender, RoutedEventArgs e)
