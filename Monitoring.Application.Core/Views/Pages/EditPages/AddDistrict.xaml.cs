@@ -1,8 +1,8 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
+using Monitoring.Models.Entity;
 using SystemMonitoringNetCore.Models;
 
-namespace SystemMonitoringNetCore.Views.Pages
+namespace SystemMonitoringNetCore.Views.Pages.EditPages
 {
     /// <summary>
     /// 
@@ -23,7 +23,8 @@ namespace SystemMonitoringNetCore.Views.Pages
                 MessageBox.Show("Не верно введено название района");
                 return;
             }
-            Db.DistrictName = DistrictName.Text;
+
+            Db.DbContext.Districts.Add(new District { Name = DistrictName.Text, LocationX = 0, LocationY = 0 });
             ManagerPage.Page.GoBack();
         }
     }
