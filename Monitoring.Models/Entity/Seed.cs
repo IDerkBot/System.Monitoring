@@ -10,13 +10,11 @@ public class Seed
     }
     
     public int Id { get; set; }
-    // public int IdField { get; set; }
-    // public int? IdCulture { get; set; }
-    public string? Status { get; set; }
+    public string Status { get; set; }
     public DateTime Date { get; set; }
     
     public Culture? Culture { get; set; }
-    public Field? Field { get; set; }
+    public Field Field { get; set; }
     /// <summary>
     /// 
     /// </summary>

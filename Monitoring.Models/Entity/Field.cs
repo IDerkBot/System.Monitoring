@@ -9,10 +9,6 @@ public class Field
     
     public int Id { get; set; }
     /// <summary>
-    /// Район
-    /// </summary>
-    public string? District { get; set; }
-    /// <summary>
     /// Номер района
     /// </summary>
     public string Number { get; set; }

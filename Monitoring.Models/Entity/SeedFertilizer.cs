@@ -22,6 +22,6 @@ public class SeedFertilizer
     /// <summary>
     /// Количество использованного удобрения
     /// </summary>
-    public decimal? Count { get; set; }
+    public double? Count { get; set; }
     
 }
