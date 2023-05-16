@@ -20,5 +20,7 @@ public class Field
     /// Тип земли
     /// </summary>
     public virtual TypeGround? TypeGround { get; set; }
+
+    public virtual District District { get; set; }
     public virtual ICollection<Seed> Seeds { get; set; }
 }

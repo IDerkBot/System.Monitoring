@@ -1,15 +1,14 @@
 ﻿using System.Windows;
-using SystemMonitoringNetCore.Models;
-using System.Linq;
 using System.Windows.Input;
 using Monitoring.Models.Entity;
+using SystemMonitoringNetCore.Models;
 
-namespace SystemMonitoringNetCore.Views.Pages
+namespace SystemMonitoringNetCore.Views.Pages.EditPages
 {
     public partial class AddField
     {
-        private readonly string? _selectedDistrict;
-        public AddField(string? district)
+        private readonly District _selectedDistrict;
+        public AddField(District district)
         {
             InitializeComponent();
             _selectedDistrict = district;
