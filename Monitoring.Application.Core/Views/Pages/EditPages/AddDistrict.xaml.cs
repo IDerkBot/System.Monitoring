@@ -25,6 +25,7 @@ namespace SystemMonitoringNetCore.Views.Pages.EditPages
             }
 
             Db.DbContext.Districts.Add(new District { Name = DistrictName.Text, LocationX = 0, LocationY = 0 });
+            Db.DbContext.SaveChanges();
             ManagerPage.Page.GoBack();
         }
     }
