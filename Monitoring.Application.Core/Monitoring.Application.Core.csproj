@@ -19,6 +19,7 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.10" />
       <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1001" />
       <PackageReference Include="Microsoft.Office.Interop.Word" Version="15.0.4797.1004" />
+      <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
       <PackageReference Include="OxyPlot.Wpf" Version="2.1.0" />
       <PackageReference Include="StratumUi.Core" Version="0.0.2" />

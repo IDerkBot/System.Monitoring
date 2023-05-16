@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
 using Monitoring.Models.Entity;
@@ -153,19 +154,44 @@ public class SelectFieldViewModel : BaseViewModel
 
     #endregion AddField
 
+    #region Loaded - Загрузка контрола
+
+    /// <summary> Загрузка контрола </summary>
+    public ICommand LoadedCommand { get; }
+
+    private void OnLoadedCommandExecute(object parameter)
+    {
+        Districts = null;
+        Districts = new ObservableCollection<District>(Db.DbContext.Districts.ToList());
+    }
+
+    #endregion Loaded
+
+    #region Test - Тестовая комманда
+
+    /// <summary> Тестовая комманда </summary>
+    public ICommand TestCommand { get; }
+
+    private void OnTestCommandExecute(object parameter)
+    {
+        Debug.WriteLine("Я выполнилась");
+    }
+
+    #endregion Test
+    
     #endregion
 
     public SelectFieldViewModel()
     {
         #region Комманды
 
+        LoadedCommand = new RelayCommand(OnLoadedCommandExecute);
         NextCommand = new RelayCommand(OnNextCommandExecute, CanNextCommandExecuted);
         AddDistrictCommand = new RelayCommand(OnAddDistrictCommandExecute, CanAddDistrictCommandExecuted);
         AddFieldCommand = new RelayCommand(OnAddFieldCommandExecute, CanAddFieldCommandExecuted);
+        TestCommand = new RelayCommand(OnTestCommandExecute);
 
         #endregion
-
-        Districts = new ObservableCollection<District>(Db.DbContext.Districts.ToList());
     }
 
     private void UpdateFieldsCollection()
