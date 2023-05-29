@@ -36,76 +36,48 @@ public partial class FieldMonitoringPage
     /// <summary>
     /// 
     /// </summary>
-    public FieldMonitoringPage(Seed selectedSeed)
+    public FieldMonitoringPage()
     {
         InitializeComponent();
-        // Передаем выбранное поле
-        _currentSeed = selectedSeed;
-        // Его заносим в контекст
-        DataContext = _currentSeed;
-        // Получаем культуры из бд
-        CbCulture.ItemsSource = Db.DbContext.Cultures.GroupBy(x => x.Name).Select(x => x.Key).ToList();
-            
-        // Занесение тестовых показателей датчиков
-        DgSensors.ItemsSource = GetTestSensors();
-
-        // Если культура выбрана у посева
-        if (_currentSeed.Culture != null)
-        {
-            // CbCulture.ItemsSource = Db.DbContext.Cultures.ToList().Select(x => x.Name).Distinct();
-            CbCulture.SelectedItem = _currentSeed.Culture.Name;
-            if (_currentSeed.Date <= new DateTime(1900, 01, 01))
-            {
-                _currentSeed.Date = DateTime.Now;
-                Db.DbContext.Seeds.Add(_currentSeed);
-                Db.DbContext.SaveChanges();
-            }
-
-            // Счет количества дней
-            _days = Math.Floor((DateTime.Now - _currentSeed.Date).TotalDays);
-            var cultures = Db.DbContext.Cultures.Where(x => x.Name == _currentSeed.Culture.Name).ToList();
-            foreach (var cult in cultures)
-            {
-                // int perMin = int.Parse(cult.Period.Split('-')[0]);
-                // int perMax = int.Parse(cult.Period.Split('-')[1]);
-                // if (perMin <= _days && perMax >= _days)
-                // {
-                //     Status.Content = cult.Status;
-                //     break;
-                // }
-            }
-        }
-        else
-        {
-            if (Db.DbContext.Cultures.Any())
-                CbCulture.ItemsSource = Db.DbContext.Cultures.Select(x => x.Name).Distinct();
-        }
-
-        Soil.ItemsSource = new List<string>
-            { "Чернозем", "Тундровые", "Подзолистые", "Болотные", "Серые лесные", "Луговые" };
-        Soil.SelectedItem = _currentSeed.Field.Position;
-        // var js = JsonConvert.DeserializeObject<List<SensorDetails>>(
-        //     File.ReadAllText($@"{FileManager.GetAppData()}\sensors.json"));
-        Db.Child = new List<SensorDetails>();
-        ArduinoPortOpen();
-    }
-
-    private static IEnumerable<Sensor> GetTestSensors()
-    {
-        var rand = new Random();
-        return new List<Sensor>
-        {
-            new() { Id = 1, Acidity = rand.Next(0, 100), Asot = rand.Next(0, 100),  Calcium = rand.Next(0, 100), Calium = rand.Next(0, 100), Humidity = rand.Next(0, 100), Magnesium = rand.Next(0, 100), Phosphorus = rand.Next(0, 100), Temperature = rand.Next(0, 100), Recommendation = "Тестовый датчик 1" },
-            new() { Id = 2, Acidity = rand.Next(0, 100), Asot = rand.Next(0, 100),  Calcium = rand.Next(0, 100), Calium = rand.Next(0, 100), Humidity = rand.Next(0, 100), Magnesium = rand.Next(0, 100), Phosphorus = rand.Next(0, 100), Temperature = rand.Next(0, 100), Recommendation = "Тестовый датчик 2" },
-            new() { Id = 3, Acidity = rand.Next(0, 100), Asot = rand.Next(0, 100),  Calcium = rand.Next(0, 100), Calium = rand.Next(0, 100), Humidity = rand.Next(0, 100), Magnesium = rand.Next(0, 100), Phosphorus = rand.Next(0, 100), Temperature = rand.Next(0, 100), Recommendation = "Тестовый датчик 3" },
-            new() { Id = 4, Acidity = rand.Next(0, 100), Asot = rand.Next(0, 100),  Calcium = rand.Next(0, 100), Calium = rand.Next(0, 100), Humidity = rand.Next(0, 100), Magnesium = rand.Next(0, 100), Phosphorus = rand.Next(0, 100), Temperature = rand.Next(0, 100), Recommendation = "Тестовый датчик 4" },
-            new() { Id = 5, Acidity = rand.Next(0, 100), Asot = rand.Next(0, 100),  Calcium = rand.Next(0, 100), Calium = rand.Next(0, 100), Humidity = rand.Next(0, 100), Magnesium = rand.Next(0, 100), Phosphorus = rand.Next(0, 100), Temperature = rand.Next(0, 100), Recommendation = "Тестовый датчик 5" },
-            new() { Id = 6, Acidity = rand.Next(0, 100), Asot = rand.Next(0, 100),  Calcium = rand.Next(0, 100), Calium = rand.Next(0, 100), Humidity = rand.Next(0, 100), Magnesium = rand.Next(0, 100), Phosphorus = rand.Next(0, 100), Temperature = rand.Next(0, 100), Recommendation = "Тестовый датчик 6" },
-            new() { Id = 7, Acidity = rand.Next(0, 100), Asot = rand.Next(0, 100),  Calcium = rand.Next(0, 100), Calium = rand.Next(0, 100), Humidity = rand.Next(0, 100), Magnesium = rand.Next(0, 100), Phosphorus = rand.Next(0, 100), Temperature = rand.Next(0, 100), Recommendation = "Тестовый датчик 7" },
-            new() { Id = 8, Acidity = rand.Next(0, 100), Asot = rand.Next(0, 100),  Calcium = rand.Next(0, 100), Calium = rand.Next(0, 100), Humidity = rand.Next(0, 100), Magnesium = rand.Next(0, 100), Phosphorus = rand.Next(0, 100), Temperature = rand.Next(0, 100), Recommendation = "Тестовый датчик 8" },
-            new() { Id = 9, Acidity = rand.Next(0, 100), Asot = rand.Next(0, 100),  Calcium = rand.Next(0, 100), Calium = rand.Next(0, 100), Humidity = rand.Next(0, 100), Magnesium = rand.Next(0, 100), Phosphorus = rand.Next(0, 100), Temperature = rand.Next(0, 100), Recommendation = "Тестовый датчик 9" },
-            new() { Id = 10, Acidity = rand.Next(0, 100), Asot = rand.Next(0, 100),  Calcium = rand.Next(0, 100), Calium = rand.Next(0, 100), Humidity = rand.Next(0, 100), Magnesium = rand.Next(0, 100), Phosphorus = rand.Next(0, 100), Temperature = rand.Next(0, 100), Recommendation = "Тестовый датчик 10" },
-        };
+        // // Если культура выбрана у посева
+        // if (_currentSeed.Culture != null)
+        // {
+        //     // CbCulture.ItemsSource = Db.DbContext.Cultures.ToList().Select(x => x.Name).Distinct();
+        //     CbCulture.SelectedItem = _currentSeed.Culture.Name;
+        //     if (_currentSeed.Date <= new DateTime(1900, 01, 01))
+        //     {
+        //         _currentSeed.Date = DateTime.Now;
+        //         Db.DbContext.Seeds.Add(_currentSeed);
+        //         Db.DbContext.SaveChanges();
+        //     }
+        //
+        //     // Счет количества дней
+        //     _days = Math.Floor((DateTime.Now - _currentSeed.Date).TotalDays);
+        //     var cultures = Db.DbContext.Cultures.Where(x => x.Name == _currentSeed.Culture.Name).ToList();
+        //     foreach (var cult in cultures)
+        //     {
+        //         // int perMin = int.Parse(cult.Period.Split('-')[0]);
+        //         // int perMax = int.Parse(cult.Period.Split('-')[1]);
+        //         // if (perMin <= _days && perMax >= _days)
+        //         // {
+        //         //     Status.Content = cult.Status;
+        //         //     break;
+        //         // }
+        //     }
+        // }
+        // else
+        // {
+        //     if (Db.DbContext.Cultures.Any())
+        //         CbCulture.ItemsSource = Db.DbContext.Cultures.Select(x => x.Name).Distinct();
+        // }
+        //
+        // Soil.ItemsSource = new List<string>
+        //     { "Чернозем", "Тундровые", "Подзолистые", "Болотные", "Серые лесные", "Луговые" };
+        // Soil.SelectedItem = _currentSeed.Field.Position;
+        // // var js = JsonConvert.DeserializeObject<List<SensorDetails>>(
+        // //     File.ReadAllText($@"{FileManager.GetAppData()}\sensors.json"));
+        // Db.Child = new List<SensorDetails>();
+        // ArduinoPortOpen();
     }
 
     #region ArduinoWorker
@@ -205,7 +177,7 @@ public partial class FieldMonitoringPage
     private void AddSensor( /*SensorDetails sensor*/)
     {
         _count++;
-        Count.Text = _count.ToString();
+        // Count.Text = _count.ToString();
         // Sensors.Children.Add(sensor);
     }
 
@@ -312,7 +284,7 @@ public partial class FieldMonitoringPage
             foreach (var sensor in sensors)
             {
                 _count++;
-                Count.Text = _count.ToString();
+                // Count.Text = _count.ToString();
                 sensor.Recomendation = GetRecommendation(sensor);
                 sensor.PercentDeviation = GetPercent(sensor);
                 if (sensor.PercentDeviation <= 15)

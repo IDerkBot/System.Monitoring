@@ -14,8 +14,8 @@
     </UserControl.DataContext>
     <UserControl.Resources>
         <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
-            <Setter Property="Height" Value="150" />
-            <Setter Property="Width" Value="150" />
+            <Setter Property="Height" Value="200" />
+            <Setter Property="Width" Value="200" />
             <Setter Property="Margin" Value="10" />
             <Setter Property="Padding" Value="5" />
         </Style>
@@ -24,47 +24,54 @@
             <Setter Property="FontWeight" Value="ExtraBold" />
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="TextAlignment" Value="Center" />
+            <Setter Property="Margin" Value="0,20,0,0" />
+            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}" />
         </Style>
         <Style BasedOn="{StaticResource {x:Type controls:Icon}}" TargetType="controls:Icon">
-            <Setter Property="Width" Value="50" />
-            <Setter Property="Height" Value="50" />
+            <Setter Property="Width" Value="75" />
+            <Setter Property="Height" Value="75" />
+            <Setter Property="Fill" Value="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}" />
         </Style>
         <Style TargetType="StackPanel">
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Center" />
         </Style>
     </UserControl.Resources>
-    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
-        <Button Command="{Binding MoveFieldsCommand}">
+    <UniformGrid
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        Columns="3"
+        Rows="2">
+        <Button Command="{Binding MoveFieldsCommand}" Foreground="{StaticResource G500}">
             <StackPanel>
                 <controls:Icon Kind="EarthBox" />
                 <TextBlock Text="Поля" />
             </StackPanel>
         </Button>
-        <Button Command="{Binding MoveDocumentsCommand}">
+        <Button Command="{Binding MoveDocumentsCommand}" Foreground="{StaticResource Pr500}">
             <StackPanel>
                 <controls:Icon Kind="TextBox" />
                 <TextBlock Text="Документы" />
             </StackPanel>
         </Button>
-        <Button Command="{Binding MoveCulturesCommand}">
+        <Button Command="{Binding MoveCulturesCommand}" Foreground="{StaticResource Y700}">
             <StackPanel>
                 <controls:Icon Kind="Database" />
                 <TextBlock Text="Культуры" />
             </StackPanel>
         </Button>
-        <Button Command="{Binding MoveFertilizersCommand}">
+        <Button Command="{Binding MoveFertilizersCommand}" Foreground="{StaticResource Y700}">
             <StackPanel>
                 <controls:Icon Kind="Database" />
                 <TextBlock Text="Удобрения" />
             </StackPanel>
         </Button>
 
-        <Button Command="{Binding MoveUsersCommand}">
+        <Button Command="{Binding MoveUsersCommand}" Foreground="{StaticResource Pr500}">
             <StackPanel>
                 <controls:Icon Kind="Account" />
                 <TextBlock Text="Пользователи" />
             </StackPanel>
         </Button>
-    </WrapPanel>
+    </UniformGrid>
 </UserControl>

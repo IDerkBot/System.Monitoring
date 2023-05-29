@@ -1,4 +1,6 @@
-﻿namespace Monitoring.Models.Entity;
+﻿using System.Security.AccessControl;
+
+namespace Monitoring.Models.Entity;
 
 public class Field
 {

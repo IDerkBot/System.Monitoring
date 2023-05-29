@@ -8,9 +8,7 @@ using SystemMonitoringNetCore.Views.UserControls;
 
 namespace SystemMonitoringNetCore.Views.Windows
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+    /// <summary> Interaction logic for MainWindow.xaml </summary>
     public partial class MainWindow
     {
         /// <summary>
@@ -50,16 +48,6 @@ namespace SystemMonitoringNetCore.Views.Windows
 
         private void MainWindow_OnMouseMove(object sender, MouseEventArgs e)
         {
-            if (ActualWidth < 1000)
-            {
-                MainImage.Visibility = Visibility.Collapsed;
-                ColumnImage.Width = new GridLength(0);
-            }
-            else
-            {
-                MainImage.Visibility = Visibility.Visible;
-                ColumnImage.Width = new GridLength(1, GridUnitType.Star);
-            }
         }
     }
 }

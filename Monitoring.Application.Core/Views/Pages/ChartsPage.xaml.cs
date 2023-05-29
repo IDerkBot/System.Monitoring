@@ -2,22 +2,14 @@
 using System.Linq;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
-using LiveChartsCore.SkiaSharpView.VisualElements;
-// using OxyPlot;
-// using OxyPlot.Legends;
-// using OxyPlot.Series;
 using Sensor = SystemMonitoringNetCore.Models.Sensor;
 
 namespace SystemMonitoringNetCore.Views.Pages;
 
-/// <summary>
-/// 
-/// </summary>
+/// <summary>  </summary>
 public partial class ChartsPage
 {
-    /// <summary>
-    /// 
-    /// </summary>
+    /// <summary>  </summary>
     /// <param name="list"></param>
     public ChartsPage(IReadOnlyCollection<Sensor> list)
     {
@@ -57,19 +49,19 @@ public partial class ChartsPage
                 Fill = null
             }
         };
-        ISeries[] seriesCalcium =
+        ISeries[] seriesSalinity =
         {
             new LineSeries<double>
             {
-                Values = list.Select(x => (double)x.Calcium).ToList(),
+                Values = list.Select(x => (double)x.Salinity).ToList(),
                 Fill = null
             }
         };
-        ISeries[] seriesMagnesium =
+        ISeries[] seriesSodium =
         {
             new LineSeries<double>
             {
-                Values = list.Select(x => (double)x.Magnesium).ToList(),
+                Values = list.Select(x => (double)x.Sodium).ToList(),
                 Fill = null
             }
         };
@@ -97,12 +89,12 @@ public partial class ChartsPage
             },
             new LineSeries<double>
             {
-                Values = list.Select(x => (double)x.Calcium).ToList(),
+                Values = list.Select(x => (double)x.Salinity).ToList(),
                 Fill = null
             },
             new LineSeries<double>
             {
-                Values = list.Select(x => (double)x.Magnesium).ToList(),
+                Values = list.Select(x => (double)x.Sodium).ToList(),
                 Fill = null
             }
         };
@@ -112,8 +104,8 @@ public partial class ChartsPage
         LvHumidity.Series = seriesHumidity;
         LvAcidity.Series = seriesAcidity;
         LvPhosphorus.Series = seriesPhosphorus;
-        LvCalcium.Series = seriesCalcium;
-        LvMagnesium.Series = seriesMagnesium;
+        LvCalcium.Series = seriesSalinity;
+        LvMagnesium.Series = seriesSodium;
         LvGeneral.Series = seriesGeneral;
         
         #endregion

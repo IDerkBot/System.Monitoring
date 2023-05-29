@@ -16,9 +16,6 @@
             <b:InvokeCommandAction Command="{Binding LoadedCommand}" />
         </b:EventTrigger>
     </b:Interaction.Triggers>
-    <Page.CommandBindings>
-        <CommandBinding Command="DecreaseVolume" />
-    </Page.CommandBindings>
     <Page.DataContext>
         <vm:SelectFieldViewModel />
     </Page.DataContext>
@@ -31,11 +28,6 @@
                 FontSize="12"
                 ItemsSource="{Binding Districts}"
                 SelectedItem="{Binding SelectedDistrict}">
-                <b:Interaction.Triggers>
-                    <b:EventTrigger EventName="SelectionChanged">
-                        <b:InvokeCommandAction Command="{Binding TestCommand}" />
-                    </b:EventTrigger>
-                </b:Interaction.Triggers>
             </ComboBox>
             <Button
                 Width="25"

@@ -20,59 +20,35 @@ public class Sensor
     {
         var data = lineData.Split(';');
         Id = int.Parse(data[0]);
-        Temperature = decimal.Parse(data[1].ChangeValue());
-        Humidity = decimal.Parse(data[2]);
-        Acidity = decimal.Parse(data[3]);
+        Temperature = double.Parse(data[1].ChangeValue());
+        Humidity = double.Parse(data[2]);
+        Acidity = double.Parse(data[3]);
     }
 
-    /// <summary>
-    /// Идентификатор датчика
-    /// </summary>
+    /// <summary> Идентификатор датчика </summary>
     public int Id { get; set; }
 
-    /// <summary>
-    /// Влажность
-    /// </summary>
-    public decimal Humidity { get; set; }
+    /// <summary> Влажность </summary>
+    public double Humidity { get; set; }
 
-    /// <summary>
-    /// Температура
-    /// </summary>
-    public decimal Temperature { get; set; }
+    /// <summary> Температура </summary>
+    public double Temperature { get; set; }
 
-    /// <summary>
-    /// Кислотность
-    /// </summary>
-    public decimal Acidity { get; set; }
+    /// <summary> Кислотность </summary>
+    public double Acidity { get; set; }
 
-    /// <summary>
-    /// Фосфор
-    /// </summary>
-    public decimal Phosphorus { get; set; }
+    /// <summary> Фосфор </summary>
+    public double Phosphorus { get; set; }
 
-    /// <summary>
-    /// Кальций
-    /// </summary>
-    public decimal Calcium { get; set; }
+    /// <summary> Калий </summary>
+    public double Potassium { get; set; }
 
-    /// <summary>
-    /// Магнезий
-    /// </summary>
-    public decimal Magnesium { get; set; }
+    /// <summary> Засоленность </summary>
+    public double Salinity { get; set; }
+    /// <summary> Натрий </summary>
+    public double Sodium { get; set; }
 
-    /// <summary>
-    /// Калий
-    /// </summary>
-    public decimal Calium { get; set; }
-
-    /// <summary>
-    /// Азот
-    /// </summary>
-    public decimal Asot { get; set; }
-
-    /// <summary>
-    /// Рекомендации
-    /// </summary>
+    /// <summary> Рекомендации </summary>
     public string Recommendation { get; set; }
 
     #endregion

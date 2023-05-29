@@ -9,9 +9,9 @@ using FileInfo = SystemMonitoringNetCore.Models.FileInfo;
 
 namespace SystemMonitoringNetCore.Views.Pages;
 
-public partial class ReportsPage
+public partial class ReportsView
 {
-	public ReportsPage() { InitializeComponent(); }
+	public ReportsView() { InitializeComponent(); }
 	private void FileSearch(string path)
 	{
 		if (!Directory.Exists(path)) return;

@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
 using Monitoring.Models.Entity;
 using SystemMonitoringNetCore.Infrastructure.Command;
 using SystemMonitoringNetCore.Models;
 using SystemMonitoringNetCore.ViewModels.Base;
-using SystemMonitoringNetCore.Views.Pages;
 using SystemMonitoringNetCore.Views.Pages.EditPages;
+using SystemMonitoringNetCore.Views.UserControls;
+
+// TODO: Диапазон на графиках из базы
+// TODO: Выбор дат в графике от и до
+// TODO: Не меняется выбранное поле после одного захода
 
 namespace SystemMonitoringNetCore.ViewModels;
 
@@ -39,11 +42,9 @@ public class SelectFieldViewModel : BaseViewModel
         get => _selectedDistrict;
         set
         {
-            if (SetField(ref _selectedDistrict, value))
-            {
-                UpdateFieldsCollection();
-                CanSelectField = _selectedDistrict != null;
-            }
+            if (!SetField(ref _selectedDistrict, value)) return;
+            UpdateFieldsCollection();
+            CanSelectField = _selectedDistrict != null;
         }
     }
 
@@ -103,10 +104,10 @@ public class SelectFieldViewModel : BaseViewModel
         var seed = new Seed { Field = SelectedField };
 
         // проверяем, есть ли в таблице seed элементы, которые содержат выбранное поле
-        if (Db.DbContext.Seeds.Any(x => x.Field == seed.Field))
+        if (Db.DbContext.Seeds.Any(x => x.Field.Equals(SelectedField)))
         {
             // есть - заносим в локальную переменную
-            seed = Db.DbContext.Seeds.Single(x => x.Field == seed.Field);
+            seed = Db.DbContext.Seeds.FirstOrDefault(x => x.Field.Equals(SelectedField));
         }
         else
         {
@@ -115,14 +116,12 @@ public class SelectFieldViewModel : BaseViewModel
             Db.DbContext.Seeds.Add(seed);
             Db.DbContext.SaveChanges();
             // И получаем его после занесения
-            seed = Db.DbContext.Seeds.Single(x => x.Field == seed.Field);
+            seed = Db.DbContext.Seeds.Single(x => x.Field == seed.Field); 
         }
 
-        // Его мы сохраняем как глобальную переменную
         Db.SelectSeeding = seed;
-        ManagerPage.FieldMonitoringPage = new FieldMonitoringPage(seed);
         // и переходим на страницу мониторинга
-        ManagerPage.Navigate(new FieldMonitoringPage(seed));
+        ManagerPage.Navigate(new FieldInfoControl());
     }
 
     private bool CanNextCommandExecuted(object parameter) => SelectedDistrict != null && SelectedField != null;
@@ -140,9 +139,9 @@ public class SelectFieldViewModel : BaseViewModel
 
     #endregion AddDistrict
 
-    #region AddField - Добавляем новое поле для выбраного района
+    #region AddField - Добавляем новое поле для выбранного района
 
-    /// <summary> Добавляем новое поле для выбраного района </summary>
+    /// <summary> Добавляем новое поле для выбранного района </summary>
     public ICommand AddFieldCommand { get; }
 
     private void OnAddFieldCommandExecute(object parameter)
@@ -167,18 +166,6 @@ public class SelectFieldViewModel : BaseViewModel
 
     #endregion Loaded
 
-    #region Test - Тестовая комманда
-
-    /// <summary> Тестовая комманда </summary>
-    public ICommand TestCommand { get; }
-
-    private void OnTestCommandExecute(object parameter)
-    {
-        Debug.WriteLine("Я выполнилась");
-    }
-
-    #endregion Test
-    
     #endregion
 
     public SelectFieldViewModel()
@@ -189,7 +176,6 @@ public class SelectFieldViewModel : BaseViewModel
         NextCommand = new RelayCommand(OnNextCommandExecute, CanNextCommandExecuted);
         AddDistrictCommand = new RelayCommand(OnAddDistrictCommandExecute, CanAddDistrictCommandExecuted);
         AddFieldCommand = new RelayCommand(OnAddFieldCommandExecute, CanAddFieldCommandExecuted);
-        TestCommand = new RelayCommand(OnTestCommandExecute);
 
         #endregion
     }

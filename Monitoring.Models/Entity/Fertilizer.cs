@@ -2,68 +2,40 @@
 
 namespace Monitoring.Models.Entity;
 
-/// <summary>
-/// Класс удобрений
-/// </summary>
+/// <summary> Класс удобрений </summary>
 public class Fertilizer
 {
-    /// <summary>
-    /// 
-    /// </summary>
+    /// <summary> </summary>
     public Fertilizer()
     {
         SeedFertilizers = new HashSet<SeedFertilizer>();
     }
     
-    /// <summary>
-    /// Идентификатор
-    /// </summary>
+    /// <summary> Идентификатор </summary>
     public int Id { get; set; }
     
-    /// <summary>
-    /// Количество азота
-    /// </summary>
-    public string? Asot { get; set; }
-    /// <summary>
-    /// 
-    /// </summary>
-    public string? PhosphorusOxide { get; set; }
-    /// <summary>
-    /// 
-    /// </summary>
-    public string? PotassiumOxide { get; set; }
-    /// <summary>
-    /// 
-    /// </summary>
-    public string? CalciumOxide { get; set; }
-    /// <summary>
-    /// 
-    /// </summary>
-    public string? MagnesiumOxide { get; set; }
-    /// <summary>
-    /// 
-    /// </summary>
-    public string? SulfurOxide { get; set; }
-    /// <summary>
-    /// 
-    /// </summary>
-    public string? Borum { get; set; }
-    /// <summary>
-    /// 
-    /// </summary>
-    public string? Sodium { get; set; }
-    /// <summary>
-    /// 
-    /// </summary>
-    public string? Zincum { get; set; }
-    /// <summary>
-    /// 
-    /// </summary>
-    public string? Cuprum { get; set; }
-    /// <summary>
-    /// 
-    /// </summary>
-    public string? Manganum { get; set; }
+    /// <summary> Количество азота </summary>
+    public double Asot { get; set; }
+    /// <summary> </summary>
+    public double PhosphorusOxide { get; set; }
+    /// <summary> </summary>
+    public double PotassiumOxide { get; set; }
+    /// <summary> </summary>
+    public double CalciumOxide { get; set; }
+    /// <summary> </summary>
+    public double MagnesiumOxide { get; set; }
+    /// <summary> </summary>
+    public double SulfurOxide { get; set; }
+    /// <summary> </summary>
+    public double Borum { get; set; }
+    /// <summary> </summary>
+    public double Sodium { get; set; }
+    /// <summary> </summary>
+    public double Zincum { get; set; }
+    /// <summary> </summary>
+    public double Cuprum { get; set; }
+    /// <summary> </summary>
+    public double Manganum { get; set; }
     /// <summary>
     /// 
     /// </summary>

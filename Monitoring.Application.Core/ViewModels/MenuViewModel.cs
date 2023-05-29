@@ -22,7 +22,7 @@ public class MenuViewModel
     /// <summary> Перемещение на страницу документов </summary>
     public ICommand MoveDocumentsCommand { get; }
 
-    private void OnMoveDocumentsCommandExecute(object parameter) => ManagerPage.Navigate(new ReportsPage());
+    private void OnMoveDocumentsCommandExecute(object parameter) => ManagerPage.Navigate(new ReportsView());
 
     #endregion MoveDocuments
 
@@ -31,7 +31,7 @@ public class MenuViewModel
     /// <summary> Перемещение на страницу культур </summary>
     public ICommand MoveCulturesCommand { get; }
 
-    private void OnMoveCulturesCommandExecute(object parameter) => ManagerPage.Navigate(new CulturesPage());
+    private void OnMoveCulturesCommandExecute(object parameter) => ManagerPage.Navigate(new CulturesControl());
 
     #endregion MoveCultures
 

@@ -13,13 +13,16 @@
 
     <ItemGroup>
       <PackageReference Include="Arion.Style" Version="0.4.11.1" />
+      <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
       <PackageReference Include="Extended.Wpf.Toolkit" Version="4.4.0" />
       <PackageReference Include="FolderBrowserForWPF" Version="1.2.0" />
       <PackageReference Include="LiveChartsCore.SkiaSharpView.WPF" Version="2.0.0-beta.701" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.10" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.1" />
       <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1001" />
       <PackageReference Include="Microsoft.Office.Interop.Word" Version="15.0.4797.1004" />
       <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+      <PackageReference Include="MvvmDialogs" Version="9.1.0" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
       <PackageReference Include="OxyPlot.Wpf" Version="2.1.0" />
       <PackageReference Include="StratumUi.Core" Version="0.0.2" />
@@ -42,7 +45,7 @@
       <Page Update="Views\Pages\RegPage.xaml">
         <SubType>Designer</SubType>
       </Page>
-      <Page Update="Views\Pages\ReportsPage.xaml">
+      <Page Update="Views\Pages\ReportsView.xaml">
         <SubType>Designer</SubType>
       </Page>
       <Page Update="Controls\SensorDetails.xaml">

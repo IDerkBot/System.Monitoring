@@ -4,15 +4,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vm="clr-namespace:SystemMonitoringNetCore.ViewModels"
-    d:DesignHeight="300"
-    d:DesignWidth="300"
+    d:DesignHeight="1080"
+    d:DesignWidth="1920"
+    DataContext="{Binding Source={StaticResource Locator}, Path=UserLoginView}"
     mc:Ignorable="d">
-    <UserControl.DataContext>
-        <vm:UsersViewModel />
-    </UserControl.DataContext>
     <Grid>
-        <DataGrid AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding Users}">
+        <DataGrid
+            AutoGenerateColumns="False"
+            IsReadOnly="True"
+            ItemsSource="{Binding Users}"
+            RowHeight="40">
             <DataGrid.Columns>
                 <DataGridTextColumn Width="*" Binding="{Binding Login}" Header="Логин" />
                 <DataGridTextColumn Width="*" Binding="{Binding Password}" Header="Пароль" />

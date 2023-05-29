@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using Monitoring.Models.Entity;
 using SystemMonitoringNetCore.Models;
@@ -16,12 +17,12 @@ namespace SystemMonitoringNetCore.Views.Pages.EditPages
         private void Cancel_Click(object sender, RoutedEventArgs e) => ManagerPage.Page.GoBack();
         private void Add_Click(object sender, RoutedEventArgs e)
         {
-            // if(Db.DbContext.Fields.Where(x => x.District == _selectedDistrict && x.Number == TbFieldNumber.Text).ToList().Count == 0)
-            // {
-            //     Db.DbContext.Fields.Add(new Field { District = _selectedDistrict, Number = TbFieldNumber.Text });
-            //     Db.DbContext.SaveChanges();
-            //     ManagerPage.Page.GoBack();
-            // } else MessageBox.Show(@"К данному району уже присоединено поле с таким номером");
+            if(!Db.DbContext.Fields.ToList().Any(x => x.District == _selectedDistrict && x.Number == TbFieldNumber.Text))
+            {
+                Db.DbContext.Fields.Add(new Field { District = _selectedDistrict, Number = TbFieldNumber.Text });
+                Db.DbContext.SaveChanges();
+                ManagerPage.Page.GoBack();
+            } else MessageBox.Show(@"К данному району уже присоединено поле с таким номером");
         }
 
         private void TbFieldNumber_OnKeyDown(object sender, KeyEventArgs e)

@@ -1,30 +1,35 @@
-﻿<Page
-    x:Class="SystemMonitoringNetCore.Views.Pages.FieldMonitoringPage"
+﻿<UserControl
+    x:Class="SystemMonitoringNetCore.Views.UserControls.FieldInfoControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:behavior="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:conv="clr-namespace:Arion.Style.Converters;assembly=Arion.Style"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:wpf="clr-namespace:Arion.Style.AttachedProperties;assembly=Arion.Style"
-    Title="FieldMonitoring"
-    d:DesignHeight="850"
-    d:DesignWidth="1000"
+    d:DesignHeight="1080"
+    d:DesignWidth="1920"
     DataContext="{Binding Source={StaticResource Locator}, Path=FieldInfoView}"
     mc:Ignorable="d">
-    <Page.Resources>
+    <behavior:Interaction.Triggers>
+        <behavior:EventTrigger EventName="Loaded">
+            <behavior:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </behavior:EventTrigger>
+    </behavior:Interaction.Triggers>
+    <UserControl.Resources>
         <conv:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" FalseValue="Collapsed" TrueValue="Visible" />
         <conv:BooleanToVisibilityConverter x:Key="Boolean2ToVisibilityConverter" FalseValue="Visible" TrueValue="Collapsed" />
-    </Page.Resources>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Label
@@ -57,7 +62,7 @@
             <Label
                 Padding="5,0"
                 VerticalAlignment="Center"
-                Content="{Binding SelectedCulture.Name}"
+                Content="{Binding SelectedSeed.Culture.Name}"
                 FontSize="14"
                 Visibility="{Binding IsEditMode, Converter={StaticResource Boolean2ToVisibilityConverter}}" />
             <ComboBox
@@ -69,7 +74,6 @@
                 DisplayMemberPath="Name"
                 ItemsSource="{Binding Cultures}"
                 SelectedItem="{Binding SelectedCulture}"
-                SelectionChanged="Culture_SelectionChanged"
                 Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}}" />
         </StackPanel>
 
@@ -88,7 +92,7 @@
             <Label
                 Padding="5,0"
                 VerticalAlignment="Center"
-                Content="{Binding SelectedPeriod.Status}"
+                Content="{Binding SelectedSeed.Status}"
                 FontSize="14"
                 Visibility="{Binding IsEditMode, Converter={StaticResource Boolean2ToVisibilityConverter}}" />
             <ComboBox
@@ -166,50 +170,62 @@
                     <Setter Property="Padding" Value="5" />
                 </Style>
             </StackPanel.Resources>
-            <Button wpf:Button.Icon="Edit" Command="{Binding EditModeCommand}" Visibility="{Binding IsEditMode, Converter={StaticResource Boolean2ToVisibilityConverter}}" />
-            <Button wpf:Button.Icon="ContentSave" Command="{Binding SaveDataCommand}" Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}}" />
-            <Button wpf:Button.Icon="Refresh" Command="{Binding UpdateSensorsCommand}" ToolTip="Обновить информацию о датчиках" />
             <Button
-                wpf:Button.Icon="Map"
-                Click="Add_Click"
-                Command="{Binding OpenMapCommand}"
-                ToolTip="Добавить новый датчик" />
-            <Button wpf:Button.Icon="MapMarkerPlus" Click="Add_Click" ToolTip="Добавить новый датчик" />
-            <Button wpf:Button.Icon="ContentSaveCog" Command="{Binding SaveSensorDataCommand}" ToolTip="Сохранить датчики" />
-            <!--  Click="Save_Click"  -->
+                wpf:Button.Icon="Edit"
+                Command="{Binding EditModeCommand}"
+                Foreground="{StaticResource Y700}"
+                ToolTip="Редактировать данные"
+                Visibility="{Binding IsEditMode, Converter={StaticResource Boolean2ToVisibilityConverter}}" />
+            <Button
+                wpf:Button.Icon="ContentSave"
+                Command="{Binding SaveDataCommand}"
+                Foreground="{StaticResource P500}"
+                ToolTip="Сохранить данные"
+                Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <Button
+                wpf:Button.Icon="Refresh"
+                Command="{Binding UpdateSensorsCommand}"
+                Foreground="{StaticResource Pr500}"
+                ToolTip="Обновить информацию о датчиках" />
+            <!-- <Button wpf:Button.Icon="Map" Command="{Binding OpenMapCommand}" ToolTip="Открыть карту" /> -->
+            <!-- <Button wpf:Button.Icon="MapMarkerPlus" ToolTip="Добавить новый датчик" /> -->
+            <Button
+                wpf:Button.Icon="ContentSaveAll"
+                Command="{Binding SaveSensorDataCommand}"
+                Foreground="{StaticResource P500}"
+                ToolTip="Сохранить данные по датчикам" />
             <Button
                 wpf:Button.Icon="MicrosoftExcel"
-                Click="SaveToExcel_Click"
                 Command="{Binding CreateExcelFileAboutSensorCommand}"
-                ToolTip="Сохранить информацию по датчикам" />
+                Foreground="{StaticResource G500}"
+                ToolTip="Сохранить информацию по датчикам в Excel" />
             <Button
                 wpf:Button.Icon="MicrosoftExcel"
-                Click="SaveToExcelSensors_Click"
                 Command="{Binding CreateExcelFileAboutAllSensorCommand}"
-                ToolTip="Сохранить информацию по датчику" />
+                Foreground="{StaticResource G500}"
+                ToolTip="Сохранить информацию по датчику в Excel" />
             <Button
                 wpf:Button.Icon="ChartBellCurveCumulative"
-                Click="OpenCharts_OnClick"
                 Command="{Binding OpenChartCommand}"
+                Foreground="{StaticResource Pr500}"
                 ToolTip="Открыть графики" />
             <Button
-                wpf:Button.Icon="ChartBellCurveCumulative"
-                Click="OpenCharts_OnClick"
+                wpf:Button.Icon="ChartMultiple"
                 Command="{Binding OpenChartAllCommand}"
+                Foreground="{StaticResource Pr500}"
                 ToolTip="Открыть графики" />
         </StackPanel>
 
         <DataGrid
-            Name="DgSensors"
             Grid.Row="7"
             Grid.RowSpan="2"
             Margin="2"
             AutoGenerateColumns="False"
             IsReadOnly="True"
             ItemsSource="{Binding Sensors}"
-            RowHeight="30">
+            MinRowHeight="30">
             <DataGrid.Columns>
-                <DataGridTextColumn Width="*" Binding="{Binding Id}" Header="№" />
+                <DataGridTextColumn Width="40" Binding="{Binding Id}" Header="№" />
                 <DataGridTextColumn Width="*" Binding="{Binding Humidity}" Header="Влажность, %" />
                 <DataGridTextColumn Width="*" Binding="{Binding Temperature}" Header="Температура, °C" />
                 <DataGridTextColumn Width="*" Binding="{Binding Acidity}" Header="Кислотность" />
@@ -217,7 +233,7 @@
                 <DataGridTextColumn Width="*" Binding="{Binding Salinity}" Header="Засоленность, мг/кг" />
                 <DataGridTextColumn Width="*" Binding="{Binding Sodium}" Header="Натрий, мг/кг" />
                 <DataGridTextColumn Width="*" Binding="{Binding Potassium}" Header="Калий, мг/кг" />
-                <DataGridTextColumn Width="2*" Binding="{Binding Recommendation}" Header="Рекомендация" />
+                <DataGridTextColumn Width="3*" Binding="{Binding Recommendation}" Header="Рекомендация" />
             </DataGrid.Columns>
         </DataGrid>
 
@@ -296,4 +312,4 @@
             </ScrollViewer>
         </Border>
     </Grid>
-</Page>
+</UserControl>

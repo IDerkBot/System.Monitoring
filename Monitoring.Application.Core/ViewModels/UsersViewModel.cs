@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using Monitoring.Models.Entity;
+using MvvmDialogs;
 using SystemMonitoringNetCore.Models;
 using SystemMonitoringNetCore.ViewModels.Base;
 
@@ -21,7 +22,7 @@ public class UsersViewModel : BaseViewModel
 
     #endregion Users
 
-    public UsersViewModel()
+    public UsersViewModel(IDialogService dialogService)
     {
         Users = new ObservableCollection<User>(Db.DbContext.Users.ToList());
     }

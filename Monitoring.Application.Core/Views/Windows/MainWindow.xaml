@@ -11,25 +11,14 @@
     Closed="MainW_Closed"
     MouseMove="MainWindow_OnMouseMove"
     SizeChanged="ChangedSizeWindow"
+    WindowStartupLocation="CenterScreen"
+    WindowState="Maximized"
     mc:Ignorable="d">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition x:Name="ColumnImage" Width="*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="35" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-
-        <Image
-            Name="MainImage"
-            Grid.RowSpan="2"
-            Grid.Column="0"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Source="/Images/fields.jpg"
-            Stretch="UniformToFill" />
 
         <Button
             Name="Back"
