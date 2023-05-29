@@ -1,19 +1,19 @@
-﻿using System.Windows.Controls;
-using System.Windows.Media;
+﻿using System.Text.RegularExpressions;
 
 namespace SystemMonitoringNetCore.Models;
 
-internal static class Validation
+public static class Validation
 {
-    public static void ChangeColor(this TextBox tb, SolidColorBrush background, SolidColorBrush foreground)
+    public static bool IsEmail(string email)
     {
-        tb.BorderBrush = background;
-        tb.Foreground = foreground;
+        var regex = new Regex("([a-z]|[0-9]){3,}@(gmail.com|yandex.ru|mail.com)");
+        return regex.IsMatch(email);
     }
 
-    public static void ChangeColor(this PasswordBox pb, SolidColorBrush background, SolidColorBrush foreground)
+
+    public static bool IsPhone(string phone)
     {
-        pb.BorderBrush = background;
-        pb.Foreground = foreground;
+        var regex = new Regex("^(\\+7|7|8)9[0-9][0-9]( |)(\\(|)[0-9][0-9][0-9](\\)|\\) | |)[0-9][0-9](-|)[0-9][0-9]");
+        return regex.IsMatch(phone);
     }
 }
