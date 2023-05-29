@@ -1,0 +1,71 @@
+﻿<UserControl
+    x:Class="SystemMonitoringNetCore.Views.UserControls.CulturesControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="1080"
+    d:DesignWidth="1920"
+    DataContext="{Binding Source={StaticResource Locator}, Path=CulturesControl}"
+    mc:Ignorable="d">
+    <b:Interaction.Triggers>
+        <b:EventTrigger EventName="Loaded">
+            <b:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </b:EventTrigger>
+    </b:Interaction.Triggers>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Margin="10" Orientation="Horizontal">
+            <ComboBox Width="250" Height="25" Margin="0,0,10,0" />
+            <ComboBox
+                Width="250"
+                Height="25"
+                Margin="0,0,10,0"
+                IsEnabled="False" />
+            <Button Margin="5,0" Content="Фильтровать" />
+            <Button Margin="5,0" Content="Добавить" />
+        </StackPanel>
+
+        <DataGrid
+            Grid.Row="1"
+            AutoGenerateColumns="False"
+            IsReadOnly="True"
+            ItemsSource="{Binding Cultures}"
+            SelectedItem="{Binding SelectedCultureStatus}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="*" Binding="{Binding Culture.Name}" Header="Наименование культуры" />
+                <DataGridTextColumn Width="*" Binding="{Binding Status}" Header="Статус посева" />
+                <DataGridTextColumn Width="*" Binding="{Binding StartPeriod}" Header="Начальный период" />
+                <DataGridTextColumn Width="*" Binding="{Binding EndPeriod}" Header="Конечный период" />
+                <DataGridTextColumn Width="*" Binding="{Binding StartingValuePh}" Header="Начальное значение кислотности" />
+                <DataGridTextColumn Width="*" Binding="{Binding EndingValuePh}" Header="Конечное значение кислотности" />
+                <DataGridTextColumn Width="*" Binding="{Binding StartingValuePhosphor}" Header="Начальное значение фосфора" />
+                <DataGridTextColumn Width="*" Binding="{Binding EndingValuePhosphor}" Header="Конечное значение фосфора" />
+                <DataGridTextColumn Width="*" Binding="{Binding StartingValuePotassium}" Header="Начальное значение калия" />
+                <DataGridTextColumn Width="*" Binding="{Binding EndingValuePotassium}" Header="Конечное значение калия" />
+                <DataGridTextColumn Width="*" Binding="{Binding StartingValueMagnesium}" Header="Начальное значение магния" />
+                <DataGridTextColumn Width="*" Binding="{Binding EndingValueMagnesium}" Header="Конечное значение магния" />
+                <DataGridTextColumn Width="*" Binding="{Binding StartingValueCalcium}" Header="Начальное значение кальция" />
+                <DataGridTextColumn Width="*" Binding="{Binding EndingValueCalcium}" Header="Конечное значение кальция" />
+                <DataGridTextColumn Width="*" Binding="{Binding StartingValueHumidity}" Header="Начальное значение влажности" />
+                <DataGridTextColumn Width="*" Binding="{Binding EndingValueHumidity}" Header="Конечное значение влажности" />
+                <DataGridTextColumn Width="*" Binding="{Binding StartingValueNitrogen}" Header="Начальное значение азота" />
+                <DataGridTextColumn Width="*" Binding="{Binding EndingValueNitrogen}" Header="Конечное значение азота" />
+                <DataGridTextColumn Width="*" Binding="{Binding StartingValueTemperature}" Header="Начальное значение температуры" />
+                <DataGridTextColumn Width="*" Binding="{Binding EndingValueTemperature}" Header="Конечное значение температуры" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <Button Command="{Binding DeleteCommand}" CommandParameter="{Binding SelectedCultureStatus}" Content="Удалить" />
+            <Button Command="{Binding AddCommand}" Content="Добавить" />
+            <Button Command="{Binding EditCommand}" CommandParameter="{Binding SelectedCultureStatus}" Content="Редактировать" />
+        </StackPanel>
+    </Grid>
+</UserControl>
