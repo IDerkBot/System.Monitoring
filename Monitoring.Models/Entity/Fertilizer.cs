@@ -13,6 +13,8 @@ public class Fertilizer
     
     /// <summary> Идентификатор </summary>
     public int Id { get; set; }
+
+    public string Name { get; set; }
     
     /// <summary> Количество азота </summary>
     public double Asot { get; set; }

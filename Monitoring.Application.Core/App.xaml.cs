@@ -25,6 +25,7 @@ namespace SystemMonitoringNetCore
                     .AddSingleton<CulturesControlViewModel>()
                     .AddSingleton<AddCultureStatusControlViewModel>()
                     .AddSingleton<AddCultureControlViewModel>()
+                    .AddSingleton<FertilizersViewModel>()
 
 
                     .BuildServiceProvider());

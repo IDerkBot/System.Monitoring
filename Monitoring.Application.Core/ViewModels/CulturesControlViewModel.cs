@@ -89,12 +89,9 @@ public class CulturesControlViewModel : BaseViewModel
 
     private void OnEditCommandExecuted(object parameter)
     {
-        if (parameter is CultureStatus cultureStatus)
-        {
-            var vm = new AddCultureStatusControlViewModel(cultureStatus);
-            ManagerPage.Navigate(new AddCultureStatusControl { DataContext = vm });
-        } 
-        
+        if (parameter is not CultureStatus cultureStatus) return;
+        var vm = new AddCultureStatusControlViewModel(cultureStatus);
+        ManagerPage.Navigate(new AddCultureStatusControl { DataContext = vm });
     }
 
     private bool CanEditCommandExecute(object parameter) => parameter is CultureStatus;

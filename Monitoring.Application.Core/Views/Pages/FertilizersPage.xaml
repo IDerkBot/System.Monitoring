@@ -5,10 +5,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="FertilizersPage"
-    Width="800"
-    Height="450"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    DataContext="{Binding Source={StaticResource Locator}, Path=FertilizersView}"
     mc:Ignorable="d">
-    <DataGrid x:Name="DgFertilizer" AutoGenerateColumns="False" IsReadOnly="True">
+    <DataGrid AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding Fertilizers}">
         <DataGrid.Columns>
             <DataGridTextColumn Width="200" Binding="{Binding Name}" Header="Наименование" />
             <DataGridTextColumn Width="*" Binding="{Binding PhosphorusOxide}" Header="Фосфор" />
@@ -17,13 +18,6 @@
             <DataGridTextColumn Width="70" Binding="{Binding Asot}" Header="Азот" />
             <DataGridTextColumn Width="*" Binding="{Binding MagnesiumOxide}" Header="Магний" />
             <DataGridTextColumn Width="100" Binding="{Binding NitrateNitrogen}" Header="Кислотность" />
-            <DataGridTemplateColumn Width="25">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <Button Height="25" Click="BtnEdit_OnClick" />
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
         </DataGrid.Columns>
     </DataGrid>
 </Page>

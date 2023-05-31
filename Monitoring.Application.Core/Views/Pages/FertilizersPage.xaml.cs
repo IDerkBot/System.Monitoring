@@ -1,17 +1,6 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿namespace SystemMonitoringNetCore.Views.Pages;
 
-namespace SystemMonitoringNetCore.Views.Pages;
-
-public partial class FertilizersPage : Page
+public partial class FertilizersPage
 {
-    public FertilizersPage()
-    {
-        InitializeComponent();
-    }
-
-    private void BtnEdit_OnClick(object sender, RoutedEventArgs e)
-    {
-        throw new System.NotImplementedException();
-    }
+    public FertilizersPage() => InitializeComponent();
 }

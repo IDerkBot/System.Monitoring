@@ -28,6 +28,7 @@
             Margin="10"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
+            Panel.ZIndex="999"
             wpf:Button.Icon="ArrowLeftBold"
             Click="Back_OnClick"
             Visibility="Hidden" />
@@ -35,7 +36,6 @@
             Name="MainPage"
             Grid.Row="0"
             Grid.RowSpan="2"
-            Grid.Column="1"
             ContentRendered="MainPage_ContentRendered"
             NavigationUIVisibility="Hidden" />
     </Grid>
