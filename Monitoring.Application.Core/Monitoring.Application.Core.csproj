@@ -12,7 +12,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Arion.Style" Version="0.4.11.1" />
+      <PackageReference Include="Arion.Style" Version="0.5.4.7" />
       <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
       <PackageReference Include="Extended.Wpf.Toolkit" Version="4.4.0" />
       <PackageReference Include="FolderBrowserForWPF" Version="1.2.0" />
@@ -25,14 +25,10 @@
       <PackageReference Include="MvvmDialogs" Version="9.1.0" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
       <PackageReference Include="OxyPlot.Wpf" Version="2.1.0" />
-      <PackageReference Include="StratumUi.Core" Version="0.0.2" />
       <PackageReference Include="System.IO.Ports" Version="6.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <Page Update="Views\Pages\CulturesPage.xaml">
-        <SubType>Designer</SubType>
-      </Page>
       <Page Update="Views\Pages\FieldMonitoringPage.xaml">
         <SubType>Designer</SubType>
       </Page>

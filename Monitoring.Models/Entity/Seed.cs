@@ -13,8 +13,8 @@ public class Seed
     public DateTime Date { get; set; }
     public Culture? Culture { get; set; }
     public Field Field { get; set; }
-    public TypeGround TypeGround { get; set; }
-    public CultureStatus Status { get; set; }
+    public TypeGround? TypeGround { get; set; }
+    public CultureStatus? Status { get; set; }
     [NotMapped]
     public virtual ICollection<SeedFertilizer> SeedFertilizers { get; set; }
 }

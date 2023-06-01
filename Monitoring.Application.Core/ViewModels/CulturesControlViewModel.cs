@@ -13,12 +13,12 @@ public class CulturesControlViewModel : BaseViewModel
 {
     #region Properties
 
-    #region Cultures : ObservableCollection<CultureStatus> - Список культур
+    #region Cultures : ObservableCollection<Culture> - Список культур
 
-    private ObservableCollection<CultureStatus> _cultures;
+    private ObservableCollection<Culture> _cultures;
 
     /// <summary> Список культур </summary>
-    public ObservableCollection<CultureStatus> Cultures
+    public ObservableCollection<Culture> Cultures
     {
         get => _cultures;
         set => SetField(ref _cultures, value);
@@ -26,12 +26,12 @@ public class CulturesControlViewModel : BaseViewModel
 
     #endregion Cultures
 
-    #region SelectedCulture : CultureStatus - Выбранный статус культуры
+    #region SelectedCulture : Culture - Выбранный статус культуры
 
-    private CultureStatus _selectedCultureStatus;
+    private Culture _selectedCultureStatus;
 
     /// <summary> Выбранный статус культуры </summary>
-    public CultureStatus SelectedCultureStatus
+    public Culture SelectedCultureStatus
     {
         get => _selectedCultureStatus;
         set => SetField(ref _selectedCultureStatus, value);
@@ -107,7 +107,7 @@ public class CulturesControlViewModel : BaseViewModel
         DeleteCommand = new RelayCommand(OnDeleteCommandExecuted, CanDeleteCommandExecute);
         EditCommand = new RelayCommand(OnEditCommandExecuted, CanEditCommandExecute);
         
-        Cultures = new ObservableCollection<CultureStatus>();
+        Cultures = new ObservableCollection<Culture>();
     }
 
     #endregion
@@ -117,7 +117,7 @@ public class CulturesControlViewModel : BaseViewModel
     private void UpdateCollection()
     {
         Cultures.Clear();
-        foreach (var culture in Db.DbContext.CultureStatuses.ToList()) 
+        foreach (var culture in Db.DbContext.Cultures.ToList()) 
             Cultures.Add(culture);
     }
 

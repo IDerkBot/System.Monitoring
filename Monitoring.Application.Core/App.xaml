@@ -11,7 +11,6 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Arion.Style;component/ArionUiTheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
-
             <locator:Locator x:Key="Locator" />
         </ResourceDictionary>
     </Application.Resources>

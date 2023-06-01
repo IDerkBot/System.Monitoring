@@ -32,12 +32,9 @@
                 Fill="{StaticResource Mg3}"
                 Kind="Account" />
         </StackPanel>
-        <TextBox
-            Margin="0,5"
-            wpf:Hint.Placeholder="Логин"
-            Text="{Binding Login}" />
+        <TextBox Margin="0,5" wpf:Hint.Placeholder="Логин" Text="{Binding Login}" />
 
-        <uc:PasswordBox Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <uc:PasswordBox Margin="0,5" Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
         <CheckBox
             Margin="0,5"

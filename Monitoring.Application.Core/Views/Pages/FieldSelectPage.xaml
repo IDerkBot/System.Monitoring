@@ -23,12 +23,12 @@
         <StackPanel Orientation="Horizontal">
             <ComboBox
                 Width="265"
+                HorizontalContentAlignment="Left"
                 wpf:Hint.Placeholder="Район"
                 DisplayMemberPath="Name"
                 FontSize="12"
                 ItemsSource="{Binding Districts}"
-                SelectedItem="{Binding SelectedDistrict}">
-            </ComboBox>
+                SelectedItem="{Binding SelectedDistrict}" />
             <Button
                 Width="25"
                 Height="25"

@@ -21,6 +21,14 @@
         <conv:BooleanToVisibilityConverter x:Key="Boolean2ToVisibilityConverter" FalseValue="Visible" TrueValue="Collapsed" />
     </UserControl.Resources>
     <Grid>
+        <Grid.Resources>
+            <Style BasedOn="{StaticResource {x:Type Label}}" TargetType="Label">
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="Padding" Value="5,0" />
+                <Setter Property="FontSize" Value="14" />
+            </Style>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
             <RowDefinition Height="50" />
@@ -32,39 +40,19 @@
             <RowDefinition Height="50" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Label
-            Grid.Row="0"
-            Margin="5"
-            Padding="5,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center"
-            Content="{Binding SelectedSeed.Field.District.Name}"
-            ContentStringFormat="Район: {0}"
-            FontSize="14" />
+        <StackPanel Grid.Row="0" Margin="5" Orientation="Horizontal">
+            <Label Width="100" Content="Район:" FontSize="14" />
+            <Label Margin="5" Content="{Binding SelectedSeed.Field.District.Name}" />
+        </StackPanel>
 
-        <Label
-            Grid.Row="1"
-            Margin="5"
-            Padding="5,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center"
-            Content="{Binding SelectedSeed.Field.Number}"
-            ContentStringFormat="Поле: {0}"
-            FontSize="14" />
+        <StackPanel Grid.Row="1" Margin="5" Orientation="Horizontal">
+            <Label Width="100" Content="Поле:" />
+            <Label Margin="5" Content="{Binding SelectedSeed.Field.Number}" />
+        </StackPanel>
 
         <StackPanel Grid.Row="2" Margin="5" Orientation="Horizontal">
-            <Label
-                Width="100"
-                Padding="5,0"
-                VerticalAlignment="Center"
-                Content="Культура:"
-                FontSize="14" />
-            <Label
-                Padding="5,0"
-                VerticalAlignment="Center"
-                Content="{Binding SelectedSeed.Culture.Name}"
-                FontSize="14"
-                Visibility="{Binding IsEditMode, Converter={StaticResource Boolean2ToVisibilityConverter}}" />
+            <Label Width="100" Content="Культура:" />
+            <Label Content="{Binding SelectedSeed.Culture.Name}" Visibility="{Binding IsEditMode, Converter={StaticResource Boolean2ToVisibilityConverter}}" />
             <ComboBox
                 Width="200"
                 Margin="5,0"
@@ -83,18 +71,8 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             Orientation="Horizontal">
-            <Label
-                Width="100"
-                Padding="5,0"
-                VerticalAlignment="Center"
-                Content="Статус:"
-                FontSize="14" />
-            <Label
-                Padding="5,0"
-                VerticalAlignment="Center"
-                Content="{Binding SelectedSeed.Status}"
-                FontSize="14"
-                Visibility="{Binding IsEditMode, Converter={StaticResource Boolean2ToVisibilityConverter}}" />
+            <Label Width="100" Content="Статус:" />
+            <Label Content="{Binding SelectedSeed.Status}" Visibility="{Binding IsEditMode, Converter={StaticResource Boolean2ToVisibilityConverter}}" />
             <ComboBox
                 Width="200"
                 Margin="5,0"
@@ -110,18 +88,8 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             Orientation="Horizontal">
-            <Label
-                Width="100"
-                Padding="5,0"
-                VerticalAlignment="Center"
-                Content="Дата посева:"
-                FontSize="14" />
-            <Label
-                VerticalAlignment="Center"
-                Content="{Binding SelectedSeed.Date}"
-                ContentStringFormat="dd.MM.yyyy"
-                FontSize="14"
-                Visibility="{Binding IsEditMode, Converter={StaticResource Boolean2ToVisibilityConverter}}" />
+            <Label Width="100" Content="Дата посева:" />
+            <Label Content="{Binding SelectedSeed.Date}" ContentStringFormat="dd.MM.yyyy" Visibility="{Binding IsEditMode, Converter={StaticResource Boolean2ToVisibilityConverter}}" />
             <DatePicker
                 Width="200"
                 Margin="5,0"
@@ -135,24 +103,15 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             Orientation="Horizontal">
-            <Label
-                Width="100"
-                Padding="5,0"
-                VerticalAlignment="Center"
-                Content="Тип почвы:"
-                FontSize="14" />
-            <Label
-                Padding="5,0"
-                VerticalAlignment="Center"
-                Content=""
-                FontSize="14"
-                Visibility="{Binding IsEditMode, Converter={StaticResource Boolean2ToVisibilityConverter}}" />
+            <Label Width="100" Content="Тип почвы:" />
+            <Label Content="{Binding SelectedSeed.TypeGround.Title}" Visibility="{Binding IsEditMode, Converter={StaticResource Boolean2ToVisibilityConverter}}" />
             <ComboBox
-                x:Name="Soil"
                 Width="200"
                 Margin="5,0"
                 Padding="5,0"
+                DisplayMemberPath="Title"
                 ItemsSource="{Binding TypeSoils}"
+                SelectedItem="{Binding SelectedTypeGround}"
                 Visibility="{Binding IsEditMode, Converter={StaticResource BooleanToVisibilityConverter}}" />
         </StackPanel>
 
@@ -237,58 +196,6 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <StackPanel
-            Grid.Row="7"
-            Margin="10,0"
-            VerticalAlignment="Center"
-            Orientation="Horizontal"
-            Visibility="Collapsed">
-            <TextBlock
-                Width="50"
-                Margin="0,0,1,0"
-                Text="ID"
-                TextAlignment="Center" />
-            <TextBlock
-                Width="75"
-                Margin="0,0,1,0"
-                Text="Влажность, %"
-                TextAlignment="Center" />
-            <TextBlock
-                Width="95"
-                Margin="0,0,1,0"
-                Text="Температура, °C"
-                TextAlignment="Center" />
-            <TextBlock
-                Width="80"
-                Margin="0,0,1,0"
-                Text="Кислотность"
-                TextAlignment="Center" />
-            <TextBlock
-                Width="85"
-                Margin="0,0,1,0"
-                Text="Фосфор, мг/кг"
-                TextAlignment="Center" />
-            <TextBlock
-                Width="85"
-                Margin="0,0,1,0"
-                Text="Кальций, мг/кг"
-                TextAlignment="Center" />
-            <TextBlock
-                Width="85"
-                Margin="0,0,1,0"
-                Text="Магний, мг/кг"
-                TextAlignment="Center" />
-            <TextBlock
-                Width="70"
-                Margin="0,0,1,0"
-                Text="Калий, мг/кг"
-                TextAlignment="Center" />
-            <TextBlock
-                Width="60"
-                Margin="0,0,1,0"
-                Text="Азот, мг/кг"
-                TextAlignment="Center" />
-        </StackPanel>
         <StackPanel
             Grid.Row="6"
             Margin="10,0"

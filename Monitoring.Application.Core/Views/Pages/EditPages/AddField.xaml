@@ -9,10 +9,8 @@
     Title="AddField"
     HorizontalAlignment="Center"
     VerticalAlignment="Center"
-    d:DesignHeight="90"
-    d:DesignWidth="300"
     mc:Ignorable="d">
-    <StackPanel>
+    <StackPanel Width="300">
         <TextBox
             Name="TbFieldNumber"
             wpf:Hint.Placeholder="Номер поля"

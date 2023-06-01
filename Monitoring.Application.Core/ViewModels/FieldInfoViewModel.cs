@@ -26,7 +26,13 @@ public class FieldInfoViewModel : BaseViewModel
     public Seed SelectedSeed
     {
         get => _selectedSeed;
-        set => SetField(ref _selectedSeed, value);
+        set
+        {
+            SetField(ref _selectedSeed, value);
+            SelectedCulture = SelectedSeed.Culture;
+            SelectedTypeGround = SelectedSeed.TypeGround;
+            SelectedPeriod = SelectedSeed.Status;
+        }
     }
 
     #endregion SelectedSeed
@@ -44,20 +50,21 @@ public class FieldInfoViewModel : BaseViewModel
 
     #endregion Cultures
 
-    #region SelectedCulture : Culture - Выбранная культура для поля
+    #region SelectedCulture : Culture? - Выбранная культура для поля
 
-    private Culture _selectedCulture;
+    private Culture? _selectedCulture;
 
     /// <summary> Выбранная культура для поля </summary>
-    public Culture SelectedCulture
+    public Culture? SelectedCulture
     {
         get => _selectedCulture;
         set
         {
             SetField(ref _selectedCulture, value);
             SelectedSeed.Culture = _selectedCulture;
-            Periods = Db.DbContext.CultureStatuses.Where(x => x.Culture.Id == SelectedSeed.Culture.Id).ToList();
-            OnPropertyChanged(nameof(SelectedSeed.Culture));
+            if (SelectedSeed.Culture != null)
+                Periods = Db.DbContext.CultureStatuses.Where(x => x.Culture.Id == SelectedSeed.Culture.Id).ToList();
+            OnPropertyChanged(nameof(SelectedSeed));
         }
     }
 
@@ -75,19 +82,6 @@ public class FieldInfoViewModel : BaseViewModel
     }
 
     #endregion Sensors
-
-    #region GroundTypes : ObservableCollection<TypeGround> - Типы почв
-
-    private ObservableCollection<TypeGround> _groundTypes;
-
-    /// <summary> Типы почв </summary>
-    public ObservableCollection<TypeGround> GroundTypes
-    {
-        get => _groundTypes;
-        set => SetField(ref _groundTypes, value);
-    }
-
-    #endregion ObservableCollection<TypeGround>
 
     #region IsEditMode : bool - Включен режим редактирования
 
@@ -115,29 +109,48 @@ public class FieldInfoViewModel : BaseViewModel
 
     #endregion Periods
 
-    #region SelectedPeriod : CultureStatus - Выбранный статус культуры
+    #region SelectedPeriod : CultureStatus? - Выбранный статус культуры
 
-    private CultureStatus _selectedPeriod;
+    private CultureStatus? _selectedPeriod;
 
     /// <summary> Выбранный статус культуры </summary>
-    public CultureStatus SelectedPeriod
+    public CultureStatus? SelectedPeriod
     {
         get => _selectedPeriod;
         set
         {
             SetField(ref _selectedPeriod, value);
             SelectedSeed.Status = _selectedPeriod;
+            OnPropertyChanged(nameof(SelectedSeed));
         }
     }
 
     #endregion SelectedPeriod
 
+    #region SelectedTypeGround : TypeGround? - Выбранный тип почвы
+
+    private TypeGround? _selectedTypeGround;
+
+    /// <summary> Выбранный тип почвы </summary>
+    public TypeGround? SelectedTypeGround
+    {
+        get => _selectedTypeGround;
+        set
+        {
+            SetField(ref _selectedTypeGround, value);
+            SelectedSeed.TypeGround = SelectedTypeGround;
+            OnPropertyChanged(nameof(SelectedSeed));
+        }
+    }
+
+    #endregion SelectedTypeGround
+
     #region TypeSoils : ObservableCollection<string> - Список типов почв
 
-    private ObservableCollection<string> _typeSoils;
+    private ObservableCollection<TypeGround> _typeSoils;
 
     /// <summary> Список типов почв </summary>
-    public ObservableCollection<string> TypeSoils
+    public ObservableCollection<TypeGround> TypeSoils
     {
         get => _typeSoils;
         set => SetField(ref _typeSoils, value);
@@ -164,7 +177,7 @@ public class FieldInfoViewModel : BaseViewModel
     }
 
     #endregion Loaded
-    
+
     #region UpdateSensors - Обновление списка программ
 
     /// <summary> Обновление списка программ </summary>
@@ -248,7 +261,7 @@ public class FieldInfoViewModel : BaseViewModel
                 {
                     var str = sr.ReadToEnd();
                     var loadData = JsonConvert.DeserializeObject<List<SensorData>>(str);
-                    if(loadData?.Count > 0) allData.AddRange(loadData);
+                    if (loadData?.Count > 0) allData.AddRange(loadData);
                 }
             }
 
@@ -257,7 +270,7 @@ public class FieldInfoViewModel : BaseViewModel
             // {
             //     sensorData.Info.Temperature = random.Next(10, 15);
             // }
-            
+
             using (var fs = File.Open(Constants.SensorsData, FileMode.OpenOrCreate))
             {
                 allData.AddRange(Sensors.Select(x => new SensorData(x)));
@@ -316,7 +329,7 @@ public class FieldInfoViewModel : BaseViewModel
     private void OnOpenChartCommandExecute(object parameter)
     {
         var vm = new ChartControlViewModel(Sensors);
-        ManagerPage.Navigate(new ChartControl {DataContext = vm});
+        ManagerPage.Navigate(new ChartControl { DataContext = vm });
     }
 
     private bool CanOpenChartCommandExecuted(object parameter) => Sensors is { Count: > 0 };
@@ -338,7 +351,7 @@ public class FieldInfoViewModel : BaseViewModel
     #endregion OpenChartAll
 
     #endregion
-    
+
     public FieldInfoViewModel()
     {
         #region Команды
@@ -359,12 +372,8 @@ public class FieldInfoViewModel : BaseViewModel
         #endregion
 
         Cultures = new ObservableCollection<Culture>(Db.DbContext.Cultures.ToList());
-        GroundTypes = new ObservableCollection<TypeGround>(Db.DbContext.TypeGrounds.ToList());
-
-        TypeSoils = new ObservableCollection<string>()
-        {
-            "Чернозем", "Тундровые", "Подзолистые", "Болотные", "Серые лесные", "Луговые"
-        };
+        TypeSoils = new ObservableCollection<TypeGround>(Db.DbContext.TypeGrounds.ToList());
+        // "Чернозем", "Тундровые", "Подзолистые", "Болотные", "Серые лесные", "Луговые"
     }
 
     private void GetTestSensors()

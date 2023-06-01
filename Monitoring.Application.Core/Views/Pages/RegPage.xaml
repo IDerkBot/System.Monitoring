@@ -8,20 +8,19 @@
     Title="RegPage"
     HorizontalAlignment="Center"
     VerticalAlignment="Center"
-    d:DesignHeight="260"
-    d:DesignWidth="300"
     mc:Ignorable="d">
-    <StackPanel>
+    <StackPanel Width="300">
         <TextBlock
+            Margin="0,0,0,40"
             FontFamily="Montserrat"
             FontSize="24"
             FontWeight="ExtraBold"
             Text="Регистрация"
             TextAlignment="Center" />
-        <TextBox Name="TbLogin" wpf:Hint.Placeholder="Логин" />
-        <PasswordBox Name="PbPassword" wpf:Hint.Placeholder="Пароль" />
-        <PasswordBox Name="PbConfirm" wpf:Hint.Placeholder="Подтверждение пароля" />
-        <Button Margin="0,5" Click="RegIn_Click" Content="Зарегистрироваться" />
+        <TextBox Name="TbLogin" Margin="0,5" wpf:Hint.Placeholder="Логин" />
+        <PasswordBox Name="PbPassword" Margin="0,5" wpf:Hint.Placeholder="Пароль" />
+        <PasswordBox Name="PbConfirm" Margin="0,5" wpf:Hint.Placeholder="Подтверждение пароля" />
+        <Button Margin="0,15,0,5" Click="RegIn_Click" Content="Зарегистрироваться" />
         <Button Click="Back_Click" Content="Вернуться" />
     </StackPanel>
 </Page>
