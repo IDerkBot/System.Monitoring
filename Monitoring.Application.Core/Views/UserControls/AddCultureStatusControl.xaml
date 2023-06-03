@@ -5,10 +5,10 @@
     xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:wpf="clr-namespace:Arion.Style.AttachedProperties;assembly=Arion.Style"
-    HorizontalAlignment="Center"
-    VerticalAlignment="Center"
-    DataContext="{Binding Path=AddCultureStatusControl, Source={StaticResource Locator}}"
+    xmlns:vm="clr-namespace:SystemMonitoringNetCore.ViewModels"
+    Width="1920"
+    Height="1080"
+    d:DataContext="{d:DesignInstance vm:AddCultureStatusControlViewModel}"
     mc:Ignorable="d">
     <b:Interaction.Triggers>
         <b:EventTrigger EventName="Loaded">
@@ -23,21 +23,8 @@
     <StackPanel>
         <UniformGrid Columns="4">
             <StackPanel>
-                <Label Content="Культура" />
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <ComboBox DisplayMemberPath="Name" ItemsSource="{Binding ListCultures}" SelectedItem="{Binding CurrentCultureStatus.Culture}" />
-                    <Button
-                        Grid.Column="1"
-                        Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight}"
-                        Margin="5,0,0,0"
-                        Padding="5"
-                        wpf:Button.Icon="Add"
-                        Command="{Binding AddNewCultureCommand}" />
-                </Grid>
+                <Label Content="Культура:" />
+                <Label VerticalAlignment="Center" Content="{Binding CurrentCultureStatus.Culture.Name}" FontSize="20" />
             </StackPanel>
             <StackPanel>
                 <Label Content="Статус" />

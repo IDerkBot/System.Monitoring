@@ -9,7 +9,7 @@ public class Culture
     }
     public int Id { get; set; }
     public string Name { get; set; }
-    public byte[] Image { get; set; }
+    public byte[]? Image { get; set; }
     public virtual ICollection<Seed> Seeds { get; set; }
     public virtual ICollection<CultureStatus> Statuses { get; set; }
 }

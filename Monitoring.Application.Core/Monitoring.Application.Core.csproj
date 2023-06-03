@@ -108,4 +108,9 @@
       <Folder Include="Services" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="Resources\Images\noimg.png" />
+      <Resource Include="Resources\Images\noimg.png" />
+    </ItemGroup>
+
 </Project>

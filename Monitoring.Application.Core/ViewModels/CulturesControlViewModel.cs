@@ -26,20 +26,22 @@ public class CulturesControlViewModel : BaseViewModel
 
     #endregion Cultures
 
-    #region SelectedCulture : Culture - Выбранный статус культуры
+    #region SelectedCulture : Culture - Выбранная культура
 
-    private Culture _selectedCultureStatus;
+    private Culture _selectedCulture;
 
     /// <summary> Выбранный статус культуры </summary>
-    public Culture SelectedCultureStatus
+    public Culture SelectedCulture
     {
-        get => _selectedCultureStatus;
-        set => SetField(ref _selectedCultureStatus, value);
+        get => _selectedCulture;
+        set => SetField(ref _selectedCulture, value);
     }
 
     #endregion SelectedCulture
 
     #endregion
+
+    #region Commands
 
     #region Loaded - Загрузка окна
 
@@ -53,59 +55,64 @@ public class CulturesControlViewModel : BaseViewModel
 
     #endregion Loaded
 
-    #region Add - Добавляет новый статус культуры
+    #region SelectCulture - Выбор культуры и открытие информации о нем
 
-    /// <summary> Добавляет новый статус культуры </summary>
-    public ICommand AddCommand { get; }
+    /// <summary> Выбор культуры и открытие информации о нем </summary>
+    public ICommand SelectCultureCommand { get; }
 
-    private void OnAddCommandExecuted(object parameter) => ManagerPage.Navigate(new AddCultureStatusControlViewModel());
-
-    #endregion Add
-
-    #region Delete - Удаление статуса культуры
-
-    /// <summary> Удаление статуса культуры </summary>
-    public ICommand DeleteCommand { get; }
-
-    private void OnDeleteCommandExecuted(object parameter)
+    private void OnSelectCultureCommandExecuted(object parameter)
     {
-        if (parameter is CultureStatus cultureStatus)
+        if (parameter is Culture culture)
         {
-            Db.DbContext.CultureStatuses.Remove(cultureStatus);
+            var vm = new CultureInfoControlViewModel(culture);
+            ManagerPage.Navigate(new CultureInfoControl { DataContext = vm });
+        }
+    }
+
+    #endregion SelectCulture
+
+    #region AddNewCulture - Добавление новой культуры
+
+    /// <summary> Добавление новой культуры </summary>
+    public ICommand AddNewCultureCommand { get; }
+
+    private void OnAddNewCultureCommandExecuted(object parameter)
+    {
+        var vm = new CultureInfoControlViewModel(new Culture());
+        ManagerPage.Navigate(new CultureInfoControl { DataContext = vm });
+    }
+
+    #endregion AddNewCulture
+
+    #region DeleteSelectedCulture - Удаление выбранной культуры
+
+    /// <summary> Удаление выбранной культуры </summary>
+    public ICommand DeleteSelectedCultureCommand { get; }
+
+    private void OnDeleteSelectedCultureCommandExecuted(object parameter)
+    {
+        if (parameter is Culture culture)
+        {
+            Db.DbContext.Cultures.Remove(culture);
             Db.DbContext.SaveChanges();
-            
             UpdateCollection();
         }
     }
 
-    private bool CanDeleteCommandExecute(object parameter) => parameter is CultureStatus;
+    private bool CanDeleteSelectedCultureCommandExecute(object parameter) => parameter is Culture;
 
-    #endregion Delete
+    #endregion DeleteSelectedCulture
 
-    #region Edit - Редактирование статуса культуры
-
-    /// <summary> Редактирование статуса культуры </summary>
-    public ICommand EditCommand { get; }
-
-    private void OnEditCommandExecuted(object parameter)
-    {
-        if (parameter is not CultureStatus cultureStatus) return;
-        var vm = new AddCultureStatusControlViewModel(cultureStatus);
-        ManagerPage.Navigate(new AddCultureStatusControl { DataContext = vm });
-    }
-
-    private bool CanEditCommandExecute(object parameter) => parameter is CultureStatus;
-
-    #endregion Edit
-
+    #endregion
+    
     #region Constructor
 
     public CulturesControlViewModel()
     {
         LoadedCommand = new RelayCommand(OnLoadedCommandExecuted);
-        AddCommand = new RelayCommand(OnAddCommandExecuted);
-        DeleteCommand = new RelayCommand(OnDeleteCommandExecuted, CanDeleteCommandExecute);
-        EditCommand = new RelayCommand(OnEditCommandExecuted, CanEditCommandExecute);
+        SelectCultureCommand = new RelayCommand(OnSelectCultureCommandExecuted);
+        AddNewCultureCommand = new RelayCommand(OnAddNewCultureCommandExecuted);
+        DeleteSelectedCultureCommand = new RelayCommand(OnDeleteSelectedCultureCommandExecuted, CanDeleteSelectedCultureCommandExecute);
         
         Cultures = new ObservableCollection<Culture>();
     }
