@@ -16,19 +16,25 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal">
+        <UniformGrid
+            Grid.Row="0"
+            Width="1000"
+            HorizontalAlignment="Left"
+            Columns="4"
+            Rows="1">
             <ComboBox
                 Margin="5"
                 DisplayMemberPath="Id"
                 ItemsSource="{Binding Sensors}"
                 SelectedItem="{Binding SelectedSensor}" />
             <ComboBox Margin="5" ItemsSource="{Binding DataList}" SelectedItem="{Binding SelectedData}" />
-            <DatePicker Margin="5" />
-            <DatePicker Margin="5" />
-        </StackPanel>
+            <DatePicker Margin="5" SelectedDate="{Binding StartDate}" />
+            <DatePicker Margin="5" SelectedDate="{Binding EndDate}" />
+        </UniformGrid>
 
         <lvc:CartesianChart
             Grid.Row="1"
+            Sections="{Binding Section}"
             Series="{Binding Series}"
             XAxes="{Binding XAxis}"
             YAxes="{Binding YAxis}"

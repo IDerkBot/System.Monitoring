@@ -7,7 +7,10 @@ using LiveChartsCore;
 using LiveChartsCore.Defaults;
 using LiveChartsCore.Kernel.Sketches;
 using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Painting;
+using Monitoring.Models.Entity;
 using Newtonsoft.Json;
+using SkiaSharp;
 using SystemMonitoringNetCore.Models;
 using SystemMonitoringNetCore.ViewModels.Base;
 
@@ -15,6 +18,8 @@ namespace SystemMonitoringNetCore.ViewModels;
 
 public class ChartControlViewModel : BaseViewModel
 {
+    #region Properties
+
     #region Sensors : ObservableCollection<Sensor> - Список датчиков
 
     private ObservableCollection<Sensor> _sensors;
@@ -58,6 +63,32 @@ public class ChartControlViewModel : BaseViewModel
 
     #endregion DatasList
 
+    #region CurrentCultureStatus : CultureStatus - Корректный статус культуры для выбранных сенсоров
+
+    private CultureStatus _currentCultureStatus;
+
+    /// <summary> Корректный статус культуры для выбранных сенсоров </summary>
+    public CultureStatus CurrentCultureStatus
+    {
+        get => _currentCultureStatus;
+        set => SetField(ref _currentCultureStatus, value);
+    }
+
+    #endregion CurrentCultureStatus
+
+    #region Section : RectangularSection[] - Секции
+
+    private RectangularSection[] _section;
+
+    /// <summary> Секции </summary>
+    public RectangularSection[] Section
+    {
+        get => _section;
+        set => SetField(ref _section, value);
+    }
+
+    #endregion Section
+
     #region SelectedData : string - Выбранные тип данных
 
     private string _selectedData;
@@ -73,125 +104,8 @@ public class ChartControlViewModel : BaseViewModel
         }
     }
 
-    private void UpdateChart()
-    {
-        if(string.IsNullOrWhiteSpace(_selectedData)) return;
-        switch (_selectedData)
-            {
-                case "Температура":
-                    Series = new ISeries[]
-                    {
-                        new LineSeries<DateTimePoint>
-                        {
-                            Values = _allSensors.Where(x => x.Info.Id == SelectedSensor.Id)
-                                .Select(x => new DateTimePoint(x.DateTime, x.Info.Temperature))
-                                .ToList(),
-                            Fill = null,
-                            IsVisibleAtLegend = true,
-                        }
-                    };
-                    break;
-                case "Натрий":
-                    Series = new ISeries[]
-                    {
-                        new LineSeries<DateTimePoint>
-                        {
-                            Values = _allSensors.Where(x => x.Info.Id == SelectedSensor.Id)
-                                .Select(x => new DateTimePoint(x.DateTime, x.Info.Sodium))
-                                .ToList(),
-                            Fill = null,
-                            IsVisibleAtLegend = true,
-                        }
-                    };
-                    break;
-                case "Фосфор":
-                    Series = new ISeries[]
-                    {
-                        new LineSeries<DateTimePoint>
-                        {
-                            Values = _allSensors.Where(x => x.Info.Id == SelectedSensor.Id)
-                                .Select(x => new DateTimePoint(x.DateTime, x.Info.Phosphorus))
-                                .ToList(),
-                            Fill = null,
-                            IsVisibleAtLegend = true,
-                        }
-                    };
-                    break;
-                case "Засоленность":
-                    Series = new ISeries[]
-                    {
-                        new LineSeries<DateTimePoint>
-                        {
-                            Values = _allSensors.Where(x => x.Info.Id == SelectedSensor.Id)
-                                .Select(x => new DateTimePoint(x.DateTime, x.Info.Salinity))
-                                .ToList(),
-                            Fill = null,
-                            IsVisibleAtLegend = true,
-                        }
-                    };
-                    break;
-                case "Влажность":
-                    Series = new ISeries[]
-                    {
-                        new LineSeries<DateTimePoint>
-                        {
-                            Values = _allSensors.Where(x => x.Info.Id == SelectedSensor.Id)
-                                .Select(x => new DateTimePoint(x.DateTime, x.Info.Humidity))
-                                .ToList(),
-                            Fill = null,
-                            IsVisibleAtLegend = true,
-                        }
-                    };
-                    break;
-                case "Кислотность":
-                    Series = new ISeries[]
-                    {
-                        new LineSeries<DateTimePoint>
-                        {
-                            Values = _allSensors.Where(x => x.Info.Id == SelectedSensor.Id)
-                                .Select(x => new DateTimePoint(x.DateTime, x.Info.Acidity))
-                                .ToList(),
-                            Fill = null,
-                            IsVisibleAtLegend = true,
-                        }
-                    };
-                    break;
-                case "Калий":
-                    Series = new ISeries[]
-                    {
-                        new LineSeries<DateTimePoint>
-                        {
-                            Values = _allSensors.Where(x => x.Info.Id == SelectedSensor.Id)
-                                .Select(x => new DateTimePoint(x.DateTime, x.Info.Potassium))
-                                .ToList(),
-                            Fill = null,
-                            IsVisibleAtLegend = true,
-                        }
-                    };
-                    break;
-            }
-        
-        XAxis = new List<ICartesianAxis>
-        {
-            new Axis
-            {
-                LabelsRotation = 15,
-                Labeler = value => new DateTime((long)value).ToString("dd.MM.yyyy HH:mm"),
-                UnitWidth = TimeSpan.FromHours(1).Ticks
-            }
-        };
-
-        YAxis = new List<ICartesianAxis>
-        {
-            new Axis
-            {
-                MinStep = 1
-            }
-        };
-    }
-
     #endregion SelectedData
-    
+
     #region XAxis : List<ICartesianAxis> - Список дат
 
     private List<ICartesianAxis> _xAxis;
@@ -231,15 +145,232 @@ public class ChartControlViewModel : BaseViewModel
 
     #endregion Series
 
+    #region StartDate : DateTime - Дата от
+
+    private DateTime _startDate;
+
+    /// <summary> Дата от </summary>
+    public DateTime StartDate
+    {
+        get => _startDate;
+        set
+        {
+            SetField(ref _startDate, value);
+            UpdateChart();
+        }
+    }
+
+    #endregion StartDate
+
+    #region EndDate : DateTime - Дата до
+
+    private DateTime _endDate;
+
+    /// <summary> Дата до </summary>
+    public DateTime EndDate
+    {
+        get => _endDate;
+        set
+        {
+            SetField(ref _endDate, value);
+            UpdateChart();
+        }
+    }
+
+    #endregion EndDate
+
+    #endregion
+
     private readonly List<SensorData> _allSensors;
 
-    public ChartControlViewModel(List<Sensor> sensors)
+    public ChartControlViewModel(List<Sensor> sensors, CultureStatus currentCultureStatus)
     {
+        StartDate = DateTime.Now.AddDays(-183);
+        EndDate = DateTime.Now.AddDays(183);
         Sensors = new ObservableCollection<Sensor>(sensors);
+        CurrentCultureStatus = currentCultureStatus;
         var str = File.ReadAllText(Constants.SensorsData);
         var items = JsonConvert.DeserializeObject<List<SensorData>>(str);
-        if(items?.Count > 0) _allSensors = items;
+        if (items?.Count > 0) _allSensors = items;
 
         DataList = new List<string> { "Температура", "Натрий", "Калий", "Фосфор", "Засоленность", "Влажность", "Кислотность" };
     }
+
+    #region Private Methods
+
+    private void UpdateChart()
+    {
+        if (string.IsNullOrWhiteSpace(_selectedData)) return;
+
+        var currentSensor = _allSensors.Where(x => x.Info.Id == SelectedSensor.Id && StartDate <= x.DateTime && EndDate >= x.DateTime).ToList();
+        if (!currentSensor.Any()) return;
+
+        Series = new ISeries[]
+        {
+            new LineSeries<DateTimePoint>
+            {
+                Fill = null,
+                IsVisibleAtLegend = true,
+                LineSmoothness = .3,
+                Stroke = new SolidColorPaint { Color = SKColors.Green, StrokeThickness = 2 },
+                GeometryStroke = new SolidColorPaint { Color = SKColors.Green },
+            }
+        };
+        var statuses = currentSensor.GroupBy(x => x.CultureStatus).ToList();
+        var statusCount = statuses.Count;
+        Section = new RectangularSection[statusCount];
+        long lastMaxDate = 0;
+        
+        for (var i = 0; i < statusCount; i++)
+        {
+            var currentData = currentSensor.Where(x => x.CultureStatus == statuses[i].Key).ToList();
+            var minDate = lastMaxDate == 0 ? currentData.Min(x => x.DateTime).Ticks : lastMaxDate;
+            var maxDate = currentData.Max(x => x.DateTime).Ticks;
+            lastMaxDate = maxDate;
+            Section[i] = new RectangularSection
+            {
+                Xi = minDate,
+                Xj = maxDate,
+                Fill =  new SolidColorPaint { Color = i % 2 == 0 ? SKColors.LimeGreen.WithAlpha(60) : SKColors.Green.WithAlpha(60) }
+            };
+        }
+        
+        XAxis = new List<ICartesianAxis>
+        {
+            new Axis
+            {
+                LabelsRotation = 15,
+                Labeler = value => value > 0 ? new DateTime((long)value).ToString("dd.MM.yyyy") : new DateTime(0).ToString("dd.MM.yyyy"),
+                UnitWidth = 0,
+                ShowSeparatorLines = true,
+                MinStep = 1,
+            }
+        };
+
+        YAxis = new List<ICartesianAxis>
+        {
+            new Axis
+            {
+                MinStep = 1,
+                ShowSeparatorLines = true,
+            }
+        };
+        
+        switch (_selectedData)
+        {
+            case "Температура":
+                Series[0].Name = "Температура";
+                Series[0].Values = currentSensor
+                    .Select(x => new DateTimePoint(x.DateTime, x.Info.Temperature))
+                    .ToList();
+
+                YAxis[0].MaxLimit = currentSensor.Max(x => x.Info.Temperature) + 10;
+                YAxis[0].MinLimit = currentSensor.Min(x => x.Info.Temperature) - 10;
+                
+                for (var i = 0; i < statusCount; i++)
+                {
+                    var currentStatus = Db.DbContext.CultureStatuses.First(x => x.Status == statuses[i].Key);
+                    Section[i].Yi = currentStatus.StartingValueTemperature;
+                    Section[i].Yj = currentStatus.EndingValueTemperature;
+                }
+                OnPropertyChanged(nameof(Section));
+                break;
+            case "Натрий":
+                Series[0].Name = "Натрий";
+                Series[0].Values = currentSensor
+                    .Select(x => new DateTimePoint(x.DateTime, x.Info.Sodium))
+                    .ToList();
+                
+                YAxis[0].MaxLimit = currentSensor.Max(x => x.Info.Sodium) + 10;
+                YAxis[0].MinLimit = currentSensor.Min(x => x.Info.Sodium) - 10;
+                
+                for (var i = 0; i < statusCount; i++)
+                {
+                    var currentStatus = Db.DbContext.CultureStatuses.First(x => x.Status == statuses[i].Key);
+                    Section[i].Yi = currentStatus.EndingValueTemperature;
+                    Section[i].Yj = currentStatus.EndingValueTemperature;
+                }
+                break;
+            case "Фосфор":
+                Series[0].Values = currentSensor
+                    .Select(x => new DateTimePoint(x.DateTime, x.Info.Phosphorus))
+                    .ToList();
+                
+                YAxis[0].MaxLimit = currentSensor.Max(x => x.Info.Phosphorus) + 10;
+                YAxis[0].MinLimit = currentSensor.Min(x => x.Info.Phosphorus) - 10;
+                
+                for (var i = 0; i < statusCount; i++)
+                {
+                    var currentStatus = Db.DbContext.CultureStatuses.First(x => x.Status == statuses[i].Key);
+                    Section[i].Yi = currentStatus.StartingValuePhosphor;
+                    Section[i].Yj = currentStatus.EndingValuePhosphor;
+                }
+                break;
+            case "Засоленность":
+                Series[0].Values = currentSensor
+                    .Select(x => new DateTimePoint(x.DateTime, x.Info.Salinity))
+                    .ToList();
+                
+                YAxis[0].MaxLimit = currentSensor.Max(x => x.Info.Salinity) + 10;
+                YAxis[0].MinLimit = currentSensor.Min(x => x.Info.Salinity) - 10;
+                
+                for (var i = 0; i < statusCount; i++)
+                {
+                    var currentStatus = Db.DbContext.CultureStatuses.First(x => x.Status == statuses[i].Key);
+                    Section[i].Yi = currentStatus.StartingValueTemperature;
+                    Section[i].Yj = currentStatus.EndingValueTemperature;
+                }
+                break;
+            case "Влажность":
+                Series[0].Values = currentSensor
+                    .Select(x => new DateTimePoint(x.DateTime, x.Info.Humidity))
+                    .ToList();
+                
+                YAxis[0].MaxLimit = currentSensor.Max(x => x.Info.Humidity) + 10;
+                YAxis[0].MinLimit = currentSensor.Min(x => x.Info.Humidity) - 10;
+                
+                for (var i = 0; i < statusCount; i++)
+                {
+                    var currentStatus = Db.DbContext.CultureStatuses.First(x => x.Status == statuses[i].Key);
+                    Section[i].Yi = currentStatus.StartingValueHumidity;
+                    Section[i].Yj = currentStatus.EndingValueHumidity;
+                }
+                break;
+            case "Кислотность":
+                Series[0].Values = currentSensor
+                    .Select(x => new DateTimePoint(x.DateTime, x.Info.Acidity))
+                    .ToList();
+                
+                YAxis[0].MaxLimit = currentSensor.Max(x => x.Info.Acidity) + 10;
+                YAxis[0].MinLimit = currentSensor.Min(x => x.Info.Acidity) - 10;
+                
+                for (var i = 0; i < statusCount; i++)
+                {
+                    var currentStatus = Db.DbContext.CultureStatuses.First(x => x.Status == statuses[i].Key);
+                    Section[i].Yi = currentStatus.StartingValuePh;
+                    Section[i].Yj = currentStatus.EndingValuePh;
+                }
+                break;
+            case "Калий":
+                Series[0].Values = currentSensor
+                    .Select(x => new DateTimePoint(x.DateTime, x.Info.Potassium))
+                    .ToList();
+                
+                YAxis[0].MaxLimit = currentSensor.Max(x => x.Info.Potassium) + 10;
+                YAxis[0].MinLimit = currentSensor.Min(x => x.Info.Potassium) - 10;
+                
+                for (var i = 0; i < statusCount; i++)
+                {
+                    var currentStatus = Db.DbContext.CultureStatuses.First(x => x.Status == statuses[i].Key);
+                    Section[i].Yi = currentStatus.StartingValuePotassium;
+                    Section[i].Yj = currentStatus.EndingValuePotassium;
+                }
+                break;
+        }
+
+        OnPropertyChanged(nameof(Series));
+        OnPropertyChanged(nameof(Section));
+    }
+
+    #endregion
 }

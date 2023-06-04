@@ -188,10 +188,7 @@ public class FieldInfoViewModel : BaseViewModel
         GetTestSensors();
     }
 
-    private bool CanUpdateSensorsCommandExecuted(object parameter)
-    {
-        return true;
-    }
+    private bool CanUpdateSensorsCommandExecuted(object parameter) => true;
 
     #endregion UpdateSensors
 
@@ -254,7 +251,34 @@ public class FieldInfoViewModel : BaseViewModel
         {
             List<SensorData> allData = new List<SensorData>();
 
-
+            var rand = new Random();
+            for (int i = 1; i <= 10; i++)
+            {
+                for (int j = 1; j < 366; j++)
+                {
+                    var sensor = new Sensor
+                    {
+                        Id = i, Acidity = rand.Next(0, 100), Sodium = rand.Next(0, 100), Salinity = rand.Next(0, 100),
+                        Humidity = rand.Next(0, 100), Potassium = rand.Next(0, 100),
+                        Phosphorus = rand.Next(0, 100), Temperature = j < 10 ? rand.Next(10, 16) : rand.Next(12, 15), Recommendation = $"Тестовый датчик {i}"
+                    };
+                    var date = new DateTime(2023, 05, 01).AddDays(j);
+                    var data = new SensorData(sensor) { DateTime = date, CultureStatus = j < 10 ? "Засев" : "Прорастание"};
+                    allData.Add(data);
+                }
+            }
+            
+            using (var fs = File.Open(Constants.SensorsData, FileMode.OpenOrCreate))
+            {
+                using (var sw = new StreamWriter(fs))
+                {
+                    sw.Write(JsonConvert.SerializeObject(allData));
+                }
+            }
+            
+            return;
+            
+            // Читаем данные из файла
             using (var fs = File.Open(Constants.SensorsData, FileMode.OpenOrCreate))
             {
                 using (var sr = new StreamReader(fs))
@@ -265,12 +289,7 @@ public class FieldInfoViewModel : BaseViewModel
                 }
             }
 
-            // var random = new Random();
-            // foreach (var sensorData in allData)
-            // {
-            //     sensorData.Info.Temperature = random.Next(10, 15);
-            // }
-
+            // Загружаем данные из сенсоров которые у нас есть
             using (var fs = File.Open(Constants.SensorsData, FileMode.OpenOrCreate))
             {
                 allData.AddRange(Sensors.Select(x => new SensorData(x)));
@@ -328,7 +347,7 @@ public class FieldInfoViewModel : BaseViewModel
 
     private void OnOpenChartCommandExecute(object parameter)
     {
-        var vm = new ChartControlViewModel(Sensors);
+        var vm = new ChartControlViewModel(Sensors, SelectedSeed.Status);
         ManagerPage.Navigate(new ChartControl { DataContext = vm });
     }
 
