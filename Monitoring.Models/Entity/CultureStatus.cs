@@ -23,4 +23,9 @@ public class CultureStatus
     public double StartingValueTemperature { get; set; }
     public double EndingValueTemperature { get; set; }
     public Culture Culture { get; set; }
+
+    public override string ToString()
+    {
+        return Status;
+    }
 }

@@ -12,4 +12,9 @@ public class Culture
     public byte[]? Image { get; set; }
     public virtual ICollection<Seed> Seeds { get; set; }
     public virtual ICollection<CultureStatus> Statuses { get; set; }
+
+    public override string ToString()
+    {
+        return Name;
+    }
 }

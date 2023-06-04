@@ -14,4 +14,9 @@ public class TypeGround
     public int Id { get; set; }
     public string Title { get; set; }
     public virtual ICollection<Seed> Seeds { get; set; }
+
+    public override string ToString()
+    {
+        return Title;
+    }
 }
