@@ -17,7 +17,7 @@
             <DataGridTextColumn Width="*" Binding="{Binding PotassiumOxide}" Header="Калий" />
             <DataGridTextColumn Width="70" Binding="{Binding Asot}" Header="Азот" />
             <DataGridTextColumn Width="*" Binding="{Binding MagnesiumOxide}" Header="Магний" />
-            <DataGridTextColumn Width="100" Binding="{Binding NitrateNitrogen}" Header="Кислотность" />
+            <DataGridTextColumn Width="100" Binding="{Binding SulfurOxide}" Header="Кислотность" />
         </DataGrid.Columns>
     </DataGrid>
 </Page>

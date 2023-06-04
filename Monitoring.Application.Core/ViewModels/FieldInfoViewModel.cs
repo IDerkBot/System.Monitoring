@@ -411,5 +411,6 @@ public class FieldInfoViewModel : BaseViewModel
                 Phosphorus = rand.Next(0, 100), Temperature = rand.Next(10, 20), Recommendation = $"Тестовый датчик {i}"
             });
         }
+        OnPropertyChanged(nameof(Sensors));
     }
 }
