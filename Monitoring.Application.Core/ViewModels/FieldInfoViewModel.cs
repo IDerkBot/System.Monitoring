@@ -362,7 +362,9 @@ public class FieldInfoViewModel : BaseViewModel
 
     private void OnOpenChartAllCommandExecute(object parameter)
     {
-        ManagerPage.Navigate(new ChartsPage(Sensors));
+        var vm = new AllChartsControlViewModel(Sensors, SelectedSeed.Status);
+        ManagerPage.Navigate(new AllChartsControl() { DataContext = vm });
+        // ManagerPage.Navigate(new ChartsPage(Sensors));
     }
 
     private bool CanOpenChartAllCommandExecuted(object parameter) => Sensors is { Count: > 0 };
@@ -400,7 +402,7 @@ public class FieldInfoViewModel : BaseViewModel
         var rand = new Random();
         Sensors = new List<Sensor>();
 
-        for (var i = 1; i <= 10; i++)
+        for (var i = 1; i <= 100; i++)
         {
             Sensors.Add(new Sensor
             {
