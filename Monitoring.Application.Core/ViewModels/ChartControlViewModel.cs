@@ -241,7 +241,7 @@ public class ChartControlViewModel : BaseViewModel
             {
                 LabelsRotation = 15,
                 Labeler = value => value > 0 ? new DateTime((long)value).ToString("dd.MM.yyyy") : new DateTime(0).ToString("dd.MM.yyyy"),
-                UnitWidth = 0,
+                UnitWidth = TimeSpan.FromDays(1).Ticks,
                 ShowSeparatorLines = true,
                 MinStep = 1,
             }

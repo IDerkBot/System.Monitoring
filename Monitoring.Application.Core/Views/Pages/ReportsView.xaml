@@ -50,7 +50,7 @@
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
             <ListView.Resources>
-                <DataTemplate DataType="{x:Type data:WorldViewModel}">
+                <DataTemplate DataType="{x:Type data:WordViewModel}">
                     <uc:WordView />
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type data:ExcelViewModel}">

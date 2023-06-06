@@ -82,7 +82,7 @@ public class ReportsViewModel : BaseViewModel
 
         Files.Clear();
         foreach (var wordFile in listWords)
-            Files.Add(new WorldViewModel(new FileInfo(wordFile)));
+            Files.Add(new WordViewModel(new FileInfo(wordFile)));
         foreach (var excelFile in listExcels)
             Files.Add(new ExcelViewModel(new FileInfo(excelFile)));
     }
