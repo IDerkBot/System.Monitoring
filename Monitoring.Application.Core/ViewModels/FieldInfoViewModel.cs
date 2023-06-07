@@ -10,7 +10,7 @@ using SystemMonitoringNetCore.Infrastructure.Command;
 using SystemMonitoringNetCore.Models;
 using SystemMonitoringNetCore.ViewModels.Base;
 using SystemMonitoringNetCore.Views.Pages;
-using Sensor = SystemMonitoringNetCore.Models.Sensor;
+using Sensor = Monitoring.Models.Entity.Sensor;
 
 namespace SystemMonitoringNetCore.ViewModels;
 
@@ -263,11 +263,11 @@ public class FieldInfoViewModel : BaseViewModel
                         Phosphorus = rand.Next(0, 100), Temperature = j < 10 ? rand.Next(10, 16) : rand.Next(12, 15), Recommendation = $"Тестовый датчик {i}"
                     };
                     var date = new DateTime(2023, 05, 01).AddDays(j);
-                    var data = new SensorData(sensor) { DateTime = date, CultureStatus = j < 10 ? "Засев" : "Прорастание"};
+                    var data = new SensorData { DateTime = date, CultureStatus = j < 10 ? "Засев" : "Прорастание" };
                     allData.Add(data);
                 }
             }
-            
+
             using (var fs = File.Open(Constants.SensorsData, FileMode.OpenOrCreate))
             {
                 using (var sw = new StreamWriter(fs))
@@ -275,9 +275,9 @@ public class FieldInfoViewModel : BaseViewModel
                     sw.Write(JsonConvert.SerializeObject(allData));
                 }
             }
-            
+
             return;
-            
+
             // Читаем данные из файла
             using (var fs = File.Open(Constants.SensorsData, FileMode.OpenOrCreate))
             {
@@ -292,7 +292,7 @@ public class FieldInfoViewModel : BaseViewModel
             // Загружаем данные из сенсоров которые у нас есть
             using (var fs = File.Open(Constants.SensorsData, FileMode.OpenOrCreate))
             {
-                allData.AddRange(Sensors.Select(x => new SensorData(x)));
+                allData.AddRange(Sensors.Select(x => new SensorData()));
                 using (var sw = new StreamWriter(fs))
                 {
                     sw.Write(JsonConvert.SerializeObject(allData));
@@ -404,13 +404,27 @@ public class FieldInfoViewModel : BaseViewModel
 
         for (var i = 1; i <= 100; i++)
         {
-            Sensors.Add(new Sensor
+            var sensor = new Sensor
             {
                 Id = i, Acidity = rand.Next(0, 100), Sodium = rand.Next(0, 100), Salinity = rand.Next(0, 100),
                 Humidity = rand.Next(0, 100), Potassium = rand.Next(0, 100),
                 Phosphorus = rand.Next(0, 100), Temperature = rand.Next(10, 20), Recommendation = $"Тестовый датчик {i}"
-            });
+            };
+            Sensors.Add(sensor);
+            // if (Db.DbContext.Sensors.All(x => x.Id != sensor.Id))
+            //     Db.DbContext.Sensors.Add(sensor);
+            
+            Db.DbContext.SaveChanges();
+
+            var currentSensor = Db.DbContext.Sensors.First(x => x.Id == sensor.Id);
+            
+            // for (int j = 0; j < 365; j++)
+            // {
+            //     Db.DbContext.SensorData.Add(new SensorData { DateTime = new DateTime(2023, 01, 01).AddDays(j), SensorInfo = currentSensor, CultureStatus = "Засев" });
+            //     Db.DbContext.SaveChanges();
+            // }
         }
+
         OnPropertyChanged(nameof(Sensors));
     }
 }

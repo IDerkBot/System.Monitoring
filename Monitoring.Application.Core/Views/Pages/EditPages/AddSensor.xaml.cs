@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using SystemMonitoringNetCore.Models;
-using Sensor = SystemMonitoringNetCore.Models.Sensor;
+using Sensor = Monitoring.Models.Entity.Sensor;
 
 namespace SystemMonitoringNetCore.Views.Pages
 {

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO.Ports;
 using System.Linq;
+using Monitoring.Models.Entity;
 
 //using Task = Microsoft.Office.Interop.Word.Task;
 
@@ -61,6 +62,6 @@ public static class ArduinoWorker
 
     private static void ConvertSensor(string line)
     {
-        Sensors.Add(new Sensor(line));
+        // Sensors.Add(new Sensor(line));
     }
 }

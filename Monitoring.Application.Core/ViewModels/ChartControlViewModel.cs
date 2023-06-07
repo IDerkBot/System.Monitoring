@@ -190,8 +190,9 @@ public class ChartControlViewModel : BaseViewModel
         Sensors = new ObservableCollection<Sensor>(sensors);
         CurrentCultureStatus = currentCultureStatus;
         var str = File.ReadAllText(Constants.SensorsData);
-        var items = JsonConvert.DeserializeObject<List<SensorData>>(str);
-        if (items?.Count > 0) _allSensors = items;
+        // var items = JsonConvert.DeserializeObject<List<SensorData>>(str);
+        var items = Db.DbContext.SensorData.ToList();
+        if (items.Count > 0) _allSensors = items;
 
         DataList = new List<string> { "Температура", "Натрий", "Калий", "Фосфор", "Засоленность", "Влажность", "Кислотность" };
     }
@@ -202,8 +203,18 @@ public class ChartControlViewModel : BaseViewModel
     {
         if (string.IsNullOrWhiteSpace(_selectedData)) return;
 
-        var currentSensor = _allSensors.Where(x => x.Info.Id == SelectedSensor.Id && StartDate <= x.DateTime && EndDate >= x.DateTime).ToList();
-        if (!currentSensor.Any()) return;
+        List<SensorData> currentSensorData = new List<SensorData>();
+        _allSensors.ForEach(x =>
+        {
+            if (x.SensorInfo != null && x.SensorInfo.Id == SelectedSensor.Id)
+            {
+                if (StartDate <= x.DateTime && EndDate >= x.DateTime)
+                {
+                    currentSensorData.Add(x);
+                }
+            }
+        });
+        if (!currentSensorData.Any()) return;
 
         Series = new ISeries[]
         {
@@ -216,14 +227,14 @@ public class ChartControlViewModel : BaseViewModel
                 GeometryStroke = new SolidColorPaint { Color = SKColors.Green },
             }
         };
-        var statuses = currentSensor.GroupBy(x => x.CultureStatus).ToList();
+        var statuses = currentSensorData.GroupBy(x => x.CultureStatus).ToList();
         var statusCount = statuses.Count;
         Section = new RectangularSection[statusCount];
         long lastMaxDate = 0;
         
         for (var i = 0; i < statusCount; i++)
         {
-            var currentData = currentSensor.Where(x => x.CultureStatus == statuses[i].Key).ToList();
+            var currentData = currentSensorData.Where(x => x.CultureStatus == statuses[i].Key).ToList();
             var minDate = lastMaxDate == 0 ? currentData.Min(x => x.DateTime).Ticks : lastMaxDate;
             var maxDate = currentData.Max(x => x.DateTime).Ticks;
             lastMaxDate = maxDate;
@@ -260,12 +271,12 @@ public class ChartControlViewModel : BaseViewModel
         {
             case "Температура":
                 Series[0].Name = "Температура";
-                Series[0].Values = currentSensor
-                    .Select(x => new DateTimePoint(x.DateTime, x.Info.Temperature))
+                Series[0].Values = currentSensorData
+                    .Select(x => new DateTimePoint(x.DateTime, x.SensorInfo.Temperature))
                     .ToList();
 
-                YAxis[0].MaxLimit = currentSensor.Max(x => x.Info.Temperature) + 10;
-                YAxis[0].MinLimit = currentSensor.Min(x => x.Info.Temperature) - 10;
+                YAxis[0].MaxLimit = currentSensorData.Max(x => x.SensorInfo.Temperature) + 10;
+                YAxis[0].MinLimit = currentSensorData.Min(x => x.SensorInfo.Temperature) - 10;
                 
                 for (var i = 0; i < statusCount; i++)
                 {
@@ -277,12 +288,12 @@ public class ChartControlViewModel : BaseViewModel
                 break;
             case "Натрий":
                 Series[0].Name = "Натрий";
-                Series[0].Values = currentSensor
-                    .Select(x => new DateTimePoint(x.DateTime, x.Info.Sodium))
+                Series[0].Values = currentSensorData
+                    .Select(x => new DateTimePoint(x.DateTime, x.SensorInfo.Sodium))
                     .ToList();
                 
-                YAxis[0].MaxLimit = currentSensor.Max(x => x.Info.Sodium) + 10;
-                YAxis[0].MinLimit = currentSensor.Min(x => x.Info.Sodium) - 10;
+                YAxis[0].MaxLimit = currentSensorData.Max(x => x.SensorInfo.Sodium) + 10;
+                YAxis[0].MinLimit = currentSensorData.Min(x => x.SensorInfo.Sodium) - 10;
                 
                 for (var i = 0; i < statusCount; i++)
                 {
@@ -292,12 +303,12 @@ public class ChartControlViewModel : BaseViewModel
                 }
                 break;
             case "Фосфор":
-                Series[0].Values = currentSensor
-                    .Select(x => new DateTimePoint(x.DateTime, x.Info.Phosphorus))
+                Series[0].Values = currentSensorData
+                    .Select(x => new DateTimePoint(x.DateTime, x.SensorInfo.Phosphorus))
                     .ToList();
                 
-                YAxis[0].MaxLimit = currentSensor.Max(x => x.Info.Phosphorus) + 10;
-                YAxis[0].MinLimit = currentSensor.Min(x => x.Info.Phosphorus) - 10;
+                YAxis[0].MaxLimit = currentSensorData.Max(x => x.SensorInfo.Phosphorus) + 10;
+                YAxis[0].MinLimit = currentSensorData.Min(x => x.SensorInfo.Phosphorus) - 10;
                 
                 for (var i = 0; i < statusCount; i++)
                 {
@@ -307,12 +318,12 @@ public class ChartControlViewModel : BaseViewModel
                 }
                 break;
             case "Засоленность":
-                Series[0].Values = currentSensor
-                    .Select(x => new DateTimePoint(x.DateTime, x.Info.Salinity))
+                Series[0].Values = currentSensorData
+                    .Select(x => new DateTimePoint(x.DateTime, x.SensorInfo.Salinity))
                     .ToList();
                 
-                YAxis[0].MaxLimit = currentSensor.Max(x => x.Info.Salinity) + 10;
-                YAxis[0].MinLimit = currentSensor.Min(x => x.Info.Salinity) - 10;
+                YAxis[0].MaxLimit = currentSensorData.Max(x => x.SensorInfo.Salinity) + 10;
+                YAxis[0].MinLimit = currentSensorData.Min(x => x.SensorInfo.Salinity) - 10;
                 
                 for (var i = 0; i < statusCount; i++)
                 {
@@ -322,12 +333,12 @@ public class ChartControlViewModel : BaseViewModel
                 }
                 break;
             case "Влажность":
-                Series[0].Values = currentSensor
-                    .Select(x => new DateTimePoint(x.DateTime, x.Info.Humidity))
+                Series[0].Values = currentSensorData
+                    .Select(x => new DateTimePoint(x.DateTime, x.SensorInfo.Humidity))
                     .ToList();
                 
-                YAxis[0].MaxLimit = currentSensor.Max(x => x.Info.Humidity) + 10;
-                YAxis[0].MinLimit = currentSensor.Min(x => x.Info.Humidity) - 10;
+                YAxis[0].MaxLimit = currentSensorData.Max(x => x.SensorInfo.Humidity) + 10;
+                YAxis[0].MinLimit = currentSensorData.Min(x => x.SensorInfo.Humidity) - 10;
                 
                 for (var i = 0; i < statusCount; i++)
                 {
@@ -337,12 +348,12 @@ public class ChartControlViewModel : BaseViewModel
                 }
                 break;
             case "Кислотность":
-                Series[0].Values = currentSensor
-                    .Select(x => new DateTimePoint(x.DateTime, x.Info.Acidity))
+                Series[0].Values = currentSensorData
+                    .Select(x => new DateTimePoint(x.DateTime, x.SensorInfo.Acidity))
                     .ToList();
                 
-                YAxis[0].MaxLimit = currentSensor.Max(x => x.Info.Acidity) + 10;
-                YAxis[0].MinLimit = currentSensor.Min(x => x.Info.Acidity) - 10;
+                YAxis[0].MaxLimit = currentSensorData.Max(x => x.SensorInfo.Acidity) + 10;
+                YAxis[0].MinLimit = currentSensorData.Min(x => x.SensorInfo.Acidity) - 10;
                 
                 for (var i = 0; i < statusCount; i++)
                 {
@@ -352,12 +363,12 @@ public class ChartControlViewModel : BaseViewModel
                 }
                 break;
             case "Калий":
-                Series[0].Values = currentSensor
-                    .Select(x => new DateTimePoint(x.DateTime, x.Info.Potassium))
+                Series[0].Values = currentSensorData
+                    .Select(x => new DateTimePoint(x.DateTime, x.SensorInfo.Potassium))
                     .ToList();
                 
-                YAxis[0].MaxLimit = currentSensor.Max(x => x.Info.Potassium) + 10;
-                YAxis[0].MinLimit = currentSensor.Min(x => x.Info.Potassium) - 10;
+                YAxis[0].MaxLimit = currentSensorData.Max(x => x.SensorInfo.Potassium) + 10;
+                YAxis[0].MinLimit = currentSensorData.Min(x => x.SensorInfo.Potassium) - 10;
                 
                 for (var i = 0; i < statusCount; i++)
                 {

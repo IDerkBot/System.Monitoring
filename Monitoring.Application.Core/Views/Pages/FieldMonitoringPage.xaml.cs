@@ -12,7 +12,7 @@ using Monitoring.Models.Entity;
 using Newtonsoft.Json;
 using SystemMonitoringNetCore.Controls;
 using SystemMonitoringNetCore.Models;
-using Sensor = SystemMonitoringNetCore.Models.Sensor;
+using Sensor = Monitoring.Models.Entity.Sensor;
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace SystemMonitoringNetCore.Views.Pages;

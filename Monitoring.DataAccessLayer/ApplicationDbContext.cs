@@ -24,4 +24,6 @@ public class ApplicationDbContext : DbContext
     public DbSet<Seed> Seeds { get; set; }
     public DbSet<SeedFertilizer> SeedFertilizers { get; set; }
     public DbSet<Field> Fields { get; set; }
+    public DbSet<SensorData> SensorData { get; set; }
+    public DbSet<Sensor> Sensors { get; set; }
 }

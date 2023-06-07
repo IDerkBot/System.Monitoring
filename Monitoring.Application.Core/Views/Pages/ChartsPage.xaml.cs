@@ -2,7 +2,7 @@
 using System.Linq;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
-using Sensor = SystemMonitoringNetCore.Models.Sensor;
+using Sensor = Monitoring.Models.Entity.Sensor;
 
 namespace SystemMonitoringNetCore.Views.Pages;
 
