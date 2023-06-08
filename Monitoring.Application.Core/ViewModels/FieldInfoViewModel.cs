@@ -195,10 +195,12 @@ public class FieldInfoViewModel : BaseViewModel
     {
         Sensors.ForEach(x =>
         {
-            var sensorData = new SensorData()
+            if(!Db.DbContext.Sensors.Any(y => y.Id == x.Id)) return;
+            var currentSensor = Db.DbContext.Sensors.First(y => y.Id == x.Id);
+            var sensorData = new SensorData
             {
                 DateTime = DateTime.Now,
-                Sensor = x,
+                Sensor = currentSensor,
                 CultureStatus = SelectedSeed.Status != null ? SelectedSeed.Status.Status : "Не выбрано",
                 Temperature = x.Temperature,
                 Sodium = x.Sodium,
