@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Input;
 using Monitoring.Models.Entity;
 using Newtonsoft.Json;
@@ -186,6 +187,32 @@ public class FieldInfoViewModel : BaseViewModel
     private void OnUpdateSensorsCommandExecute(object parameter)
     {
         GetTestSensors();
+
+        AddSensorDataInDatabase();
+    }
+
+    private void AddSensorDataInDatabase()
+    {
+        Sensors.ForEach(x =>
+        {
+            var sensorData = new SensorData()
+            {
+                DateTime = DateTime.Now,
+                Sensor = x,
+                CultureStatus = SelectedSeed.Status != null ? SelectedSeed.Status.Status : "Не выбрано",
+                Temperature = x.Temperature,
+                Sodium = x.Sodium,
+                Salinity = x.Salinity,
+                Humidity = x.Humidity,
+                Phosphorus = x.Phosphorus,
+                Acidity = x.Acidity,
+                Potassium = x.Potassium,
+                Recommendation = x.Recommendation
+            };
+
+            Db.DbContext.SensorData.Add(sensorData);
+            Db.DbContext.SaveChanges();
+        });
     }
 
     private bool CanUpdateSensorsCommandExecuted(object parameter) => true;
@@ -247,58 +274,88 @@ public class FieldInfoViewModel : BaseViewModel
 
     private void OnSaveSensorDataCommandExecute(object parameter)
     {
-        if (Sensors.Count > 0)
-        {
-            List<SensorData> allData = new List<SensorData>();
+        // if (Sensors.Count > 0)
+        // {
+        //     new Thread(() =>
+        //     {
+        //         List<SensorData> allData = new List<SensorData>();
+        //
+        //     var rand = new Random();
+        //     for (int i = 1; i <= 10; i++)
+        //     {
+        //         var sensor = new Sensor
+        //         {
+        //             Id = 0, Acidity = rand.Next(0, 100), Sodium = rand.Next(0, 100), Salinity = rand.Next(0, 100),
+        //             Humidity = rand.Next(0, 100), Potassium = rand.Next(0, 100),
+        //             Phosphorus = rand.Next(0, 100), Temperature = rand.Next(10, 16), Recommendation = $"Тестовый датчик {i}"
+        //         };
+        //
+        //         Db.DbContext.Sensors.Add(sensor);
+        //         Db.DbContext.SaveChanges();
+        //
+        //         for (int j = 1; j < 366; j++)
+        //         {
+        //             sensor.Id = i;
+        //             sensor.Sodium = rand.Next(0, 100);
+        //             sensor.Salinity = rand.Next(0, 100);
+        //             sensor.Humidity = rand.Next(0, 100);
+        //             sensor.Potassium = rand.Next(0, 100);
+        //             sensor.Phosphorus = rand.Next(0, 100);
+        //             sensor.Temperature = j < 10 ? rand.Next(10, 16) : rand.Next(12, 15);
+        //             sensor.Recommendation = $"Тестовый датчик {i}";
+        //             var date = new DateTime(2023, 05, 01).AddDays(j);
+        //             var data = new SensorData
+        //             {
+        //                 Sensor = sensor,
+        //                 DateTime = date, 
+        //                 CultureStatus = j < 20 ? "Засев" : j < 25 ? "Бутонизация" : j < 28 ? "начало цветения" : j < 60 ? "4 фаза" : "5 фаза",
+        //                 Temperature = sensor.Temperature,
+        //                 Sodium = sensor.Sodium,
+        //                 Salinity = sensor.Salinity,
+        //                 Humidity = sensor.Humidity,
+        //                 Potassium = sensor.Potassium,
+        //                 Phosphorus = sensor.Phosphorus,
+        //                 Recommendation = sensor.Recommendation
+        //             };
+        //
+        //             Db.DbContext.SensorData.Add(data);
+        //             Db.DbContext.SaveChanges();
+        //             // allData.Add(data);
+        //         }
+        //     }
+        //     }).Start();
 
-            var rand = new Random();
-            for (int i = 1; i <= 10; i++)
-            {
-                for (int j = 1; j < 366; j++)
-                {
-                    var sensor = new Sensor
-                    {
-                        Id = i, Acidity = rand.Next(0, 100), Sodium = rand.Next(0, 100), Salinity = rand.Next(0, 100),
-                        Humidity = rand.Next(0, 100), Potassium = rand.Next(0, 100),
-                        Phosphorus = rand.Next(0, 100), Temperature = j < 10 ? rand.Next(10, 16) : rand.Next(12, 15), Recommendation = $"Тестовый датчик {i}"
-                    };
-                    var date = new DateTime(2023, 05, 01).AddDays(j);
-                    var data = new SensorData { DateTime = date, CultureStatus = j < 10 ? "Засев" : "Прорастание" };
-                    allData.Add(data);
-                }
-            }
-
-            using (var fs = File.Open(Constants.SensorsData, FileMode.OpenOrCreate))
-            {
-                using (var sw = new StreamWriter(fs))
-                {
-                    sw.Write(JsonConvert.SerializeObject(allData));
-                }
-            }
+            // using (var fs = File.Open(Constants.SensorsData, FileMode.OpenOrCreate))
+            // {
+            //     using (var sw = new StreamWriter(fs))
+            //     {
+            //         sw.Write(JsonConvert.SerializeObject(allData));
+            //     }
+            // }
 
             return;
 
-            // Читаем данные из файла
-            using (var fs = File.Open(Constants.SensorsData, FileMode.OpenOrCreate))
-            {
-                using (var sr = new StreamReader(fs))
-                {
-                    var str = sr.ReadToEnd();
-                    var loadData = JsonConvert.DeserializeObject<List<SensorData>>(str);
-                    if (loadData?.Count > 0) allData.AddRange(loadData);
-                }
-            }
-
-            // Загружаем данные из сенсоров которые у нас есть
-            using (var fs = File.Open(Constants.SensorsData, FileMode.OpenOrCreate))
-            {
-                allData.AddRange(Sensors.Select(x => new SensorData()));
-                using (var sw = new StreamWriter(fs))
-                {
-                    sw.Write(JsonConvert.SerializeObject(allData));
-                }
-            }
-        }
+            // // Читаем данные из файла
+            // using (var fs = File.Open(Constants.SensorsData, FileMode.OpenOrCreate))
+            // {
+            //     using (var sr = new StreamReader(fs))
+            //     {
+            //         var str = sr.ReadToEnd();
+            //         var loadData = JsonConvert.DeserializeObject<List<SensorData>>(str);
+            //         if (loadData?.Count > 0) allData.AddRange(loadData);
+            //     }
+            // }
+            //
+            // // Загружаем данные из сенсоров которые у нас есть
+            // using (var fs = File.Open(Constants.SensorsData, FileMode.OpenOrCreate))
+            // {
+            //     allData.AddRange(Sensors.Select(x => new SensorData()));
+            //     using (var sw = new StreamWriter(fs))
+            //     {
+            //         sw.Write(JsonConvert.SerializeObject(allData));
+            //     }
+            // }
+        // }
     }
 
     private bool CanSaveSensorDataCommandExecuted(object parameter)
@@ -416,7 +473,7 @@ public class FieldInfoViewModel : BaseViewModel
             
             Db.DbContext.SaveChanges();
 
-            var currentSensor = Db.DbContext.Sensors.First(x => x.Id == sensor.Id);
+            // var currentSensor = Db.DbContext.Sensors.First(x => x.Id == sensor.Id);
             
             // for (int j = 0; j < 365; j++)
             // {
