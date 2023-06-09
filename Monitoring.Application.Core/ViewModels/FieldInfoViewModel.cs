@@ -191,33 +191,7 @@ public class FieldInfoViewModel : BaseViewModel
         AddSensorDataInDatabase();
     }
 
-    private void AddSensorDataInDatabase()
-    {
-        Sensors.ForEach(x =>
-        {
-            if(!Db.DbContext.Sensors.Any(y => y.Id == x.Id)) return;
-            var currentSensor = Db.DbContext.Sensors.First(y => y.Id == x.Id);
-            var sensorData = new SensorData
-            {
-                DateTime = DateTime.Now,
-                Sensor = currentSensor,
-                CultureStatus = SelectedSeed.Status != null ? SelectedSeed.Status.Status : "Не выбрано",
-                Temperature = x.Temperature,
-                Sodium = x.Sodium,
-                Salinity = x.Salinity,
-                Humidity = x.Humidity,
-                Phosphorus = x.Phosphorus,
-                Acidity = x.Acidity,
-                Potassium = x.Potassium,
-                Recommendation = x.Recommendation
-            };
-
-            Db.DbContext.SensorData.Add(sensorData);
-            Db.DbContext.SaveChanges();
-        });
-    }
-
-    private bool CanUpdateSensorsCommandExecuted(object parameter) => true;
+    private bool CanUpdateSensorsCommandExecuted(object parameter) => SelectedSeed is { Status: { } };
 
     #endregion UpdateSensors
 
@@ -268,104 +242,6 @@ public class FieldInfoViewModel : BaseViewModel
     }
 
     #endregion OpenMap
-
-    #region SaveSensorData - Сохраняет данные датчиков
-
-    /// <summary> Сохраняет данные датчиков </summary>
-    public ICommand SaveSensorDataCommand { get; }
-
-    private void OnSaveSensorDataCommandExecute(object parameter)
-    {
-        // if (Sensors.Count > 0)
-        // {
-        //     new Thread(() =>
-        //     {
-        //         List<SensorData> allData = new List<SensorData>();
-        //
-        //     var rand = new Random();
-        //     for (int i = 1; i <= 10; i++)
-        //     {
-        //         var sensor = new Sensor
-        //         {
-        //             Id = 0, Acidity = rand.Next(0, 100), Sodium = rand.Next(0, 100), Salinity = rand.Next(0, 100),
-        //             Humidity = rand.Next(0, 100), Potassium = rand.Next(0, 100),
-        //             Phosphorus = rand.Next(0, 100), Temperature = rand.Next(10, 16), Recommendation = $"Тестовый датчик {i}"
-        //         };
-        //
-        //         Db.DbContext.Sensors.Add(sensor);
-        //         Db.DbContext.SaveChanges();
-        //
-        //         for (int j = 1; j < 366; j++)
-        //         {
-        //             sensor.Id = i;
-        //             sensor.Sodium = rand.Next(0, 100);
-        //             sensor.Salinity = rand.Next(0, 100);
-        //             sensor.Humidity = rand.Next(0, 100);
-        //             sensor.Potassium = rand.Next(0, 100);
-        //             sensor.Phosphorus = rand.Next(0, 100);
-        //             sensor.Temperature = j < 10 ? rand.Next(10, 16) : rand.Next(12, 15);
-        //             sensor.Recommendation = $"Тестовый датчик {i}";
-        //             var date = new DateTime(2023, 05, 01).AddDays(j);
-        //             var data = new SensorData
-        //             {
-        //                 Sensor = sensor,
-        //                 DateTime = date, 
-        //                 CultureStatus = j < 20 ? "Засев" : j < 25 ? "Бутонизация" : j < 28 ? "начало цветения" : j < 60 ? "4 фаза" : "5 фаза",
-        //                 Temperature = sensor.Temperature,
-        //                 Sodium = sensor.Sodium,
-        //                 Salinity = sensor.Salinity,
-        //                 Humidity = sensor.Humidity,
-        //                 Potassium = sensor.Potassium,
-        //                 Phosphorus = sensor.Phosphorus,
-        //                 Recommendation = sensor.Recommendation
-        //             };
-        //
-        //             Db.DbContext.SensorData.Add(data);
-        //             Db.DbContext.SaveChanges();
-        //             // allData.Add(data);
-        //         }
-        //     }
-        //     }).Start();
-
-            // using (var fs = File.Open(Constants.SensorsData, FileMode.OpenOrCreate))
-            // {
-            //     using (var sw = new StreamWriter(fs))
-            //     {
-            //         sw.Write(JsonConvert.SerializeObject(allData));
-            //     }
-            // }
-
-            return;
-
-            // // Читаем данные из файла
-            // using (var fs = File.Open(Constants.SensorsData, FileMode.OpenOrCreate))
-            // {
-            //     using (var sr = new StreamReader(fs))
-            //     {
-            //         var str = sr.ReadToEnd();
-            //         var loadData = JsonConvert.DeserializeObject<List<SensorData>>(str);
-            //         if (loadData?.Count > 0) allData.AddRange(loadData);
-            //     }
-            // }
-            //
-            // // Загружаем данные из сенсоров которые у нас есть
-            // using (var fs = File.Open(Constants.SensorsData, FileMode.OpenOrCreate))
-            // {
-            //     allData.AddRange(Sensors.Select(x => new SensorData()));
-            //     using (var sw = new StreamWriter(fs))
-            //     {
-            //         sw.Write(JsonConvert.SerializeObject(allData));
-            //     }
-            // }
-        // }
-    }
-
-    private bool CanSaveSensorDataCommandExecuted(object parameter)
-    {
-        return true;
-    }
-
-    #endregion SaveSensorData
 
     #region CreateExcelFileAboutSensor - Создает Excel файл с информацией об одном сенсоре
 
@@ -441,7 +317,6 @@ public class FieldInfoViewModel : BaseViewModel
         EditModeCommand = new RelayCommand(OnEditModeCommandExecute, CanEditModeCommandExecuted);
         SaveDataCommand = new RelayCommand(OnSaveDataCommandExecute, CanSaveDataCommandExecuted);
         OpenMapCommand = new RelayCommand(OnOpenChartCommandExecute, CanOpenChartCommandExecuted);
-        SaveSensorDataCommand = new RelayCommand(OnSaveSensorDataCommandExecute, CanSaveSensorDataCommandExecuted);
         CreateExcelFileAboutSensorCommand = new RelayCommand(OnCreateExcelFileAboutSensorCommandExecute,
             CanCreateExcelFileAboutSensorCommandExecuted);
         CreateExcelFileAboutAllSensorCommand = new RelayCommand(OnCreateExcelFileAboutAllSensorCommandExecute,
@@ -456,6 +331,8 @@ public class FieldInfoViewModel : BaseViewModel
         // "Чернозем", "Тундровые", "Подзолистые", "Болотные", "Серые лесные", "Луговые"
     }
 
+    #region Private Methods
+
     private void GetTestSensors()
     {
         var rand = new Random();
@@ -463,27 +340,65 @@ public class FieldInfoViewModel : BaseViewModel
 
         for (var i = 1; i <= 100; i++)
         {
-            var sensor = new Sensor
+            Sensor sensor;
+            if (Db.DbContext.Sensors.Any(x => x.Id == i))
             {
-                Id = i, Acidity = rand.Next(0, 100), Sodium = rand.Next(0, 100), Salinity = rand.Next(0, 100),
-                Humidity = rand.Next(0, 100), Potassium = rand.Next(0, 100),
-                Phosphorus = rand.Next(0, 100), Temperature = rand.Next(10, 20), Recommendation = $"Тестовый датчик {i}"
-            };
+                sensor = Db.DbContext.Sensors.First(x => x.Id == i);
+                sensor.Acidity = rand.Next(0, 100);
+                sensor.Sodium = rand.Next(0, 100);
+                sensor.Salinity = rand.Next(0, 100);
+                sensor.Humidity = rand.Next(0, 100);
+                sensor.Potassium = rand.Next(0, 100);
+                sensor.Phosphorus = rand.Next(0, 100);
+                sensor.Temperature = rand.Next(10, 20);
+            }
+            else
+            {
+                sensor = new Sensor
+                {
+                    Id = i, Acidity = rand.Next(0, 100), Sodium = rand.Next(0, 100), Salinity = rand.Next(0, 100),
+                    Humidity = rand.Next(0, 100), Potassium = rand.Next(0, 100),
+                    Phosphorus = rand.Next(0, 100), Temperature = rand.Next(10, 20), Recommendation = $"Тестовый датчик {i}"
+                };
+            }
             Sensors.Add(sensor);
-            // if (Db.DbContext.Sensors.All(x => x.Id != sensor.Id))
-            //     Db.DbContext.Sensors.Add(sensor);
-            
-            Db.DbContext.SaveChanges();
+            if (Db.DbContext.Sensors.All(x => x.Id != i))
+            {
+                sensor.Id = 0;
+                Db.DbContext.Sensors.Add(sensor);
+            }
 
-            // var currentSensor = Db.DbContext.Sensors.First(x => x.Id == sensor.Id);
-            
-            // for (int j = 0; j < 365; j++)
-            // {
-            //     Db.DbContext.SensorData.Add(new SensorData { DateTime = new DateTime(2023, 01, 01).AddDays(j), SensorInfo = currentSensor, CultureStatus = "Засев" });
-            //     Db.DbContext.SaveChanges();
-            // }
+            Db.DbContext.SaveChanges();
         }
 
         OnPropertyChanged(nameof(Sensors));
     }
+
+    private void AddSensorDataInDatabase()
+    {
+        Sensors.ForEach(x =>
+        {
+            if (!Db.DbContext.Sensors.Any(y => y.Id == x.Id)) return;
+            var currentSensor = Db.DbContext.Sensors.First(y => y.Id == x.Id);
+            var sensorData = new SensorData
+            {
+                DateTime = DateTime.Now,
+                Sensor = currentSensor,
+                CultureStatus = SelectedSeed.Status != null ? SelectedSeed.Status.Status : "Не выбрано",
+                Temperature = x.Temperature,
+                Sodium = x.Sodium,
+                Salinity = x.Salinity,
+                Humidity = x.Humidity,
+                Phosphorus = x.Phosphorus,
+                Acidity = x.Acidity,
+                Potassium = x.Potassium,
+                Recommendation = x.Recommendation
+            };
+
+            Db.DbContext.SensorData.Add(sensorData);
+            Db.DbContext.SaveChanges();
+        });
+    }
+
+    #endregion Private Methods
 }
