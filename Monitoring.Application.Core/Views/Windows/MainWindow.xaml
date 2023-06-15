@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:SystemMonitoringNetCore.ViewModels"
     xmlns:wpf="clr-namespace:Arion.Style.AttachedProperties;assembly=Arion.Style"
     Title="MainWindow"
     Width="800"
@@ -14,28 +15,30 @@
     WindowStartupLocation="CenterScreen"
     WindowState="Maximized"
     mc:Ignorable="d">
+    <Window.DataContext>
+        <vm:MainWindowViewModel />
+    </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="35" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Button
-            Name="Back"
-            Grid.Row="0"
-            Grid.RowSpan="2"
-            Grid.Column="0"
-            Margin="10"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Top"
-            Panel.ZIndex="999"
-            wpf:Button.Icon="ArrowLeftBold"
-            Click="Back_OnClick"
-            Visibility="Hidden" />
+        <Menu Name="Menu" Grid.Row="0">
+            <MenuItem Command="{Binding MenuMainCommand}" Header="Главная" />
+            <MenuItem Header="Быстрое перемещение">
+                <MenuItem Command="{Binding MenuFieldSelectCommand}" Header="Выбор поля" />
+                <MenuItem Command="{Binding MenuDocumentsCommand}" Header="Документы" />
+                <MenuItem Command="{Binding MenuCulturesCommand}" Header="Культуры" />
+                <MenuItem Command="{Binding MenuFertilizersCommand}" Header="Удобрения" />
+            </MenuItem>
+            <MenuItem Name="MenuBack" Command="{Binding MenuBackCommand}" Header="Назад" />
+            <MenuItem Command="{Binding MenuExitCommand}" Header="Выход" />
+        </Menu>
         <Frame
             Name="MainPage"
-            Grid.Row="0"
-            Grid.RowSpan="2"
+            Grid.Row="1"
+            Content="{Binding}"
             ContentRendered="MainPage_ContentRendered"
             NavigationUIVisibility="Hidden" />
     </Grid>

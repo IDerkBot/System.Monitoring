@@ -177,11 +177,6 @@
             <!-- <Button wpf:Button.Icon="Map" Command="{Binding OpenMapCommand}" ToolTip="Открыть карту" /> -->
             <!-- <Button wpf:Button.Icon="MapMarkerPlus" ToolTip="Добавить новый датчик" /> -->
             <Button
-                wpf:Button.Icon="ContentSaveAll"
-                Command="{Binding SaveSensorDataCommand}"
-                Foreground="{StaticResource P500}"
-                ToolTip="Сохранить данные по датчикам" />
-            <Button
                 wpf:Button.Icon="MicrosoftExcel"
                 Command="{Binding CreateExcelFileAboutSensorCommand}"
                 Foreground="{StaticResource G500}"
@@ -237,18 +232,5 @@
             <TextBlock Text="Датчиков обнаружено: " />
             <TextBlock Text="{Binding Sensors.Count}" />
         </StackPanel>
-        <Border
-            Grid.Row="8"
-            Height="300"
-            Margin="10,3"
-            VerticalAlignment="Top"
-            Background="#DFDFDF"
-            BorderThickness="0"
-            CornerRadius="10"
-            Visibility="Collapsed">
-            <ScrollViewer Padding="0,5" VerticalScrollBarVisibility="Hidden">
-                <StackPanel x:Name="Sensors" />
-            </ScrollViewer>
-        </Border>
     </Grid>
 </UserControl>

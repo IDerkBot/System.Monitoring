@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using LiveChartsCore;
-using LiveChartsCore.Defaults;
 using LiveChartsCore.Kernel.Sketches;
 using LiveChartsCore.SkiaSharpView;
-using LiveChartsCore.SkiaSharpView.Painting;
 using Monitoring.Models.Entity;
-using Newtonsoft.Json;
-using SkiaSharp;
 using SystemMonitoringNetCore.Models;
+using SystemMonitoringNetCore.Services;
 using SystemMonitoringNetCore.ViewModels.Base;
 
 namespace SystemMonitoringNetCore.ViewModels;
@@ -181,16 +178,19 @@ public class ChartControlViewModel : BaseViewModel
 
     #endregion
 
-    private readonly List<SensorData> _allSensors;
+    #region Private Properties
 
+    private readonly IChartService _chartService;
+
+    #endregion Private Properties
+    
     public ChartControlViewModel(List<Sensor> sensors, CultureStatus currentCultureStatus)
     {
+        _chartService = Ioc.Default.GetService<IChartService>();
         StartDate = DateTime.Now.AddDays(-183);
         EndDate = DateTime.Now.AddDays(183);
         Sensors = new ObservableCollection<Sensor>(sensors);
         CurrentCultureStatus = currentCultureStatus;
-        var str = File.ReadAllText(Constants.SensorsData);
-        // var items = JsonConvert.DeserializeObject<List<SensorData>>(str);
 
         DataList = new List<string> { "Температура", "Натрий", "Калий", "Фосфор", "Засоленность", "Влажность", "Кислотность" };
     }
@@ -200,177 +200,27 @@ public class ChartControlViewModel : BaseViewModel
     private void UpdateChart()
     {
         if (string.IsNullOrWhiteSpace(_selectedData)) return;
-
-
+        
+        // Получает все данные датчика с указанным Id из таблицы SensorData (Записей от 1 до 1.000.000.000.000.000.000.000.000)
         var data = Db.DbContext.SensorData.Where(x => x.Sensor.Id == SelectedSensor.Id).ToList();
+        // Выбираем из списка данных что мы получили выше ^, все данные которые входят в указанный диапазон дат
         var currentSensorData = data.Where(x => StartDate <= x.DateTime && EndDate >= x.DateTime).ToList();
+        // Если данных нет, то выходим из метода
         if (!currentSensorData.Any()) return;
 
-        Series = new ISeries[]
-        {
-            new LineSeries<DateTimePoint>
-            {
-                Fill = null,
-                IsVisibleAtLegend = true,
-                LineSmoothness = .3,
-                Stroke = new SolidColorPaint { Color = SKColors.Green, StrokeThickness = 2 },
-                GeometryStroke = new SolidColorPaint { Color = SKColors.Green },
-            }
-        };
-        var statuses = currentSensorData.GroupBy(x => x.CultureStatus).ToList();
-        var statusCount = statuses.Count;
-        Section = new RectangularSection[statusCount];
-        long lastMaxDate = 0;
-        
-        for (var i = 0; i < statusCount; i++)
-        {
-            var currentData = currentSensorData.Where(x => x.CultureStatus == statuses[i].Key).ToList();
-            var minDate = lastMaxDate == 0 ? currentData.Min(x => x.DateTime).Ticks : lastMaxDate;
-            var maxDate = currentData.Max(x => x.DateTime).Ticks;
-            lastMaxDate = maxDate;
-            Section[i] = new RectangularSection
-            {
-                Xi = minDate,
-                Xj = maxDate,
-                Fill =  new SolidColorPaint { Color = i % 2 == 0 ? SKColors.LimeGreen.WithAlpha(60) : SKColors.Green.WithAlpha(60) }
-            };
-        }
-        
-        XAxis = new List<ICartesianAxis>
-        {
-            new Axis
-            {
-                LabelsRotation = 15,
-                Labeler = value => value > 0 ? new DateTime((long)value).ToString("dd.MM.yyyy") : new DateTime(0).ToString("dd.MM.yyyy"),
-                UnitWidth = TimeSpan.FromDays(1).Ticks,
-                ShowSeparatorLines = true,
-                MinStep = 1,
-            }
-        };
+        // Обращаемся к сервису который считывает заданную информацию и строит показатели для графика
+        _chartService.ReadData(currentSensorData, SelectedData);
 
-        YAxis = new List<ICartesianAxis>
-        {
-            new Axis
-            {
-                MinStep = 1,
-                ShowSeparatorLines = true,
-            }
-        };
-        
-        switch (_selectedData)
-        {
-            case "Температура":
-                Series[0].Name = "Температура";
-                Series[0].Values = currentSensorData
-                    .Select(x => new DateTimePoint(x.DateTime, x.Temperature))
-                    .ToList();
-
-                YAxis[0].MaxLimit = currentSensorData.Max(x => x.Temperature) + 10;
-                YAxis[0].MinLimit = currentSensorData.Min(x => x.Temperature) - 10;
-                
-                for (var i = 0; i < statusCount; i++)
-                {
-                    var currentStatus = Db.DbContext.CultureStatuses.First(x => x.Status == statuses[i].Key);
-                    Section[i].Yi = currentStatus.StartingValueTemperature;
-                    Section[i].Yj = currentStatus.EndingValueTemperature;
-                }
-                OnPropertyChanged(nameof(Section));
-                break;
-            case "Натрий":
-                Series[0].Name = "Натрий";
-                Series[0].Values = currentSensorData
-                    .Select(x => new DateTimePoint(x.DateTime, x.Sodium))
-                    .ToList();
-                
-                YAxis[0].MaxLimit = currentSensorData.Max(x => x.Sodium) + 10;
-                YAxis[0].MinLimit = currentSensorData.Min(x => x.Sodium) - 10;
-                
-                for (var i = 0; i < statusCount; i++)
-                {
-                    var currentStatus = Db.DbContext.CultureStatuses.First(x => x.Status == statuses[i].Key);
-                    Section[i].Yi = currentStatus.EndingValueTemperature;
-                    Section[i].Yj = currentStatus.EndingValueTemperature;
-                }
-                break;
-            case "Фосфор":
-                Series[0].Values = currentSensorData
-                    .Select(x => new DateTimePoint(x.DateTime, x.Phosphorus))
-                    .ToList();
-                
-                YAxis[0].MaxLimit = currentSensorData.Max(x => x.Phosphorus) + 10;
-                YAxis[0].MinLimit = currentSensorData.Min(x => x.Phosphorus) - 10;
-                
-                for (var i = 0; i < statusCount; i++)
-                {
-                    var currentStatus = Db.DbContext.CultureStatuses.First(x => x.Status == statuses[i].Key);
-                    Section[i].Yi = currentStatus.StartingValuePhosphor;
-                    Section[i].Yj = currentStatus.EndingValuePhosphor;
-                }
-                break;
-            case "Засоленность":
-                Series[0].Values = currentSensorData
-                    .Select(x => new DateTimePoint(x.DateTime, x.Salinity))
-                    .ToList();
-                
-                YAxis[0].MaxLimit = currentSensorData.Max(x => x.Salinity) + 10;
-                YAxis[0].MinLimit = currentSensorData.Min(x => x.Salinity) - 10;
-                
-                for (var i = 0; i < statusCount; i++)
-                {
-                    var currentStatus = Db.DbContext.CultureStatuses.First(x => x.Status == statuses[i].Key);
-                    Section[i].Yi = currentStatus.StartingValueTemperature;
-                    Section[i].Yj = currentStatus.EndingValueTemperature;
-                }
-                break;
-            case "Влажность":
-                Series[0].Values = currentSensorData
-                    .Select(x => new DateTimePoint(x.DateTime, x.Humidity))
-                    .ToList();
-                
-                YAxis[0].MaxLimit = currentSensorData.Max(x => x.Humidity) + 10;
-                YAxis[0].MinLimit = currentSensorData.Min(x => x.Humidity) - 10;
-                
-                for (var i = 0; i < statusCount; i++)
-                {
-                    var currentStatus = Db.DbContext.CultureStatuses.First(x => x.Status == statuses[i].Key);
-                    Section[i].Yi = currentStatus.StartingValueHumidity;
-                    Section[i].Yj = currentStatus.EndingValueHumidity;
-                }
-                break;
-            case "Кислотность":
-                Series[0].Values = currentSensorData
-                    .Select(x => new DateTimePoint(x.DateTime, x.Acidity))
-                    .ToList();
-                
-                YAxis[0].MaxLimit = currentSensorData.Max(x => x.Acidity) + 10;
-                YAxis[0].MinLimit = currentSensorData.Min(x => x.Acidity) - 10;
-                
-                for (var i = 0; i < statusCount; i++)
-                {
-                    var currentStatus = Db.DbContext.CultureStatuses.First(x => x.Status == statuses[i].Key);
-                    Section[i].Yi = currentStatus.StartingValuePh;
-                    Section[i].Yj = currentStatus.EndingValuePh;
-                }
-                break;
-            case "Калий":
-                Series[0].Values = currentSensorData
-                    .Select(x => new DateTimePoint(x.DateTime, x.Potassium))
-                    .ToList();
-                
-                YAxis[0].MaxLimit = currentSensorData.Max(x => x.Potassium) + 10;
-                YAxis[0].MinLimit = currentSensorData.Min(x => x.Potassium) - 10;
-                
-                for (var i = 0; i < statusCount; i++)
-                {
-                    var currentStatus = Db.DbContext.CultureStatuses.First(x => x.Status == statuses[i].Key);
-                    Section[i].Yi = currentStatus.StartingValuePotassium;
-                    Section[i].Yj = currentStatus.EndingValuePotassium;
-                }
-                break;
-        }
+        // Берем показатели из сервиса
+        Series = _chartService.Series;
+        Section = _chartService.Sections;
+        YAxis = _chartService.AxisY;
+        XAxis = _chartService.AxisX;
 
         OnPropertyChanged(nameof(Series));
         OnPropertyChanged(nameof(Section));
+        OnPropertyChanged(nameof(YAxis));
+        OnPropertyChanged(nameof(XAxis));
     }
 
     #endregion

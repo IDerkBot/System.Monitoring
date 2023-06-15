@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
+using System.Diagnostics;
 using System.Linq;
-using System.Threading;
+using System.Windows;
 using System.Windows.Input;
 using Monitoring.Models.Entity;
-using Newtonsoft.Json;
 using SystemMonitoringNetCore.Infrastructure.Command;
 using SystemMonitoringNetCore.Models;
 using SystemMonitoringNetCore.ViewModels.Base;
 using SystemMonitoringNetCore.Views.Pages;
 using Sensor = Monitoring.Models.Entity.Sensor;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace SystemMonitoringNetCore.ViewModels;
 
@@ -250,6 +250,58 @@ public class FieldInfoViewModel : BaseViewModel
 
     private void OnCreateExcelFileAboutSensorCommandExecute(object parameter)
     {
+        // TODO Выбирать диапазон времени отчета?
+        // TODO 
+        
+        if (parameter is Sensor sensor)
+        {
+            var sensorDetails = Db.DbContext.SensorData.Where(sens => sens.Sensor.Id == sensor.Id).ToList();
+            var excelApp = new Excel.Application();
+
+            Excel._Workbook excelWorkBook = excelApp.Workbooks.Open($@"{FileManager.GetAppData()}Отчет-Сенсор-Шаблон.xlsx");
+            var excelWorkSheet = (Excel.Worksheet)excelWorkBook.Worksheets.Item[1];
+
+            // Заполнение ячеек
+            // Установка даты в отчет
+            excelWorkSheet.Cells[4, 2] = DateTime.Now.ToShortDateString() + " года";
+
+            var field = Db.DbContext.Fields.Single(x => x == Db.SelectSeeding.Field);
+
+            excelWorkSheet.Cells[8, 6] = field.District;
+            excelWorkSheet.Cells[9, 7] = field.Number;
+            excelWorkSheet.Cells[10, 5] = field.PositionX;
+            excelWorkSheet.Cells[10, 5] = field.PositionY;
+
+            excelWorkSheet.Cells[12, 4] = field.Number;
+            excelWorkSheet.Cells[13, 4] = field.PositionX;
+            excelWorkSheet.Cells[13, 4] = field.PositionY;
+
+            excelWorkSheet.Cells[14, 4] = sensor.Id;
+
+            for (int i = 0; i < sensorDetails.Count(); i++)
+            {
+                var sensorDetail = sensorDetails[i];
+                excelWorkSheet.Cells[17 + i, 3] = sensorDetail.Temperature;
+                excelWorkSheet.Cells[17 + i, 4] = sensorDetail.Acidity;
+                excelWorkSheet.Cells[17 + i, 5] = sensorDetail.Humidity;
+                excelWorkSheet.Cells[17 + i, 6] = sensorDetail.Phosphorus;
+                excelWorkSheet.Cells[17 + i, 7] = sensorDetail.Sodium;
+                excelWorkSheet.Cells[17 + i, 8] = sensorDetail.Salinity;
+                excelWorkSheet.Cells[17 + i, 9] = sensorDetail.Potassium;
+                excelWorkSheet.Cells[17 + i, 10] = sensorDetail.Recommendation;
+            }
+
+            // Сохранение файла
+            var settings = FileManager.GetSettings();
+            excelApp.ActiveWorkbook.SaveAs(
+                $@"{settings.ReportsPath}\Отчет-Сенсор{sensor.Id}-{DateTime.Now.ToShortDateString()}.xlsx");
+            // Закрытие процесса Excel
+            var etc = Process.GetProcesses();
+            foreach (var anti in etc)
+                if (anti.ProcessName.ToLower().Contains("excel"))
+                    anti.Kill();
+            MessageBox.Show($@"Отчет по датчику №{sensor.Id} успешно сохранен");
+        }
     }
 
     private bool CanCreateExcelFileAboutSensorCommandExecuted(object parameter)
@@ -361,6 +413,7 @@ public class FieldInfoViewModel : BaseViewModel
                     Phosphorus = rand.Next(0, 100), Temperature = rand.Next(10, 20), Recommendation = $"Тестовый датчик {i}"
                 };
             }
+
             Sensors.Add(sensor);
             if (Db.DbContext.Sensors.All(x => x.Id != i))
             {

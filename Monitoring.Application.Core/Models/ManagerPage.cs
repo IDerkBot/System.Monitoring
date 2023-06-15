@@ -24,4 +24,10 @@ internal class ManagerPage
     /// Возвращение на страницу назад
     /// </summary>
     internal static void Back() => Page.GoBack();
+
+    internal static void ClearHistory()
+    {
+        var navigationService = Page.NavigationService;
+        while (navigationService.CanGoBack) navigationService.RemoveBackEntry();
+    }
 }

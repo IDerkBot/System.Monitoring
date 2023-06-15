@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using MvvmDialogs;
+using SystemMonitoringNetCore.Services;
 using SystemMonitoringNetCore.ViewModels;
 
 namespace SystemMonitoringNetCore
@@ -14,6 +15,7 @@ namespace SystemMonitoringNetCore
             Ioc.Default.ConfigureServices(
                 new ServiceCollection()
                     .AddSingleton<IDialogService, DialogService>()
+                    .AddSingleton<IChartService, ChartService>()
                     
                     .AddSingleton<AuthorizationViewModel>()
                     .AddSingleton<MenuViewModel>()

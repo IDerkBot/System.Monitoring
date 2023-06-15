@@ -66,5 +66,6 @@ public class MenuViewModel
         MoveCulturesCommand = new RelayCommand(OnMoveCulturesCommandExecute);
         MoveFertilizersCommand = new RelayCommand(OnMoveFertilizersCommandExecute);
         MoveUsersCommand = new RelayCommand(OnMoveUsersCommandExecute, CanMoveUsersCommandExecuted);
+        ManagerPage.ClearHistory();
     }
 }

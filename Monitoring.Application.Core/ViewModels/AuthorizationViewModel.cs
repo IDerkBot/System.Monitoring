@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using Arion.Style.Controls;
+using Arion.Style.Controls.Enums;
 using Monitoring.Models;
 using SystemMonitoringNetCore.Infrastructure.Command;
 using SystemMonitoringNetCore.Models;
@@ -103,7 +105,7 @@ public class AuthorizationViewModel : BaseViewModel
     {
         if (Db.DbContext.Users.ToList().Any(x => x.Login == Login && x.Password == Password))
             return false;
-        MessageBox.Show("Логин или пароль не верны");
+        ModalDialog.Show("Ошибка авторизации", "Логин или пароль не верны", ModalDialogButtons.Ok, ModalDialogType.Warning);
         return true;
     }
     private void RememberData()

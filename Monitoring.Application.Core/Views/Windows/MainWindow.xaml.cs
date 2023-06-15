@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Input;
 using Monitoring.DataAccessLayer;
 using SystemMonitoringNetCore.Models;
-using SystemMonitoringNetCore.Views.Pages;
 using SystemMonitoringNetCore.Views.UserControls;
 
 namespace SystemMonitoringNetCore.Views.Windows
@@ -11,9 +10,7 @@ namespace SystemMonitoringNetCore.Views.Windows
     /// <summary> Interaction logic for MainWindow.xaml </summary>
     public partial class MainWindow
     {
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <summary>  </summary>
         public MainWindow()
         {
             InitializeComponent();
@@ -25,11 +22,11 @@ namespace SystemMonitoringNetCore.Views.Windows
         private void MainPage_ContentRendered(object sender, EventArgs e)
         {
             if (ManagerPage.Page.Content.ToString()!.Contains("Auth") || ManagerPage.Page.Content.ToString()!.Contains("AdminMenu"))
-                Back.Visibility = Visibility.Hidden;
-            else Back.Visibility = Visibility.Visible;
-            // TODO WHaT?
-            // if (ManagerPage.Page.Content.ToString().Contains("FieldMonitoring"))
-            //     ManagerPage.FieldMonitoringPage.NavigateLoad();
+                Menu.Visibility = Visibility.Hidden;
+            else Menu.Visibility = Visibility.Visible;
+
+            if (ManagerPage.Page.Content.ToString()!.Contains("Menu")) MenuBack.Visibility = Visibility.Collapsed;
+            else MenuBack.Visibility = Visibility.Visible;
         }
         private void ChangedSizeWindow(object sender, SizeChangedEventArgs e)
         {
@@ -39,11 +36,6 @@ namespace SystemMonitoringNetCore.Views.Windows
         {
             // if (ManagerPage.Page.Content.ToString().Contains("FieldMonitoring")) ManagerPage.FieldMonitoringPage.ClosePort();
             Close();
-        }
-
-        private void Back_OnClick(object sender, RoutedEventArgs e)
-        {
-            ManagerPage.Page.GoBack();
         }
 
         private void MainWindow_OnMouseMove(object sender, MouseEventArgs e)
