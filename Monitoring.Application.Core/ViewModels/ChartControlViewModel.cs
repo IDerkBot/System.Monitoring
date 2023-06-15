@@ -189,6 +189,7 @@ public class ChartControlViewModel : BaseViewModel
         _chartService = Ioc.Default.GetService<IChartService>();
         StartDate = DateTime.Now.AddDays(-183);
         EndDate = DateTime.Now.AddDays(183);
+        // Add comment
         Sensors = new ObservableCollection<Sensor>(sensors);
         CurrentCultureStatus = currentCultureStatus;
 
