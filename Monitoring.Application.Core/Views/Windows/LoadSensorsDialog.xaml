@@ -1,0 +1,52 @@
+﻿<Window
+    x:Class="SystemMonitoringNetCore.Views.Windows.LoadSensorsDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:SystemMonitoringNetCore.Views.Windows"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:SystemMonitoringNetCore.ViewModels"
+    Title="LoadSensorDialog"
+    Width="800"
+    Height="450"
+    d:DataContext="{d:DesignInstance vm:LoadSensorsDialogViewModel}"
+    AllowsTransparency="True"
+    Background="Transparent"
+    WindowState="Maximized"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid>
+        <Border Background="{StaticResource Lg3}" Opacity=".3" />
+        <Border
+            Width="400"
+            Height="200"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Background="{StaticResource CleanW}"
+            BorderBrush="{StaticResource Lg1}"
+            CornerRadius="6">
+            <Grid>
+                <Label
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Content="Загрузка датчиков"
+                    FontSize="24" />
+
+                <Label HorizontalAlignment="Center" VerticalAlignment="Center" Content="{Binding LoadSensor}" />
+
+                <ProgressBar
+                    Margin="10"
+                    VerticalAlignment="Bottom"
+                    Maximum="{Binding MaxSensors}"
+                    Minimum="0"
+                    Value="{Binding LoadedSensors}" />
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

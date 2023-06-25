@@ -67,6 +67,13 @@
             </StackPanel>
         </Button>
 
+        <Button Command="{Binding MoveSensorsCommand}" Foreground="{StaticResource Pr500}">
+            <StackPanel>
+                <controls:Icon Kind="Leak" />
+                <TextBlock Text="Датчики" />
+            </StackPanel>
+        </Button>
+
         <Button Command="{Binding MoveUsersCommand}" Foreground="{StaticResource Pr500}">
             <StackPanel>
                 <controls:Icon Kind="Account" />

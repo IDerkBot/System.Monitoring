@@ -17,12 +17,12 @@ public class ChartControlViewModel : BaseViewModel
 {
     #region Properties
 
-    #region Sensors : ObservableCollection<Sensor> - Список датчиков
+    #region Sensors : ObservableCollection<SensorData> - Список датчиков
 
-    private ObservableCollection<Sensor> _sensors;
+    private ObservableCollection<SensorData> _sensors;
 
     /// <summary> Список датчиков </summary>
-    public ObservableCollection<Sensor> Sensors
+    public ObservableCollection<SensorData> Sensors
     {
         get => _sensors;
         set => SetField(ref _sensors, value);
@@ -184,13 +184,13 @@ public class ChartControlViewModel : BaseViewModel
 
     #endregion Private Properties
     
-    public ChartControlViewModel(List<Sensor> sensors, CultureStatus currentCultureStatus)
+    public ChartControlViewModel(List<SensorData> sensors, CultureStatus currentCultureStatus)
     {
         _chartService = Ioc.Default.GetService<IChartService>();
         StartDate = DateTime.Now.AddDays(-183);
         EndDate = DateTime.Now.AddDays(183);
         // Add comment
-        Sensors = new ObservableCollection<Sensor>(sensors);
+        Sensors = new ObservableCollection<SensorData>(sensors);
         CurrentCultureStatus = currentCultureStatus;
 
         DataList = new List<string> { "Температура", "Натрий", "Калий", "Фосфор", "Засоленность", "Влажность", "Кислотность" };
@@ -203,7 +203,7 @@ public class ChartControlViewModel : BaseViewModel
         if (string.IsNullOrWhiteSpace(_selectedData)) return;
         
         // Получает все данные датчика с указанным Id из таблицы SensorData (Записей от 1 до 1.000.000.000.000.000.000.000.000)
-        var data = Db.DbContext.SensorData.Where(x => x.Sensor.Id == SelectedSensor.Id).ToList();
+        var data = Db.DbContext.SensorData.Where(x => x.Sensor.Uid == SelectedSensor.Uid).ToList();
         // Выбираем из списка данных что мы получили выше ^, все данные которые входят в указанный диапазон дат
         var currentSensorData = data.Where(x => StartDate <= x.DateTime && EndDate >= x.DateTime).ToList();
         // Если данных нет, то выходим из метода

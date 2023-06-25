@@ -1,64 +1,119 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO.Ports;
 using System.Linq;
+using System.Timers;
 using Monitoring.Models.Entity;
+using Newtonsoft.Json;
 
 //using Task = Microsoft.Office.Interop.Word.Task;
 
 namespace SystemMonitoringNetCore.Models;
 
-public static class ArduinoWorker
+public class ArduinoWorker
 {
-    private static readonly SerialPort SerialPort = new SerialPort("COM8", 9600);
-    private static readonly List<Sensor> Sensors = new List<Sensor>();
-    private static readonly char[] Separators = { ';', '\r' };
-
-    public static List<Sensor> GetSensors()
+    private readonly SerialPort _serialPort;
+    private string[] _sensorsId;
+    private int _index;
+    private readonly Timer _tm = new(10000);
+    public List<SensorData> SensorData = new();
+    public event EventHandler Load;
+    public event EventHandler Complete;
+    
+    public ArduinoWorker(string port)
     {
-        return Sensors;
+        _serialPort = new SerialPort(port);
+        _serialPort.BaudRate = 9600;
+        _serialPort.Parity = Parity.None;
+        _serialPort.ReadTimeout = 100;
+        _serialPort.DataReceived += SerialPortOnDataReceived;
+        _tm.Elapsed += TmOnElapsed;
     }
 
-    public static void FindSensors()
+    private void TmOnElapsed(object? sender, ElapsedEventArgs e)
     {
-        if (!SerialPort.IsOpen) SerialPort.Open();
-        if (SerialPort.BytesToRead == 0) return;
-        for (int i = 0; i < 10; i++)
+        SerialPortOnDataReceived(null, null);
+    }
+
+    public void Connect()
+    {
+        _serialPort.Open();
+    }
+
+    public void Disconnect()
+    {
+        _serialPort.Close();
+    }
+
+    public void ReadSensors(string[] sensorsId)
+    {
+        _sensorsId = sensorsId;
+        _index++;
+        Send();
+    }
+
+    private void Send()
+    {
+        if(_index > _sensorsId.Length - 1) return;
+        var id = _sensorsId[_index];
+        _serialPort.Write(id);
+        _tm.Start();
+    } 
+    
+    private void SerialPortOnDataReceived(object sender, SerialDataReceivedEventArgs e)
+    {
+        _index++;
+        _tm.Stop();
+        ReadData();
+        
+        Send();
+        if (_sensorsId.Length == _index)
         {
-            var data = SerialPort.ReadLine().Trim();
-            if (!string.IsNullOrWhiteSpace(data))
-                if (data.Split(Separators).Length == 5)
-                {
-                    if (Sensors.All(x => x.Id != int.Parse(data.Substring(0, 1))))
-                    {
-                        ConvertSensor(data);
-                    }
-                }
-                else
-                    i--;
-            else
-                i--;
+            Complete?.Invoke(this, EventArgs.Empty);
         }
     }
 
-    //public async static Task ReadAsync(this SerialPort serialPort, byte[] buffer, int offset, int count)
-    //{
-    //    var bytesToRead = count;
-    //    var temp = new byte[count];
-
-    //    while (bytesToRead > 0)
-    //    {
-    //        var readBytes = await serialPort.BaseStream.ReadAsync(temp, 0, bytesToRead);
-    //        Array.Copy(temp, 0, buffer, offset + count - bytesToRead, readBytes);
-    //        bytesToRead -= readBytes;
-    //    }
-    //}
-
-    //public async static Task<byte[]> ReadAsync(this SerialPort serialPort, int count)
-    //{
-    //    var buffer = new byte[count];
-    //    await serialPort.ReadAsync(buffer, 0, count);
-    //    return buffer;
-    //}
+    private void ReadData()
+    {
+        try
+        {
+            var inData = _serialPort.ReadLine();
+            var sensor = JsonConvert.DeserializeObject<SensorDataJson>(inData);
+            Debug.WriteLine($"GET {sensor.uid}");
+            if (Db.DbContext.Sensors.Any(x => x.Uid == sensor.uid))
+            {
+                // Если есть такой датчик
+            }
+            else
+            {
+                // Если нет
+                Db.DbContext.Sensors.Add(new Sensor
+                {
+                    Uid = sensor.uid,
+                    PositionX = 13,
+                    PositionY = 13
+                });
+            }
+            var sensorDatabase = new Sensor();
+            SensorData.Add(new SensorData
+            {
+                Sensor = sensorDatabase,
+                Humidity = sensor.ms / 10.0,
+                Temperature = sensor.tm / 10.0,
+                Acidity = sensor.ph / 10.0,
+                Nitrogen = sensor.nc,
+                Phosphorus = sensor.nc,
+                Potassium = sensor.poc,
+                Salinity = sensor.sal,
+            });
+        }
+        catch
+        {
+            Debug.WriteLine("Time out");
+        }
+    }
+    
 
     private static void ConvertSensor(string line)
     {

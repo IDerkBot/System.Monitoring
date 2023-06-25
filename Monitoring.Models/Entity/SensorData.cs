@@ -25,6 +25,8 @@ public class SensorData
     public double Salinity { get; set; }
     /// <summary> Натрий </summary>
     public double Sodium { get; set; }
+
+    public double Nitrogen { get; set; }
     /// <summary> Рекомендации </summary>
     public string Recommendation { get; set; }
 }

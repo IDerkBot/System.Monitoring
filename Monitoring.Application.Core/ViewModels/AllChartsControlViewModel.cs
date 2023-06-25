@@ -40,7 +40,7 @@ public class AllChartsControlViewModel : BaseViewModel
 
     #endregion SelectedChart
 
-    public AllChartsControlViewModel(List<Sensor> sensors, CultureStatus actualStatus)
+    public AllChartsControlViewModel(List<SensorData> sensors, CultureStatus actualStatus)
     {
         Charts = new List<ChartViewModel>();
 

@@ -24,7 +24,7 @@ public partial class FieldMonitoringPage
 {
     #region Variables
 
-    public Sensor _newSensor = new();
+    public SensorData _newSensor = new();
     private List<Sensor> _sensors;
     private readonly Seed _currentSeed;
     private int _count = 0;
@@ -595,6 +595,6 @@ public partial class FieldMonitoringPage
 
     private void OpenCharts_OnClick(object sender, RoutedEventArgs e)
     {
-        ManagerPage.Navigate(new ChartsPage(DgSensors.ItemsSource.Cast<Sensor>().ToList()));
+        ManagerPage.Navigate(new ChartsPage(DgSensors.ItemsSource.Cast<SensorData>().ToList()));
     }
 }

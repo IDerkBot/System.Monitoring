@@ -16,7 +16,8 @@ public class Field
     /// <summary> Местоположение </summary>
     public double? PositionX { get; set; }
     public double? PositionY { get; set; }
+    public string Area { get; set; } = "";
 
-    public virtual District District { get; set; }
+    public District District { get; set; }
     public virtual ICollection<Seed> Seeds { get; set; }
 }

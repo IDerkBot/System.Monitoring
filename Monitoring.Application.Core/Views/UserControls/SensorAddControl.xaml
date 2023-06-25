@@ -1,0 +1,26 @@
+﻿<UserControl
+    x:Class="SystemMonitoringNetCore.Views.UserControls.SensorAddControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:SystemMonitoringNetCore.Views.UserControls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:SystemMonitoringNetCore.ViewModels"
+    d:DataContext="{d:DesignInstance vm:EditSensorControlViewModel}"
+    d:DesignHeight="300"
+    d:DesignWidth="300"
+    mc:Ignorable="d">
+    <Grid>
+        <StackPanel>
+            <TextBox Height="40" Text="{Binding Sensor.Uid}" />
+            <TextBox Height="40" Text="{Binding Sensor.PositionX}" />
+            <TextBox Height="40" Text="{Binding Sensor.PositionY}" />
+            <ComboBox
+                Height="40"
+                DisplayMemberPath="Number"
+                ItemsSource="{Binding Fields}"
+                SelectedItem="{Binding Sensor.Field}" />
+            <Button Command="{Binding SaveCommand}" Content="Сохранить" />
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -71,14 +71,12 @@ public class AddCultureStatusControlViewModel : BaseViewModel
         !string.IsNullOrWhiteSpace(CurrentCultureStatus.Status) &&
         CurrentCultureStatus.StartPeriod > 0 &&
         CurrentCultureStatus.EndPeriod > 0 &&
-        CurrentCultureStatus.StartingValueCalcium > 0 &&
-        CurrentCultureStatus.EndingValueCalcium > 0 &&
         CurrentCultureStatus.StartingValueTemperature > 0 &&
         CurrentCultureStatus.EndingValueTemperature > 0 &&
         CurrentCultureStatus.StartingValueHumidity > 0 &&
         CurrentCultureStatus.EndingValueHumidity > 0 &&
-        CurrentCultureStatus.StartingValueMagnesium > 0 &&
-        CurrentCultureStatus.EndingValueMagnesium > 0 &&
+        CurrentCultureStatus.StartingValueSalinity > 0 &&
+        CurrentCultureStatus.EndingValueSalinity > 0 &&
         CurrentCultureStatus.StartingValueNitrogen > 0 &&
         CurrentCultureStatus.EndingValueNitrogen > 0 &&
         CurrentCultureStatus.StartingValuePh > 0 &&

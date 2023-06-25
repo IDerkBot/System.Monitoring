@@ -59,6 +59,23 @@ public class MenuViewModel
 
     #endregion MoveUsers
 
+    #region MoveSensors - Перемещение на страницу датчиков
+
+    /// <summary> Перемещение на страницу датчиков </summary>
+    public ICommand MoveSensorsCommand { get; }
+
+    private void OnMoveSensorsCommandExecuted(object parameter)
+    {
+        ManagerPage.Navigate(new SensorsControl());
+    }
+
+    private bool CanMoveSensorsCommandExecute(object parameter)
+    {
+        return true;
+    }
+
+    #endregion MoveSensors
+
     public MenuViewModel()
     {
         MoveFieldsCommand = new RelayCommand(OnMoveFieldsCommandExecute);
@@ -66,6 +83,7 @@ public class MenuViewModel
         MoveCulturesCommand = new RelayCommand(OnMoveCulturesCommandExecute);
         MoveFertilizersCommand = new RelayCommand(OnMoveFertilizersCommandExecute);
         MoveUsersCommand = new RelayCommand(OnMoveUsersCommandExecute, CanMoveUsersCommandExecuted);
+        MoveSensorsCommand = new RelayCommand(OnMoveSensorsCommandExecuted, CanMoveSensorsCommandExecute);
         ManagerPage.ClearHistory();
     }
 }

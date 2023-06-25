@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO.Ports;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using Monitoring.Models.Entity;
+using Newtonsoft.Json;
 using SystemMonitoringNetCore.Infrastructure.Command;
 using SystemMonitoringNetCore.Models;
 using SystemMonitoringNetCore.ViewModels.Base;
@@ -73,10 +75,10 @@ public class FieldInfoViewModel : BaseViewModel
 
     #region Sensors : List<Sensor> - Список сенсоров
 
-    private List<Sensor> _sensors;
+    private List<SensorData> _sensors;
 
     /// <summary> Список сенсоров </summary>
-    public List<Sensor> Sensors
+    public List<SensorData> Sensors
     {
         get => _sensors;
         set => SetField(ref _sensors, value);
@@ -171,7 +173,7 @@ public class FieldInfoViewModel : BaseViewModel
     private void OnLoadedCommandExecuted(object parameter)
     {
         SelectedSeed = Db.SelectSeeding;
-        Sensors = new List<Sensor>();
+        Sensors = new List<SensorData>();
 
         SelectedCulture = SelectedSeed.Culture;
         SelectedPeriod = SelectedSeed.Status;
@@ -184,11 +186,18 @@ public class FieldInfoViewModel : BaseViewModel
     /// <summary> Обновление списка программ </summary>
     public ICommand UpdateSensorsCommand { get; }
 
+    private LoadSensorsDialogViewModel vm;
     private void OnUpdateSensorsCommandExecute(object parameter)
     {
-        GetTestSensors();
+        vm = new LoadSensorsDialogViewModel(SelectedSeed.Field);
+        vm.Loaded += VmOnLoaded;
+        // GetTestSensors();
+        // AddSensorDataInDatabase();
+    }
 
-        AddSensorDataInDatabase();
+    private void VmOnLoaded(object? sender, EventArgs e)
+    {
+        Sensors = vm.SensorData;
     }
 
     private bool CanUpdateSensorsCommandExecuted(object parameter) => SelectedSeed is { Status: { } };
@@ -234,6 +243,8 @@ public class FieldInfoViewModel : BaseViewModel
 
     private void OnOpenMapCommandExecute(object parameter)
     {
+        var mapPage = new MapPage { DataContext = new MapControlViewModel(Db.DbContext.Sensors.Where(x => x.Field.Id == SelectedSeed.Field.Id).ToList()) };
+        ManagerPage.Page.Navigate(mapPage);
     }
 
     private bool CanOpenMapCommandExecuted(object parameter)
@@ -255,7 +266,7 @@ public class FieldInfoViewModel : BaseViewModel
         
         if (parameter is Sensor sensor)
         {
-            var sensorDetails = Db.DbContext.SensorData.Where(sens => sens.Sensor.Id == sensor.Id).ToList();
+            var sensorDetails = Db.DbContext.SensorData.Where(sens => sens.Sensor.Uid == sensor.Uid).ToList();
             var excelApp = new Excel.Application();
 
             Excel._Workbook excelWorkBook = excelApp.Workbooks.Open($@"{FileManager.GetAppData()}Отчет-Сенсор-Шаблон.xlsx");
@@ -276,7 +287,7 @@ public class FieldInfoViewModel : BaseViewModel
             excelWorkSheet.Cells[13, 4] = field.PositionX;
             excelWorkSheet.Cells[13, 4] = field.PositionY;
 
-            excelWorkSheet.Cells[14, 4] = sensor.Id;
+            excelWorkSheet.Cells[14, 4] = sensor.Uid;
 
             for (int i = 0; i < sensorDetails.Count(); i++)
             {
@@ -294,13 +305,13 @@ public class FieldInfoViewModel : BaseViewModel
             // Сохранение файла
             var settings = FileManager.GetSettings();
             excelApp.ActiveWorkbook.SaveAs(
-                $@"{settings.ReportsPath}\Отчет-Сенсор{sensor.Id}-{DateTime.Now.ToShortDateString()}.xlsx");
+                $@"{settings.ReportsPath}\Отчет-Сенсор{sensor.Uid}-{DateTime.Now.ToShortDateString()}.xlsx");
             // Закрытие процесса Excel
             var etc = Process.GetProcesses();
             foreach (var anti in etc)
                 if (anti.ProcessName.ToLower().Contains("excel"))
                     anti.Kill();
-            MessageBox.Show($@"Отчет по датчику №{sensor.Id} успешно сохранен");
+            MessageBox.Show($@"Отчет по датчику №{sensor.Uid} успешно сохранен");
         }
     }
 
@@ -368,7 +379,7 @@ public class FieldInfoViewModel : BaseViewModel
         UpdateSensorsCommand = new RelayCommand(OnUpdateSensorsCommandExecute, CanUpdateSensorsCommandExecuted);
         EditModeCommand = new RelayCommand(OnEditModeCommandExecute, CanEditModeCommandExecuted);
         SaveDataCommand = new RelayCommand(OnSaveDataCommandExecute, CanSaveDataCommandExecuted);
-        OpenMapCommand = new RelayCommand(OnOpenChartCommandExecute, CanOpenChartCommandExecuted);
+        OpenMapCommand = new RelayCommand(OnOpenMapCommandExecute, CanOpenMapCommandExecuted);
         CreateExcelFileAboutSensorCommand = new RelayCommand(OnCreateExcelFileAboutSensorCommandExecute,
             CanCreateExcelFileAboutSensorCommandExecuted);
         CreateExcelFileAboutAllSensorCommand = new RelayCommand(OnCreateExcelFileAboutAllSensorCommandExecute,
@@ -385,54 +396,54 @@ public class FieldInfoViewModel : BaseViewModel
 
     #region Private Methods
 
-    private void GetTestSensors()
-    {
-        var rand = new Random();
-        Sensors = new List<Sensor>();
-
-        for (var i = 1; i <= 100; i++)
-        {
-            Sensor sensor;
-            if (Db.DbContext.Sensors.Any(x => x.Id == i))
-            {
-                sensor = Db.DbContext.Sensors.First(x => x.Id == i);
-                sensor.Acidity = rand.Next(0, 100);
-                sensor.Sodium = rand.Next(0, 100);
-                sensor.Salinity = rand.Next(0, 100);
-                sensor.Humidity = rand.Next(0, 100);
-                sensor.Potassium = rand.Next(0, 100);
-                sensor.Phosphorus = rand.Next(0, 100);
-                sensor.Temperature = rand.Next(10, 20);
-            }
-            else
-            {
-                sensor = new Sensor
-                {
-                    Id = i, Acidity = rand.Next(0, 100), Sodium = rand.Next(0, 100), Salinity = rand.Next(0, 100),
-                    Humidity = rand.Next(0, 100), Potassium = rand.Next(0, 100),
-                    Phosphorus = rand.Next(0, 100), Temperature = rand.Next(10, 20), Recommendation = $"Тестовый датчик {i}"
-                };
-            }
-
-            Sensors.Add(sensor);
-            if (Db.DbContext.Sensors.All(x => x.Id != i))
-            {
-                sensor.Id = 0;
-                Db.DbContext.Sensors.Add(sensor);
-            }
-
-            Db.DbContext.SaveChanges();
-        }
-
-        OnPropertyChanged(nameof(Sensors));
-    }
+    // private void GetTestSensors()
+    // {
+    //     var rand = new Random();
+    //     Sensors = new List<SensorData>();
+    //
+    //     for (var i = 1; i <= 100; i++)
+    //     {
+    //         Sensor sensor;
+    //         if (Db.DbContext.Sensors.Any(x => x.Id == i))
+    //         {
+    //             sensor = Db.DbContext.Sensors.First(x => x.Id == i);
+    //             sensor.Acidity = rand.Next(0, 100);
+    //             sensor.Sodium = rand.Next(0, 100);
+    //             sensor.Salinity = rand.Next(0, 100);
+    //             sensor.Humidity = rand.Next(0, 100);
+    //             sensor.Potassium = rand.Next(0, 100);
+    //             sensor.Phosphorus = rand.Next(0, 100);
+    //             sensor.Temperature = rand.Next(10, 20);
+    //         }
+    //         else
+    //         {
+    //             sensor = new Sensor
+    //             {
+    //                 Id = (uint)i, Acidity = rand.Next(0, 100), Sodium = rand.Next(0, 100), Salinity = rand.Next(0, 100),
+    //                 Humidity = rand.Next(0, 100), Potassium = rand.Next(0, 100),
+    //                 Phosphorus = rand.Next(0, 100), Temperature = rand.Next(10, 20), Recommendation = $"Тестовый датчик {i}"
+    //             };
+    //         }
+    //
+    //         Sensors.Add(sensor);
+    //         if (Db.DbContext.Sensors.All(x => x.Id != i))
+    //         {
+    //             sensor.Id = 0;
+    //             Db.DbContext.Sensors.Add(sensor);
+    //         }
+    //
+    //         Db.DbContext.SaveChanges();
+    //     }
+    //
+    //     OnPropertyChanged(nameof(Sensors));
+    // }
 
     private void AddSensorDataInDatabase()
     {
         Sensors.ForEach(x =>
         {
-            if (!Db.DbContext.Sensors.Any(y => y.Id == x.Id)) return;
-            var currentSensor = Db.DbContext.Sensors.First(y => y.Id == x.Id);
+            if (!Db.DbContext.Sensors.Any(y => y.Uid == x.Id)) return;
+            var currentSensor = Db.DbContext.Sensors.First(y => y.Uid == x.Id);
             var sensorData = new SensorData
             {
                 DateTime = DateTime.Now,

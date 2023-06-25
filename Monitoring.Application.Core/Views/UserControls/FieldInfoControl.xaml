@@ -174,7 +174,7 @@
                 Command="{Binding UpdateSensorsCommand}"
                 Foreground="{StaticResource Pr500}"
                 ToolTip="Обновить информацию о датчиках" />
-            <!-- <Button wpf:Button.Icon="Map" Command="{Binding OpenMapCommand}" ToolTip="Открыть карту" /> -->
+            <Button wpf:Button.Icon="Map" Command="{Binding OpenMapCommand}" ToolTip="Открыть карту" />
             <!-- <Button wpf:Button.Icon="MapMarkerPlus" ToolTip="Добавить новый датчик" /> -->
             <Button
                 wpf:Button.Icon="MicrosoftExcel"

@@ -26,6 +26,7 @@
       <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
       <PackageReference Include="OxyPlot.Wpf" Version="2.1.0" />
       <PackageReference Include="System.IO.Ports" Version="6.0.0" />
+      <PackageReference Include="XAML.MapControl" Version="8.1.0" />
     </ItemGroup>
 
     <ItemGroup>

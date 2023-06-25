@@ -48,20 +48,10 @@ public class CultureStatusInfoViewModel : BaseViewModel
 
     #endregion Potassium
     
-    #region Magnesium : string - Период
+    #region Salinity : string - Период
     
     /// <summary> Период </summary>
-    public string Magnesium
-    {
-        get => $"{Status.StartingValueMagnesium} - {Status.EndingValueMagnesium}";
-    }
-
-    #endregion Magnesium
-    
-    #region Calcium : string - Период
-    
-    /// <summary> Период </summary>
-    public string Calcium => $"{Status.StartingValueCalcium} - {Status.EndingValueCalcium}";
+    public string Salinity => $"{Status.StartingValueSalinity} - {Status.EndingValueSalinity}";
 
     #endregion Period
     

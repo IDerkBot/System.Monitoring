@@ -12,10 +12,8 @@ public class CultureStatus
     public double EndingValuePhosphor { get; set; }
     public double StartingValuePotassium { get; set; }
     public double EndingValuePotassium { get; set; }
-    public double StartingValueMagnesium { get; set; }
-    public double EndingValueMagnesium { get; set; }
-    public double StartingValueCalcium { get; set; }
-    public double EndingValueCalcium { get; set; }
+    public double StartingValueSalinity { get; set; }
+    public double EndingValueSalinity { get; set; }
     public double StartingValueHumidity { get; set; }
     public double EndingValueHumidity { get; set; }
     public double StartingValueNitrogen { get; set; }

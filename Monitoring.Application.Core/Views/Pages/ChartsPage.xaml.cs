@@ -2,7 +2,7 @@
 using System.Linq;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
-using Sensor = Monitoring.Models.Entity.Sensor;
+using Monitoring.Models.Entity;
 
 namespace SystemMonitoringNetCore.Views.Pages;
 
@@ -11,7 +11,7 @@ public partial class ChartsPage
 {
     /// <summary>  </summary>
     /// <param name="list"></param>
-    public ChartsPage(IReadOnlyCollection<Sensor> list)
+    public ChartsPage(IReadOnlyCollection<SensorData> list)
     {
         InitializeComponent();
 
@@ -21,7 +21,7 @@ public partial class ChartsPage
         {
             new LineSeries<double>
             {
-                Values = list.Select(x => (double)x.Temperature).ToList(),
+                Values = list.Select(x => x.Temperature).ToList(),
                 Fill = null
             }
         };
@@ -29,7 +29,7 @@ public partial class ChartsPage
         {
             new LineSeries<double>
             {
-                Values = list.Select(x => (double)x.Humidity).ToList(),
+                Values = list.Select(x => x.Humidity).ToList(),
                 Fill = null
             }
         };
@@ -37,7 +37,7 @@ public partial class ChartsPage
         {
             new LineSeries<double>
             {
-                Values = list.Select(x => (double)x.Acidity).ToList(),
+                Values = list.Select(x => x.Acidity).ToList(),
                 Fill = null
             }
         };
@@ -45,7 +45,7 @@ public partial class ChartsPage
         {
             new LineSeries<double>
             {
-                Values = list.Select(x => (double)x.Phosphorus).ToList(),
+                Values = list.Select(x => x.Phosphorus).ToList(),
                 Fill = null
             }
         };
@@ -53,7 +53,7 @@ public partial class ChartsPage
         {
             new LineSeries<double>
             {
-                Values = list.Select(x => (double)x.Salinity).ToList(),
+                Values = list.Select(x => x.Salinity).ToList(),
                 Fill = null
             }
         };
@@ -61,7 +61,7 @@ public partial class ChartsPage
         {
             new LineSeries<double>
             {
-                Values = list.Select(x => (double)x.Sodium).ToList(),
+                Values = list.Select(x => x.Sodium).ToList(),
                 Fill = null
             }
         };
@@ -69,32 +69,32 @@ public partial class ChartsPage
         {
             new LineSeries<double>
             {
-                Values = list.Select(x => (double)x.Temperature).ToList(),
+                Values = list.Select(x => x.Temperature).ToList(),
                 Fill = null
             },
             new LineSeries<double>
             {
-                Values = list.Select(x => (double)x.Humidity).ToList(),
+                Values = list.Select(x => x.Humidity).ToList(),
                 Fill = null
             },
             new LineSeries<double>
             {
-                Values = list.Select(x => (double)x.Acidity).ToList(),
+                Values = list.Select(x => x.Acidity).ToList(),
                 Fill = null
             },
             new LineSeries<double>
             {
-                Values = list.Select(x => (double)x.Phosphorus).ToList(),
+                Values = list.Select(x => x.Phosphorus).ToList(),
                 Fill = null
             },
             new LineSeries<double>
             {
-                Values = list.Select(x => (double)x.Salinity).ToList(),
+                Values = list.Select(x => x.Salinity).ToList(),
                 Fill = null
             },
             new LineSeries<double>
             {
-                Values = list.Select(x => (double)x.Sodium).ToList(),
+                Values = list.Select(x => x.Sodium).ToList(),
                 Fill = null
             }
         };
