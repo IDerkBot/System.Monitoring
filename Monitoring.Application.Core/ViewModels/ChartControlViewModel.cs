@@ -193,7 +193,7 @@ public class ChartControlViewModel : BaseViewModel
         Sensors = new ObservableCollection<Sensor>(sensors.Select(x => x.Sensor));
         CurrentCultureStatus = currentCultureStatus;
 
-        DataList = new List<string> { "Температура", "Натрий", "Калий", "Фосфор", "Засоленность", "Влажность", "Кислотность" };
+        DataList = new List<string> { "Температура", "Азот", "Калий", "Фосфор", "Засоленность", "Влажность", "Кислотность" };
     }
 
     #region Private Methods

@@ -52,31 +52,37 @@ public class AllChartsControlViewModel : BaseViewModel
         ));
         Charts.Add(new ChartViewModel("Влажность",
             new ISeries[] { new LineSeries<double> { Name = "Влажность", Values = sensors.Select(x => x.Humidity).ToList(), Fill = null } },
-            new[] { new RectangularSection { Yi = actualStatus.StartingValueTemperature, Yj = actualStatus.EndingValueTemperature, Fill = new SolidColorPaint { Color = SKColors.LimeGreen.WithAlpha(60) } } },
+            new[] { new RectangularSection { Yi = actualStatus.StartingValueHumidity, Yj = actualStatus.EndingValueHumidity, Fill = new SolidColorPaint { Color = SKColors.LimeGreen.WithAlpha(60) } } },
             new List<ICartesianAxis> { new Axis { LabelsRotation = 15, UnitWidth = TimeSpan.FromDays(1).Ticks, ShowSeparatorLines = true, MinStep = 1, } },
             new List<ICartesianAxis> { new Axis { UnitWidth = 0, ShowSeparatorLines = true, MinStep = 1, } }
         ));
         Charts.Add(new ChartViewModel("Кислотность",
             new ISeries[] { new LineSeries<double> { Name = "Кислотность", Values = sensors.Select(x => x.Acidity).ToList(), Fill = null } },
-            new[] { new RectangularSection { Yi = actualStatus.StartingValueTemperature, Yj = actualStatus.EndingValueTemperature, Fill = new SolidColorPaint { Color = SKColors.LimeGreen.WithAlpha(60) } } },
+            new[] { new RectangularSection { Yi = actualStatus.StartingValuePh, Yj = actualStatus.EndingValuePh, Fill = new SolidColorPaint { Color = SKColors.LimeGreen.WithAlpha(60) } } },
             new List<ICartesianAxis> { new Axis { LabelsRotation = 15, UnitWidth = TimeSpan.FromDays(1).Ticks, ShowSeparatorLines = true, MinStep = 1, } },
             new List<ICartesianAxis> { new Axis { UnitWidth = 0, ShowSeparatorLines = true, MinStep = 1, } }
         ));
-        Charts.Add(new ChartViewModel("Влажность",
-            new ISeries[] { new LineSeries<double> { Name = "Влажность", Values = sensors.Select(x => x.Phosphorus).ToList(), Fill = null } },
-            new[] { new RectangularSection { Yi = actualStatus.StartingValueTemperature, Yj = actualStatus.EndingValueTemperature, Fill = new SolidColorPaint { Color = SKColors.LimeGreen.WithAlpha(60) } } },
+        Charts.Add(new ChartViewModel("Фосфор",
+            new ISeries[] { new LineSeries<double> { Name = "Фосфор", Values = sensors.Select(x => x.Phosphorus).ToList(), Fill = null } },
+            new[] { new RectangularSection { Yi = actualStatus.StartingValuePhosphor, Yj = actualStatus.EndingValuePhosphor, Fill = new SolidColorPaint { Color = SKColors.LimeGreen.WithAlpha(60) } } },
             new List<ICartesianAxis> { new Axis { LabelsRotation = 15, UnitWidth = TimeSpan.FromDays(1).Ticks, ShowSeparatorLines = true, MinStep = 1, } },
             new List<ICartesianAxis> { new Axis { UnitWidth = 0, ShowSeparatorLines = true, MinStep = 1, } }
         ));
-        Charts.Add(new ChartViewModel("Влажность",
-            new ISeries[] { new LineSeries<double> { Name = "Влажность", Values = sensors.Select(x => x.Salinity).ToList(), Fill = null } },
-            new[] { new RectangularSection { Yi = actualStatus.StartingValueTemperature, Yj = actualStatus.EndingValueTemperature, Fill = new SolidColorPaint { Color = SKColors.LimeGreen.WithAlpha(60) } } },
+        Charts.Add(new ChartViewModel("Засоленность",
+            new ISeries[] { new LineSeries<double> { Name = "Засоленность", Values = sensors.Select(x => x.Salinity).ToList(), Fill = null } },
+            new[] { new RectangularSection { Yi = actualStatus.StartingValueSalinity, Yj = actualStatus.EndingValueSalinity, Fill = new SolidColorPaint { Color = SKColors.LimeGreen.WithAlpha(60) } } },
             new List<ICartesianAxis> { new Axis { LabelsRotation = 15, UnitWidth = TimeSpan.FromDays(1).Ticks, ShowSeparatorLines = true, MinStep = 1, } },
             new List<ICartesianAxis> { new Axis { UnitWidth = 0, ShowSeparatorLines = true, MinStep = 1, } }
         ));
-        Charts.Add(new ChartViewModel("Влажность",
-            new ISeries[] { new LineSeries<double> { Name = "Влажность", Values = sensors.Select(x => x.Sodium).ToList(), Fill = null } },
-            new[] { new RectangularSection { Yi = actualStatus.StartingValueTemperature, Yj = actualStatus.EndingValueTemperature, Fill = new SolidColorPaint { Color = SKColors.LimeGreen.WithAlpha(60) } } },
+        Charts.Add(new ChartViewModel("Калий",
+            new ISeries[] { new LineSeries<double> { Name = "Калий", Values = sensors.Select(x => x.Potassium).ToList(), Fill = null } },
+            new[] { new RectangularSection { Yi = actualStatus.StartingValuePotassium, Yj = actualStatus.EndingValuePotassium, Fill = new SolidColorPaint { Color = SKColors.LimeGreen.WithAlpha(60) } } },
+            new List<ICartesianAxis> { new Axis { LabelsRotation = 15, UnitWidth = TimeSpan.FromDays(1).Ticks, ShowSeparatorLines = true, MinStep = 1, } },
+            new List<ICartesianAxis> { new Axis { UnitWidth = 0, ShowSeparatorLines = true, MinStep = 1, } }
+        ));
+        Charts.Add(new ChartViewModel("Азот",
+            new ISeries[] { new LineSeries<double> { Name = "Азот", Values = sensors.Select(x => x.Nitrogen).ToList(), Fill = null } },
+            new[] { new RectangularSection { Yi = actualStatus.StartingValueNitrogen, Yj = actualStatus.EndingValueNitrogen, Fill = new SolidColorPaint { Color = SKColors.LimeGreen.WithAlpha(60) } } },
             new List<ICartesianAxis> { new Axis { LabelsRotation = 15, UnitWidth = TimeSpan.FromDays(1).Ticks, ShowSeparatorLines = true, MinStep = 1, } },
             new List<ICartesianAxis> { new Axis { UnitWidth = 0, ShowSeparatorLines = true, MinStep = 1, } }
         ));

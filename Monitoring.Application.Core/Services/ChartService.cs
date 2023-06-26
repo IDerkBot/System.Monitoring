@@ -100,8 +100,8 @@ public class ChartService : IChartService
                 }
 
                 break;
-            case "Натрий":
-                Series[0].Name = "Натрий";
+            case "Азот":
+                Series[0].Name = "Азот";
                 Series[0].Values = sensorData
                     .Select(x => new DateTimePoint(x.DateTime, x.Sodium))
                     .ToList();
@@ -114,12 +114,13 @@ public class ChartService : IChartService
                     if (statuses[i].Key == "не выбрано") continue;
                     if (!Db.DbContext.CultureStatuses.Any(x => x.Status == statuses[i].Key)) continue;
                     var currentStatus = Db.DbContext.CultureStatuses.First(x => x.Status == statuses[i].Key);
-                    Sections[i].Yi = currentStatus.EndingValueTemperature;
-                    Sections[i].Yj = currentStatus.EndingValueTemperature;
+                    Sections[i].Yi = currentStatus.StartingValueNitrogen;
+                    Sections[i].Yj = currentStatus.EndingValueNitrogen;
                 }
 
                 break;
             case "Фосфор":
+                Series[0].Name = "Фосфор";
                 Series[0].Values = sensorData
                     .Select(x => new DateTimePoint(x.DateTime, x.Phosphorus))
                     .ToList();
@@ -138,6 +139,7 @@ public class ChartService : IChartService
 
                 break;
             case "Засоленность":
+                Series[0].Name = "Засоленность";
                 Series[0].Values = sensorData
                     .Select(x => new DateTimePoint(x.DateTime, x.Salinity))
                     .ToList();
@@ -150,12 +152,13 @@ public class ChartService : IChartService
                     if (statuses[i].Key == "не выбрано") continue;
                     if (!Db.DbContext.CultureStatuses.Any(x => x.Status == statuses[i].Key)) continue;
                     var currentStatus = Db.DbContext.CultureStatuses.First(x => x.Status == statuses[i].Key);
-                    Sections[i].Yi = currentStatus.StartingValueTemperature;
-                    Sections[i].Yj = currentStatus.EndingValueTemperature;
+                    Sections[i].Yi = currentStatus.StartingValueSalinity;
+                    Sections[i].Yj = currentStatus.EndingValueSalinity;
                 }
 
                 break;
             case "Влажность":
+                Series[0].Name = "Влажность";
                 Series[0].Values = sensorData
                     .Select(x => new DateTimePoint(x.DateTime, x.Humidity))
                     .ToList();
@@ -174,6 +177,7 @@ public class ChartService : IChartService
 
                 break;
             case "Кислотность":
+                Series[0].Name = "Кислотность";
                 Series[0].Values = sensorData
                     .Select(x => new DateTimePoint(x.DateTime, x.Acidity))
                     .ToList();
@@ -192,6 +196,7 @@ public class ChartService : IChartService
 
                 break;
             case "Калий":
+                Series[0].Name = "Калий";
                 Series[0].Values = sensorData
                     .Select(x => new DateTimePoint(x.DateTime, x.Potassium))
                     .ToList();

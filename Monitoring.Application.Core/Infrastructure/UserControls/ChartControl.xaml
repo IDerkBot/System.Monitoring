@@ -9,11 +9,14 @@
     d:DataContext="{d:DesignInstance {x:Type vm:ChartViewModel}}"
     Loaded="ChartControl_OnLoaded"
     mc:Ignorable="d">
-    <lvc:CartesianChart
-        Name="Chart"
-        Sections="{Binding ActualSection}"
-        Series="{Binding ActualSeries}"
-        XAxes="{Binding ActualXAxes}"
-        YAxes="{Binding ActualYAxes}"
-        ZoomMode="X" />
+    <DockPanel>
+        <Label Content="{Binding Name}" DockPanel.Dock="Bottom" />
+        <lvc:CartesianChart
+            Name="Chart"
+            Sections="{Binding ActualSection}"
+            Series="{Binding ActualSeries}"
+            XAxes="{Binding ActualXAxes}"
+            YAxes="{Binding ActualYAxes}"
+            ZoomMode="X" />
+    </DockPanel>
 </UserControl>

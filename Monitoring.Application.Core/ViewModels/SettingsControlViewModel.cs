@@ -57,7 +57,7 @@ public class SettingsControlViewModel : BaseViewModel
     public SettingsControlViewModel()
     {
         SaveCommand = new RelayCommand(OnSaveCommandExecuted, CanSaveCommandExecute);
-        Settings = FileManager.GetSettings();
         ComPorts = SerialPort.GetPortNames().ToList();
+        Settings = FileManager.GetSettings();
     }
 }

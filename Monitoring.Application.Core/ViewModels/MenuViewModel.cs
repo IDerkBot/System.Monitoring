@@ -51,11 +51,7 @@ public class MenuViewModel
 
     private static void OnMoveUsersCommandExecute(object parameter) => ManagerPage.Navigate(new UsersControl());
 
-    private bool CanMoveUsersCommandExecuted(object parameter)
-    {
-        // TODO В зависимости от уровня доступа давать и не давать заходить на окно пользователей
-        return true;
-    }
+    private bool CanMoveUsersCommandExecuted(object parameter) => Db.CurrentUser.Access >= 2;
 
     #endregion MoveUsers
 

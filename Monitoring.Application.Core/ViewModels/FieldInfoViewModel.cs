@@ -447,8 +447,8 @@ public class FieldInfoViewModel : BaseViewModel
     {
         Sensors.ForEach(x =>
         {
-            if (!Db.DbContext.Sensors.Any(y => y.Uid == x.Id)) return;
-            var currentSensor = Db.DbContext.Sensors.First(y => y.Uid == x.Id);
+            if (!Db.DbContext.Sensors.Any(y => y.Uid == x.Sensor.Uid)) return;
+            var currentSensor = Db.DbContext.Sensors.First(y => y.Uid == x.Sensor.Uid);
             var sensorData = new SensorData
             {
                 DateTime = DateTime.Now,

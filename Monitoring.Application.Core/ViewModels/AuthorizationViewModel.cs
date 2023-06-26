@@ -104,17 +104,22 @@ public class AuthorizationViewModel : BaseViewModel
     private bool CheckAuthData()
     {
         if (Db.DbContext.Users.ToList().Any(x => x.Login == Login && x.Password == Password))
+        {
+            Db.CurrentUser = Db.DbContext.Users.First(x => x.Login == Login && x.Password == Password);
             return false;
+        }
         ModalDialog.Show("Ошибка авторизации", "Логин или пароль не верны", ModalDialogButtons.Ok, ModalDialogType.Warning);
         return true;
     }
     private void RememberData()
     {
+        var oldSettings = FileManager.GetSettings();
         var settings = new Settings
         {
             Remember = true,
             Login = Login,
-            Password = Password
+            Password = Password,
+            ComPort = oldSettings.ComPort
         };
         settings.Save(FileManager.GetPathConfig());
     }

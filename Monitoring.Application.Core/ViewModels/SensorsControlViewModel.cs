@@ -72,10 +72,7 @@ public class SensorsControlViewModel : BaseViewModel
         ManagerPage.Navigate(new SensorEditControl {DataContext = vm});
     }
 
-    private bool CanAddSensorCommandExecute(object parameter)
-    {
-        return true;
-    }
+    private bool CanAddSensorCommandExecute(object parameter) => Db.CurrentUser.Access >= 2;
 
     #endregion AddSensor
 
@@ -92,7 +89,7 @@ public class SensorsControlViewModel : BaseViewModel
         }
     }
 
-    private bool CanRemoveSensorCommandExecute(object parameter) => parameter is Sensor;
+    private bool CanRemoveSensorCommandExecute(object parameter) => parameter is Sensor && Db.CurrentUser.Access >= 2;
 
     #endregion RemoveSensor
 
@@ -110,7 +107,7 @@ public class SensorsControlViewModel : BaseViewModel
         }
     }
 
-    private bool CanEditSensorCommandExecute(object parameter) => parameter is Sensor;
+    private bool CanEditSensorCommandExecute(object parameter) => parameter is Sensor && Db.CurrentUser.Access >= 2;
 
     #endregion EditSensor
 

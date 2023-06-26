@@ -180,12 +180,14 @@
                 wpf:Button.Icon="MicrosoftExcel"
                 Command="{Binding CreateExcelFileAboutSensorCommand}"
                 Foreground="{StaticResource G500}"
-                ToolTip="Сохранить информацию по датчикам в Excel" />
+                ToolTip="Сохранить информацию по датчикам в Excel"
+                Visibility="Collapsed" />
             <Button
                 wpf:Button.Icon="MicrosoftExcel"
                 Command="{Binding CreateExcelFileAboutAllSensorCommand}"
                 Foreground="{StaticResource G500}"
-                ToolTip="Сохранить информацию по датчику в Excel" />
+                ToolTip="Сохранить информацию по датчику в Excel"
+                Visibility="Collapsed" />
             <Button
                 wpf:Button.Icon="ChartBellCurveCumulative"
                 Command="{Binding OpenChartCommand}"

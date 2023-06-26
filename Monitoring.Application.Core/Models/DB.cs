@@ -20,4 +20,5 @@ public static class Db
     public static List<SensorDetails> Child { get; set; }
 
     public static ApplicationDbContext DbContext { get; set; }
+    public static User CurrentUser { get; set; }
 }
