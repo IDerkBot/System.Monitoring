@@ -12,12 +12,12 @@
     <DataGrid AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding Fertilizers}">
         <DataGrid.Columns>
             <DataGridTextColumn Width="200" Binding="{Binding Name}" Header="Наименование" />
-            <DataGridTextColumn Width="*" Binding="{Binding PhosphorusOxide}" Header="Фосфор" />
-            <DataGridTextColumn Width="*" Binding="{Binding CalciumOxide}" Header="Кальций" />
-            <DataGridTextColumn Width="*" Binding="{Binding PotassiumOxide}" Header="Калий" />
-            <DataGridTextColumn Width="70" Binding="{Binding Asot}" Header="Азот" />
-            <DataGridTextColumn Width="*" Binding="{Binding MagnesiumOxide}" Header="Магний" />
-            <DataGridTextColumn Width="100" Binding="{Binding SulfurOxide}" Header="Кислотность" />
+            <DataGridTextColumn Width="*" Binding="{Binding Phosphor}" Header="Фосфор" />
+            <DataGridTextColumn Width="*" Binding="{Binding Calcium}" Header="Кальций" />
+            <DataGridTextColumn Width="*" Binding="{Binding Potassium}" Header="Калий" />
+            <DataGridTextColumn Width="70" Binding="{Binding Nitrogen}" Header="Азот" />
+            <DataGridTextColumn Width="*" Binding="{Binding Magnesium}" Header="Магний" />
+            <DataGridTextColumn Width="100" Binding="{Binding Sulfur}" Header="Кислотность" />
         </DataGrid.Columns>
     </DataGrid>
 </Page>

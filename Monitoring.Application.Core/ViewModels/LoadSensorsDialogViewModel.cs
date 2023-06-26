@@ -103,22 +103,24 @@ public class LoadSensorsDialogViewModel : BaseViewModel
         _worker.Complete += WorkerOnComplete;
 
         var sensors = Db.DbContext.Sensors.Where(x => x.Field.Number == _field.Number);
+        MaxSensors = sensors.Count();
         if(!sensors.Any()) _dialog.Close();
         else
         {
+            _worker.Connect();
             _worker.ReadSensors(sensors.Select(x => x.Uid.ToString()).ToArray());
         }
     }
 
     private void WorkerOnLoad(object? sender, EventArgs e)
     {
-        
+        LoadedSensors = _worker.Index;
     }
     
     private void WorkerOnComplete(object? sender, EventArgs e)
     {
         SensorData = _worker.SensorData;
-        _dialog.Close();
+        _dialog.Dispatcher.Invoke(() => _dialog.Close());
         Loaded?.Invoke(this, EventArgs.Empty);
     }
 }

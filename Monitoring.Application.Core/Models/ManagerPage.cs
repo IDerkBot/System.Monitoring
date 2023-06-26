@@ -31,5 +31,5 @@ internal class ManagerPage
         while (navigationService.CanGoBack) navigationService.RemoveBackEntry();
     }
 
-    public static bool CanGoBack() => Page.CanGoBack;
+    public static bool CanGoBack() => Page is { CanGoBack: true };
 }

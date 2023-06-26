@@ -10,6 +10,7 @@ using Monitoring.Models.Entity;
 using Newtonsoft.Json;
 using SystemMonitoringNetCore.Infrastructure.Command;
 using SystemMonitoringNetCore.Models;
+using SystemMonitoringNetCore.Services;
 using SystemMonitoringNetCore.ViewModels.Base;
 using SystemMonitoringNetCore.Views.Pages;
 using Sensor = Monitoring.Models.Entity.Sensor;
@@ -197,7 +198,10 @@ public class FieldInfoViewModel : BaseViewModel
 
     private void VmOnLoaded(object? sender, EventArgs e)
     {
-        Sensors = vm.SensorData;
+        var sensors = vm.SensorData;
+        if(SelectedSeed.Status != null)
+            sensors.ForEach(x => x.Recommendation = RecommendationService.GetRecommendation(x, SelectedSeed.Status));
+        Sensors = sensors;
     }
 
     private bool CanUpdateSensorsCommandExecuted(object parameter) => SelectedSeed is { Status: { } };

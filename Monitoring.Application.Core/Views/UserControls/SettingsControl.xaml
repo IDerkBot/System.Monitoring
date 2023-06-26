@@ -6,15 +6,16 @@
     xmlns:local="clr-namespace:SystemMonitoringNetCore.Views.UserControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:SystemMonitoringNetCore.ViewModels"
+    Width="350"
+    HorizontalAlignment="Center"
+    VerticalAlignment="Center"
+    d:DataContext="{d:DesignInstance vm:SettingsControlViewModel}"
     d:DesignHeight="300"
     mc:Ignorable="d">
-    <UserControl.DataContext>
-        <vm:SettingsControlViewModel />
-    </UserControl.DataContext>
     <StackPanel>
         <Label Content="COM Порт для локального подключения к базовой станции" />
         <ComboBox ItemsSource="{Binding ComPorts}" SelectedItem="{Binding Settings.ComPort}" />
 
-        <Button Margin="0,20,0,0" Content="Сохранить" />
+        <Button Margin="0,20,0,0" Command="{Binding SaveCommand}" Content="Сохранить" />
     </StackPanel>
 </UserControl>

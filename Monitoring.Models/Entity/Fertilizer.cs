@@ -16,31 +16,19 @@ public class Fertilizer
 
     public string Name { get; set; }
     
-    /// <summary> Количество азота </summary>
-    public double Asot { get; set; }
+    /// <summary> азот </summary>
+    public double? Nitrogen { get; set; }
     /// <summary> </summary>
-    public double PhosphorusOxide { get; set; }
+    public double? Phosphor { get; set; }
     /// <summary> </summary>
-    public double PotassiumOxide { get; set; }
+    public double? Potassium { get; set; }
     /// <summary> </summary>
-    public double CalciumOxide { get; set; }
+    public double? Calcium { get; set; }
     /// <summary> </summary>
-    public double MagnesiumOxide { get; set; }
-    /// <summary> </summary>
-    public double SulfurOxide { get; set; }
-    /// <summary> </summary>
-    public double Borum { get; set; }
-    /// <summary> </summary>
-    public double Sodium { get; set; }
-    /// <summary> </summary>
-    public double Zincum { get; set; }
-    /// <summary> </summary>
-    public double Cuprum { get; set; }
-    /// <summary> </summary>
-    public double Manganum { get; set; }
-    /// <summary>
-    /// 
-    /// </summary>
+    public double? Magnesium { get; set; }
+
+    public double? Ph { get; set; }
+    public int Kg { get; set; }
     [NotMapped]
     public virtual ICollection<SeedFertilizer> SeedFertilizers { get; set; }
 }

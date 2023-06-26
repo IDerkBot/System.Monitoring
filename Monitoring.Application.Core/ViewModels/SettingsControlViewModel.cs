@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO.Ports;
 using System.Linq;
+using System.Windows.Input;
+using SystemMonitoringNetCore.Infrastructure.Command;
 using SystemMonitoringNetCore.Models;
 using SystemMonitoringNetCore.ViewModels.Base;
 
@@ -34,8 +36,27 @@ public class SettingsControlViewModel : BaseViewModel
 
     #endregion ComPorts
 
+    #region Save - Сохранение данных
+
+    /// <summary> Сохранение данных </summary>
+    public ICommand SaveCommand { get; }
+
+    private void OnSaveCommandExecuted(object parameter)
+    {
+        FileManager.SetSettings(Settings);
+        ManagerPage.Back();
+    }
+
+    private bool CanSaveCommandExecute(object parameter)
+    {
+        return true;
+    }
+
+    #endregion Save
+    
     public SettingsControlViewModel()
     {
+        SaveCommand = new RelayCommand(OnSaveCommandExecuted, CanSaveCommandExecute);
         Settings = FileManager.GetSettings();
         ComPorts = SerialPort.GetPortNames().ToList();
     }

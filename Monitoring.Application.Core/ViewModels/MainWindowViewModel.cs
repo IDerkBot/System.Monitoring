@@ -148,7 +148,8 @@ public class MainWindowViewModel : BaseViewModel
 
     private void OnMenuSettingsCommandExecuted(object parameter)
     {
-        var control = new SettingsControl();
+        var vm = new SettingsControlViewModel();
+        var control = new SettingsControl { DataContext = vm };
         ManagerPage.Navigate(control);
     }
 

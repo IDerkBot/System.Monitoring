@@ -209,7 +209,7 @@
             ItemsSource="{Binding Sensors}"
             MinRowHeight="30">
             <DataGrid.Columns>
-                <DataGridTextColumn Width="40" Binding="{Binding Id}" Header="№" />
+                <DataGridTextColumn Width="130" Binding="{Binding Sensor.Uid}" Header="№" />
                 <DataGridTextColumn Width="*" Binding="{Binding Humidity}" Header="Влажность, %" />
                 <DataGridTextColumn Width="*" Binding="{Binding Temperature}" Header="Температура, °C" />
                 <DataGridTextColumn Width="*" Binding="{Binding Acidity}" Header="Кислотность" />

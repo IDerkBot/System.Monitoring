@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO.Ports;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Timers;
 using Monitoring.Models.Entity;
 using Newtonsoft.Json;
@@ -11,15 +13,27 @@ using Newtonsoft.Json;
 
 namespace SystemMonitoringNetCore.Models;
 
-public class ArduinoWorker
+public class ArduinoWorker : INotifyPropertyChanged
 {
     private readonly SerialPort _serialPort;
     private string[] _sensorsId;
-    private int _index;
     private readonly Timer _tm = new(10000);
     public List<SensorData> SensorData = new();
     public event EventHandler Load;
     public event EventHandler Complete;
+
+    #region Index : int - Description
+
+    private int _index;
+
+    /// <summary> Description </summary>
+    public int Index
+    {
+        get => _index;
+        set => SetField(ref _index, value);
+    }
+
+    #endregion Index
     
     public ArduinoWorker(string port)
     {
@@ -38,7 +52,12 @@ public class ArduinoWorker
 
     public void Connect()
     {
-        _serialPort.Open();
+        try
+        {
+            if(!_serialPort.IsOpen)
+                _serialPort.Open();
+        }
+        catch { /*ignored*/ }
     }
 
     public void Disconnect()
@@ -49,7 +68,6 @@ public class ArduinoWorker
     public void ReadSensors(string[] sensorsId)
     {
         _sensorsId = sensorsId;
-        _index++;
         Send();
     }
 
@@ -68,9 +86,11 @@ public class ArduinoWorker
         ReadData();
         
         Send();
+        Load?.Invoke(this, EventArgs.Empty);
         if (_sensorsId.Length == _index)
         {
             Complete?.Invoke(this, EventArgs.Empty);
+            Disconnect();
         }
     }
 
@@ -80,22 +100,8 @@ public class ArduinoWorker
         {
             var inData = _serialPort.ReadLine();
             var sensor = JsonConvert.DeserializeObject<SensorDataJson>(inData);
-            Debug.WriteLine($"GET {sensor.uid}");
-            if (Db.DbContext.Sensors.Any(x => x.Uid == sensor.uid))
-            {
-                // Если есть такой датчик
-            }
-            else
-            {
-                // Если нет
-                Db.DbContext.Sensors.Add(new Sensor
-                {
-                    Uid = sensor.uid,
-                    PositionX = 13,
-                    PositionY = 13
-                });
-            }
-            var sensorDatabase = new Sensor();
+
+            var sensorDatabase = Db.DbContext.Sensors.First(x => x.Uid == sensor.uid);
             SensorData.Add(new SensorData
             {
                 Sensor = sensorDatabase,
@@ -118,5 +124,20 @@ public class ArduinoWorker
     private static void ConvertSensor(string line)
     {
         // Sensors.Add(new Sensor(line));
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    protected bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+    {
+        if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+        field = value;
+        OnPropertyChanged(propertyName);
+        return true;
     }
 }
