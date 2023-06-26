@@ -24,7 +24,7 @@
             Rows="1">
             <ComboBox
                 Margin="5"
-                DisplayMemberPath="Id"
+                DisplayMemberPath="Uid"
                 ItemsSource="{Binding Sensors}"
                 SelectedItem="{Binding SelectedSensor}" />
             <ComboBox Margin="5" ItemsSource="{Binding DataList}" SelectedItem="{Binding SelectedData}" />

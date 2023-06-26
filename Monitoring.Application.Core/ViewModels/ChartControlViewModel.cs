@@ -19,10 +19,10 @@ public class ChartControlViewModel : BaseViewModel
 
     #region Sensors : ObservableCollection<SensorData> - Список датчиков
 
-    private ObservableCollection<SensorData> _sensors;
+    private ObservableCollection<Sensor> _sensors;
 
     /// <summary> Список датчиков </summary>
-    public ObservableCollection<SensorData> Sensors
+    public ObservableCollection<Sensor> Sensors
     {
         get => _sensors;
         set => SetField(ref _sensors, value);
@@ -190,7 +190,7 @@ public class ChartControlViewModel : BaseViewModel
         StartDate = DateTime.Now.AddDays(-183);
         EndDate = DateTime.Now.AddDays(183);
         // Add comment
-        Sensors = new ObservableCollection<SensorData>(sensors);
+        Sensors = new ObservableCollection<Sensor>(sensors.Select(x => x.Sensor));
         CurrentCultureStatus = currentCultureStatus;
 
         DataList = new List<string> { "Температура", "Натрий", "Калий", "Фосфор", "Засоленность", "Влажность", "Кислотность" };
