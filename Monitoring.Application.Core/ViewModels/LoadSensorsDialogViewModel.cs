@@ -98,7 +98,7 @@ public class LoadSensorsDialogViewModel : BaseViewModel
     
     private void GetSensors()
     {
-        _worker = new ArduinoWorker("COM9");
+        _worker = new ArduinoWorker(FileManager.GetSettings().ComPort);
         _worker.Load += WorkerOnLoad;
         _worker.Complete += WorkerOnComplete;
 
