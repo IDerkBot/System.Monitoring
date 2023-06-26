@@ -202,6 +202,7 @@ public class FieldInfoViewModel : BaseViewModel
         if(SelectedSeed.Status != null)
             sensors.ForEach(x => x.Recommendation = RecommendationService.GetRecommendation(x, SelectedSeed.Status));
         Sensors = sensors;
+        AddSensorDataInDatabase();
     }
 
     private bool CanUpdateSensorsCommandExecuted(object parameter) => SelectedSeed is { Status: { } };
