@@ -2,9 +2,9 @@
 
 namespace SystemMonitoringNetCore.Views.UserControls;
 
-public partial class SensorAddControl : UserControl
+public partial class SettingsControl : UserControl
 {
-    public SensorAddControl()
+    public SettingsControl()
     {
         InitializeComponent();
     }

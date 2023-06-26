@@ -32,12 +32,21 @@
             <DatePicker Margin="5" SelectedDate="{Binding EndDate}" />
         </UniformGrid>
 
-        <lvc:CartesianChart
-            Grid.Row="1"
-            Sections="{Binding Section}"
-            Series="{Binding Series}"
-            XAxes="{Binding XAxis}"
-            YAxes="{Binding YAxis}"
-            ZoomMode="X" />
+        <DockPanel Grid.Row="1">
+            <Grid DockPanel.Dock="Left">
+                <Label Height="30" Content="Значение" RenderTransformOrigin=".5,.5">
+                    <Label.RenderTransform>
+                        <RotateTransform Angle="90" />
+                    </Label.RenderTransform>
+                </Label>
+            </Grid>
+            <Label Height="30" Content="{Binding SelectedData}" DockPanel.Dock="Bottom" />
+            <lvc:CartesianChart
+                Sections="{Binding Section}"
+                Series="{Binding Series}"
+                XAxes="{Binding XAxis}"
+                YAxes="{Binding YAxis}"
+                ZoomMode="X" />
+        </DockPanel>
     </Grid>
 </UserControl>

@@ -8,7 +8,7 @@ using SystemMonitoringNetCore.ViewModels.Base;
 
 namespace SystemMonitoringNetCore.ViewModels;
 
-public class EditSensorControlViewModel : BaseViewModel
+public class SensorEditControlViewModel : BaseViewModel
 {
     #region Properties
 
@@ -66,13 +66,13 @@ public class EditSensorControlViewModel : BaseViewModel
 
     #endregion Commands
     
-    public EditSensorControlViewModel()
+    public SensorEditControlViewModel()
     {
         SaveCommand = new RelayCommand(OnSaveCommandExecuted, CanSaveCommandExecute);
         Fields = new ObservableCollection<Field>(Db.DbContext.Fields);
     }
 
-    public EditSensorControlViewModel(Sensor sensor) : this()
+    public SensorEditControlViewModel(Sensor sensor) : this()
     {
         Sensor = sensor;
     }

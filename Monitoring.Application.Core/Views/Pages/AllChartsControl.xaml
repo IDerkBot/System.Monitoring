@@ -36,7 +36,17 @@
         <ContentPresenter Grid.Row="1" Content="{Binding SelectedChart}">
             <ContentPresenter.ContentTemplate>
                 <DataTemplate>
-                    <uc:ChartControl />
+                    <DockPanel>
+                        <Grid DockPanel.Dock="Left">
+                            <Label Height="30" Content="Значение" RenderTransformOrigin=".5,.5">
+                                <Label.RenderTransform>
+                                    <RotateTransform Angle="90" />
+                                </Label.RenderTransform>
+                            </Label>
+                        </Grid>
+                        <Label Height="30" Content="{Binding SelectedChart.ActualSeries}" DockPanel.Dock="Bottom" />
+                        <uc:ChartControl />
+                    </DockPanel>
                 </DataTemplate>
             </ContentPresenter.ContentTemplate>
         </ContentPresenter>

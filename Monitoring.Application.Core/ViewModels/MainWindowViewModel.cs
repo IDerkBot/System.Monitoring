@@ -47,7 +47,7 @@ public class MainWindowViewModel : BaseViewModel
         ManagerPage.Back();
     }
 
-    private bool CanMenuBackCommandExecute(object parameter) => ManagerPage.Page != null && ManagerPage.Page.CanGoBack;
+    private bool CanMenuBackCommandExecute(object parameter) => ManagerPage.CanGoBack();
 
     #endregion MenuBack
 
@@ -140,6 +140,24 @@ public class MainWindowViewModel : BaseViewModel
     }
 
     #endregion MenuExit
+
+    #region MenuSettings - Перемещение на страницу настроек
+
+    ///<summary> Перемещение на страницу настроек </summary>
+    public ICommand MenuSettingsCommand { get; }
+
+    private void OnMenuSettingsCommandExecuted(object parameter)
+    {
+        var control = new SettingsControl();
+        ManagerPage.Navigate(control);
+    }
+
+    private bool CanMenuSettingsCommandExecute(object parameter)
+    {
+        return true;
+    }
+
+    #endregion MenuSettings
     
     #endregion Commands
 
@@ -154,6 +172,7 @@ public class MainWindowViewModel : BaseViewModel
         MenuCulturesCommand = new RelayCommand(OnMenuCulturesCommandExecuted, CanMenuCulturesCommandExecute);
         MenuFertilizersCommand = new RelayCommand(OnMenuFertilizersCommandExecuted, CanMenuFertilizersCommandExecute);
         MenuExitCommand = new RelayCommand(OnMenuExitCommandExecuted, CanMenuExitCommandExecute);
+        MenuSettingsCommand = new RelayCommand(OnMenuSettingsCommandExecuted, CanMenuSettingsCommandExecute);
     }
 
     #endregion Constructor

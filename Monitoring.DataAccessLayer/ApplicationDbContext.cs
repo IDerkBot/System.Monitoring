@@ -3,9 +3,7 @@ using Monitoring.Models.Entity;
 
 namespace Monitoring.DataAccessLayer;
 
-/// <summary>
-/// 
-/// </summary>
+/// <summary>  </summary>
 public class ApplicationDbContext : DbContext
 {
     public ApplicationDbContext() => Database.EnsureCreated();

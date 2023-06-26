@@ -1,10 +1,11 @@
 ﻿using System;
 using System.IO;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Newtonsoft.Json;
 
 namespace SystemMonitoringNetCore.Models;
 
-public class Settings
+public class Settings : ObservableObject
 {
     /// <summary>
     /// Логин
@@ -25,6 +26,19 @@ public class Settings
     /// Путь к файлам
     /// </summary>
     public string ReportsPath { get; set; }
+
+    #region ComPort : string - COM порт для подключение к базовой станции
+
+    private string _comPort;
+
+    /// <summary> COM порт для подключение к базовой станции </summary>
+    public string ComPort
+    {
+        get => _comPort;
+        set => SetProperty(ref _comPort, value);
+    }
+
+    #endregion ComPort
 
     public bool Save(string path)
     {

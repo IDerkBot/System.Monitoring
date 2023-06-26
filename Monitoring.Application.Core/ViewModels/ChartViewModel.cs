@@ -60,8 +60,22 @@ public class ChartViewModel : BaseViewModel
 
     #endregion ActualYAxes
 
-    public ChartViewModel(ISeries[] series, RectangularSection[] sections, List<ICartesianAxis> axesX, List<ICartesianAxis> axesY)
+    #region Name : string - Название
+
+    private string _name;
+
+    /// <summary> Название </summary>
+    public string Name
     {
+        get => _name;
+        set => SetField(ref _name, value);
+    }
+
+    #endregion Name
+    
+    public ChartViewModel(string name, ISeries[] series, RectangularSection[] sections, List<ICartesianAxis> axesX, List<ICartesianAxis> axesY)
+    {
+        Name = name;
         ActualSeries = series;
         ActualSection = sections;
         ActualXAxes = axesX;

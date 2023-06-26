@@ -5,6 +5,7 @@ using Monitoring.Models.Entity;
 using SystemMonitoringNetCore.Infrastructure.Command;
 using SystemMonitoringNetCore.Models;
 using SystemMonitoringNetCore.ViewModels.Base;
+using SystemMonitoringNetCore.Views.Pages;
 using SystemMonitoringNetCore.Views.UserControls;
 
 namespace SystemMonitoringNetCore.ViewModels;
@@ -26,6 +27,19 @@ public class SensorsControlViewModel : BaseViewModel
 
     #endregion Sensors
 
+    #region SelectedSensor : Sensor - Выбранный датчик
+
+    private Sensor _selectedSensor;
+
+    /// <summary> Выбранный датчик </summary>
+    public Sensor SelectedSensor
+    {
+        get => _selectedSensor;
+        set => SetField(ref _selectedSensor, value);
+    }
+
+    #endregion SelectedSensor
+    
     #endregion Properties
 
     #region Commands
@@ -54,8 +68,8 @@ public class SensorsControlViewModel : BaseViewModel
 
     private void OnAddSensorCommandExecuted(object parameter)
     {
-        var vm = new EditSensorControlViewModel();
-        ManagerPage.Navigate(new SensorAddControl() {DataContext = vm});
+        var vm = new SensorEditControlViewModel();
+        ManagerPage.Navigate(new SensorEditControl {DataContext = vm});
     }
 
     private bool CanAddSensorCommandExecute(object parameter)
@@ -72,13 +86,13 @@ public class SensorsControlViewModel : BaseViewModel
 
     private void OnRemoveSensorCommandExecuted(object parameter)
     {
-
+        if (parameter is Sensor sensor)
+        {
+            Db.DbContext.Sensors.Remove(sensor);
+        }
     }
 
-    private bool CanRemoveSensorCommandExecute(object parameter)
-    {
-        return true;
-    }
+    private bool CanRemoveSensorCommandExecute(object parameter) => parameter is Sensor;
 
     #endregion RemoveSensor
 
@@ -89,16 +103,35 @@ public class SensorsControlViewModel : BaseViewModel
 
     private void OnEditSensorCommandExecuted(object parameter)
     {
-
+        if (parameter is Sensor sensor)
+        {
+            var vm = new SensorEditControlViewModel(sensor);
+            ManagerPage.Navigate(new SensorEditControl {DataContext = vm});
+        }
     }
 
-    private bool CanEditSensorCommandExecute(object parameter)
+    private bool CanEditSensorCommandExecute(object parameter) => parameter is Sensor;
+
+    #endregion EditSensor
+
+    #region OpenMap - Открыть карту
+
+    ///<summary> Открыть карту </summary>
+    public ICommand OpenMapCommand { get; }
+
+    private void OnOpenMapCommandExecuted(object parameter)
+    {
+        var vm = new MapControlViewModel(Sensors.ToList());
+        ManagerPage.Navigate(new MapPage { DataContext = vm });
+    }
+
+    private bool CanOpenMapCommandExecute(object parameter)
     {
         return true;
     }
 
-    #endregion EditSensor
-
+    #endregion OpenMap
+    
     #endregion Commands
 
     #region Constructor
@@ -109,6 +142,7 @@ public class SensorsControlViewModel : BaseViewModel
         AddSensorCommand = new RelayCommand(OnAddSensorCommandExecuted, CanAddSensorCommandExecute);
         RemoveSensorCommand = new RelayCommand(OnRemoveSensorCommandExecuted, CanRemoveSensorCommandExecute);
         EditSensorCommand = new RelayCommand(OnEditSensorCommandExecuted, CanEditSensorCommandExecute);
+        OpenMapCommand = new RelayCommand(OnOpenMapCommandExecuted, CanOpenMapCommandExecute);
     }
 
     #endregion Constructor

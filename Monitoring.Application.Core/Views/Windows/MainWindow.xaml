@@ -32,6 +32,7 @@
                 <MenuItem Command="{Binding MenuCulturesCommand}" Header="Культуры" />
                 <MenuItem Command="{Binding MenuFertilizersCommand}" Header="Удобрения" />
             </MenuItem>
+            <MenuItem Command="{Binding MenuSettingsCommand}" Header="Настройки" />
             <MenuItem Name="MenuBack" Command="{Binding MenuBackCommand}" Header="Назад" />
             <MenuItem Command="{Binding MenuExitCommand}" Header="Выход" />
         </Menu>
